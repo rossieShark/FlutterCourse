@@ -5,60 +5,38 @@ int findFirstUniqueNumber (List<int> array) {
   // TODO Implement method
 }
 */
-//1 метод решения 
+
+
+List<int> array1 = [1, 5, 7, 3, 5, 3, 8, 7, 1];
+List<int> array2 = [1];
+List<int> array3 = [1, 1, 1];
+List<int> array4 = [];
+
+void main() {
+    print(findFirstUniqueNumber(array1));  //8
+    print(findFirstUniqueNumber(array2));  //1
+    print(findFirstUniqueNumber(array3));  //-1
+    print(findFirstUniqueNumber(array4));  //-1
+}
+
 int findFirstUniqueNumber (List<int> array) {
-    //проходимся по массиву (именно по значениям)
+    Map<int, int> map = {};
+    int result = -1;
     for (var i in array) {
-        //получить индекс первого встречного элемента по введенному элементу
-        final item = array.indexOf(i);
-        //получить индекс первого встречного элемента по введенному элементу c конца
-        if (item == array.lastIndexOf(i)) {
-            return array[item];
-        }
-    }
-    return -1;
-}
-
-List<int> array1 = [1, 5, 7, 3, 5, 3, 8, 7, 1];
-List<int> array2 = [1];
-List<int> array3 = [1, 1];
-List<int> array4 = [];
-
-void main() {
-    print(findFirstUniqueNumber(array1));  //8
-    print(findFirstUniqueNumber(array2));  //1
-    print(findFirstUniqueNumber(array3));  //-1
-    print(findFirstUniqueNumber(array4));  //-1
-}
-
-//2 метод решения  - через contains & remove
-int findFirstUniqueNumber (List<int> array) {
-    List<int> resultArray = [];
-    //проходимся по массиву с 0 до array.length - 1
-    for (var i = 0; i < array.length; i++) {
-        //получим true если список содержит элемент введенный в contains
-        if (resultArray.contains(array[i])) {
-            //удаляет указанный элемент из списка
-            resultArray.remove(array[i]);
+        if (map.containsKey(i)) {
+            map[i] = 0;
         } else {
-            //добавляем новый элемент по индексу
-            resultArray.add(array[i]);
+            map[i] = 1;
         }
-    }
-    return resultArray.isEmpty ? -1 : resultArray.first;
+    };
+    map.forEach((key, value) {
+        if (value == 1) {
+            result = key;
+        }
+    });
+  
+    return result;
 }
-
-List<int> array1 = [1, 5, 7, 3, 5, 3, 8, 7, 1];
-List<int> array2 = [1];
-List<int> array3 = [1, 1];
-List<int> array4 = [];
-
-void main() {
-    print(findFirstUniqueNumber(array1));  //8
-    print(findFirstUniqueNumber(array2));  //1
-    print(findFirstUniqueNumber(array3));  //-1
-    print(findFirstUniqueNumber(array4));  //-1
-
 
 /*
 Задача 2
@@ -71,18 +49,17 @@ List<int> findIndexesGivesSum(List<int> array, int sum) {
 
 List<int> findIndexesGivesSum(List<int> array, int sum) {
     // Создаем вспомогательные массив и dictionary
-    List <int> resultArray = [];
+
     Map <int, int> dictionary = {};
     for (var i = 0; i < array.length; i++) {
-        var index = sum - array[i];
-        if (dictionary.containsKey(index)) {
-            var keyValue = dictionary[index]!;
-            resultArray = [keyValue, i];
-            return resultArray;
+        var key = sum - array[i];
+        if (dictionary.containsKey(key)) {
+            var keyValue = dictionary[key]!;
+            return[keyValue, i];
         }
         dictionary[array[i]] = i;
     }
-    return resultArray;
+    return [];
 }
   
   
