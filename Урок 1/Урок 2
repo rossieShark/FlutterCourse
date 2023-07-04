@@ -1,0 +1,352 @@
+/*
+Задача 1
+Создать класс ComplexNumber, который содержит действительную и мнимую часть. В презентации к уроку 2 есть реализация перегрузки оператора + и >. Необходимо реализовать  возможность умножать комплексные числа, используя оператор *, вычитать комплексные числа друг из друга, используя оператор -. 
+
+Данная задача решается при помощи overloading
+
+
+  Синтаксис функции оператора:
+class_name operator operator_symbol (аргумент) {
+    // ...
+}
+
+*/
+
+void main() {
+  final number1 = ComplexNumber(10, 1);
+  final number2 = ComplexNumber(-3, 6);
+  
+  final plus = number1 + number2;
+  final minus = number1 - number2;
+  final multi = number1 * number2;
+  
+  print(plus.toString());   //7 + 7i
+  print(minus.toString());  //13 - 5i
+  print(multi.toString());  //-36 + 57i
+}
+
+  //ComplexNumber— числа вида a+bi, где a,b — вещественные числа,i — мнимая единица.
+  //В данном случае real - a, imagine - b;
+class ComplexNumber {
+  final double real;
+  final double imagine;
+  const ComplexNumber(this.real, this.imagine);
+  
+  //реализация сложения 2 комплексных чисел
+  ComplexNumber operator + (ComplexNumber b) {
+    final newReal = real + b.real;
+    final newImagine = imagine + b.imagine;
+    return ComplexNumber(newReal, newImagine);
+  }
+  
+  //реализация  вычитания 2 комплексных чисел
+  ComplexNumber operator - (ComplexNumber b) {
+    final newReal = real - b.real;
+    final newImagine = imagine - b.imagine;
+    return ComplexNumber(newReal, newImagine);
+  }
+  
+  //реализация умножения 2 комплексных чисел
+  ComplexNumber operator * (ComplexNumber b) {
+    final newReal = real * b.real - imagine * b.imagine;
+    final newImagine = real * b.imagine + imagine * b.real;
+    return ComplexNumber(newReal, newImagine);
+  }
+  
+  //Вывод результата в строковом виде
+  @override
+  String toString() {
+    if (imagine >= 0) {
+      return ('${real} + ${imagine}i');
+    } 
+    return('${real} - ${-imagine}i');
+  }
+}
+
+/*
+Задача 2
+В библиотеке dart:convert существует метод jsonEncode, который превращает любой объект в JSON строку. Однако, он работает только если у класса реализован метод toJson(), который превращает объект класса в его Map<String, dynamic> интерпретацию, где ключ – это поле класса, в значение – строковое представление значения этого класса. Задача: реализовать класс UserModel с 4 полями различных типов (поля на выбор), и в этом классе реализовать метод toJson. Далее нужно вызвать print(jsonEncode(UserModel(…)) и убедиться, что вывелось строковое представление класса UserModel.
+*/
+
+import 'dart:convert';
+
+void main() {
+  UserModel user = UserModel('rosie', true, 25, 'whale');
+  print(jsonEncode(user));
+}
+// {"username":"rosie","verified":true,"age":25,"avatar":"whale"}
+
+
+//Создаем класс UserModel, который содержит информацию о пользователе
+class UserModel {
+  final String username;
+  final bool verified;
+  final int age;
+  final String avatar;
+
+//Инициализация
+  UserModel(this.username, 
+            this.verified,
+            this.age,
+            this.avatar);
+
+  //Реализация метода toJson, который преобразует объект в Json
+  Map <String, dynamic> toJson() => {
+    'username': username,
+    'verified': verified,
+    'age': age,
+    'avatar': avatar 
+  };
+}
+
+//конструктор className.fromJson() получает словарь, где ключи представляют строки, а значения - произвольные объекты, и по элементам этого словаря создает объект класса.
+
+/*
+factory UserModel.fromJson(Map<String, dynamic> jsonMap) {
+  return UserModel(jsonMap["username"] as String, 
+                   jsonMap["verified"] as bool,
+                   jsonMap["age"] as int,
+                   jsonMap[avatar] as String);
+*/
+
+/*Задача 3
+Создать generic класс SmartStorage<T>, которое хранит в коллекцию объектов. T должен быть наследником или реализовывать класс NamedModel, у которого есть поле name. Задача: реализовать методы добавления, удаления объектов из списка. А так же, реализовать метод, позволяющий удалять все объекты коллекции по имени, получать объекты или один объект по имени. Проверить работоспособность SmartStorage на примере.
+*/
+
+//Создаем абстрактный класс, который содержит поля name и id. 
+abstract class NamedModel {
+  String name;
+  int id;
+  NamedModel(this.name, this.id);
+}
+
+
+class SmartStorage<T extends NamedModel> {
+  final List<T> _array = [];
+  //SmartStorage(this._array);
+
+  // метод для добавления объектов
+  void addObject(T object) {
+    _array.add(object);
+  }
+
+  // метод для удаления объектов
+  void removeObject(T object) {
+    _array.remove(object);
+  }
+  
+  // метод для удаления объектов по id
+  void removeObjectByID(int id) {
+    for (var i = 0; i < _array.length; i++) {
+      if (id == _array[i].id) {
+         _array.removeWhere((object) => object.id == id);
+      }
+    }
+  }
+
+ // метод для удаления объектов по name
+  void removeAllObjectsByName(String name) {
+    _array.removeWhere((object) => object.name == name);
+  }
+
+  // метод, который получает объекты по имени.
+  List<String> getObjectsByName(String name) {
+    List<String> result = [];
+
+    for (var i = 0; i < _array.length; i++) {
+      if (name == _array[i].name) {
+        result.add("Name: ${_array[i].name}, ID: ${_array[i].id}");
+      }
+    }
+    return result;
+  }
+
+  // метод, который получает первый объект по имени.
+  String getObjectByName(String name) {
+    final result =  _array.firstWhere((object) => object.name == name);
+    return 'Name: ${result.name}, ID: ${result.id}'; 
+  }
+  
+  //Преобразование объектов в нужный формат.
+  @override
+  String toString() {
+    String result = 'Results:\n';
+    for (T object in _array) {
+      result += 'Name: ${object.name}, ID: ${object.id}\n';
+    }
+    return result;
+  }
+}
+
+// Пример использоавния
+class Animals extends NamedModel {
+  Animals(String name, int id) : super(name, id);
+}
+
+void main() {
+  var storage = SmartStorage<Animals>();
+  
+  Animals obj1 = Animals('Cat', 1);
+  Animals obj2 = Animals('Dog', 2);
+  Animals obj3 = Animals('Horse', 3);
+  Animals obj4 = Animals('Dog', 4);
+  Animals obj5 = Animals('Lion', 5);
+  
+  storage.addObject(obj1);
+  storage.addObject(obj2);
+  storage.addObject(obj3);
+  storage.addObject(obj4);
+  storage.addObject(obj5);
+  storage.addObject(Animals('Cat', 6));
+
+  print(storage.toString());
+  // Output:
+  //  Results:
+  // Name: Cat, ID: 1
+  // Name: Dog, ID: 2
+  // Name: Horse, ID: 3
+  // Name: Dog, ID: 4
+  // Name: Lion, ID: 5
+  // Name: Cat, ID: 6
+
+  storage.removeAllObjectsByName('Cat');
+  print(storage.toString());
+  // Output:
+  //   Results:
+  // Name: Dog, ID: 2
+  // Name: Horse, ID: 3
+  // Name: Dog, ID: 4
+  // Name: Lion, ID: 5
+  
+  storage.removeObject(obj5);
+  print(storage.toString());
+  // Output: 
+  //   Results:
+  // Name: Dog, ID: 2
+  // Name: Horse, ID: 3
+  // Name: Dog, ID: 4
+
+  storage.addObject(Animals('Cat', 6));
+  print(storage.toString());
+  // Output:
+  //   Results:
+  // Name: Dog, ID: 2
+  // Name: Horse, ID: 3
+  // Name: Dog, ID: 4
+  // Name: Cat, ID: 6
+
+  storage.removeObjectByID(6);
+  print(storage.toString());
+  // Output:
+  //   Results:
+  // Name: Dog, ID: 2
+  // Name: Horse, ID: 3
+  // Name: Dog, ID: 4
+  
+  print(storage.getObjectByName('Dog'));
+  //Name: Dog, ID: 2
+
+  print(storage.getObjectsByName("Dog"));
+  //[Name: Dog, ID: 2, Name: Dog, ID: 4]
+}
+
+
+/*
+Задача 4
+Создать функцию infiniteCalculation, которая в бесконечном цикле присваивает некой переменной текущее время. Далее в методе main написать тоже цикл, который выводит текущее время в консоль, но после каждой итерации ждет 1 секунду. Запустить метод main, убедиться, что каждую секунду в консоль выводится текущее время. Далее перед циклом в методе main нужно вызвать функцию infiniteCalculation, запустить метод main и убедиться, что поток завис и не выводит каждую секунду текущее время. Далее нужно поместить infiniteCalculation в изолят и убедиться, что в изоляте функция не мешает работе цикла в методе main. После этого задача считается решенной.
+*/
+
+import 'dart:async';
+import 'dart:isolate';
+
+void main() async {
+  final receivePort = ReceivePort();
+  final isolate =
+      await Isolate.spawn(infiniteCalculation, receivePort.sendPort);
+  currentTime();
+
+  await Future.delayed(Duration(seconds: 5));
+  
+  receivePort.close();
+  isolate.kill();
+}
+
+void infiniteCalculation(SendPort sendPort) {
+  while (true) {
+    var currentTime = DateTime.now();
+    sendPort.send(currentTime);
+  }
+}
+
+void currentTime() {
+  var timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    var date = DateTime.now();
+    print('${date.hour}:${date.minute}:${date.second}');
+  });
+}
+
+/*
+Задача 5
+Создать класс TimeService, у которого есть String геттер текущего времени. Необходимо реализовать класс так, что если у него брать время чаще, чем один раз в некоторую величину времени, то он будет возвращать одну и ту же строку. Но, если минута прошла, он должен взять текущее время из DateTime класса, конвертировать его в строку и вернуть. Сеттера у текущего времени быть не должно. Однако, у этого класса должен быть сеттер той самой величины времени (например int переменная, означающая время в минутах). Если делать set этой величине отрицательного значения, или значение, равное нулю – оно не должно задаваться. Проверить работу этого класса на примере.*/
+
+//Импортируем библиотеку для форматирования времени.
+import 'package:intl/intl.dart';
+
+// Создадим класс TimeService
+class TimeService {
+  DateTime? _lastUpdatedTime;
+  int _updatePeriodInSeconds = 60;
+  String _currentTime = "";
+
+  // геттер для текущего времени. 
+  /*В Dart метод difference() используется для вычисления разницы между двумя объектами DateTime. Он возвращает объект Duration, представляющий разницу во времени между двумя экземплярами DateTime.*/
+
+  String get currentTime {
+    DateTime now = DateTime.now();
+    if (_lastUpdatedTime == null ||
+        DateTime.now().difference(_lastUpdatedTime!).inSeconds >=
+            _updatePeriodInSeconds) {
+      _currentTime = DateTimeApiService.getTime(now, "Got time");
+      _lastUpdatedTime = now;
+
+      return _currentTime;
+    }
+    return DateTimeApiService.getTime(_lastUpdatedTime!, "Limit is exceeded");
+  }
+
+  set time(int value) {
+    if (value > 0) {
+      _updatePeriodInSeconds = value;
+    }
+  }
+}
+
+class DateTimeApiService {
+  static String getTime(DateTime time, String message) {
+    print(message);
+    final DateFormat formatter =
+        DateFormat('Hms'); //формат: часы:минуты:секунды
+    return formatter.format(time);
+  }
+}
+
+void main() {
+  var timeService = TimeService();
+
+  print(timeService.currentTime);
+  timeService.time = 30;
+
+  Future _ = Future.delayed(
+      Duration(seconds: 10), () => print(timeService.currentTime));
+// Got time
+// 14:32:19
+// Limit is exceeded
+// 14:32:19
+
+  timeService.time = 10;
+
+// Got time
+// 14:36:25
+// Got time
+// 14:36:35
+}
