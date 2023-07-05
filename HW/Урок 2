@@ -113,13 +113,12 @@ factory UserModel.fromJson(Map<String, dynamic> jsonMap) {
 Создать generic класс SmartStorage<T>, которое хранит в коллекцию объектов. T должен быть наследником или реализовывать класс NamedModel, у которого есть поле name. Задача: реализовать методы добавления, удаления объектов из списка. А так же, реализовать метод, позволяющий удалять все объекты коллекции по имени, получать объекты или один объект по имени. Проверить работоспособность SmartStorage на примере.
 */
 
-//Создаем абстрактный класс, который содержит поля name и id. 
+//Создаем абстрактный класс, который содержит поля name и id.
 abstract class NamedModel {
   String name;
   int id;
   NamedModel(this.name, this.id);
 }
-
 
 class SmartStorage<T extends NamedModel> {
   final List<T> _array = [];
@@ -134,47 +133,42 @@ class SmartStorage<T extends NamedModel> {
   void removeObject(T object) {
     _array.remove(object);
   }
-  
+
   // метод для удаления объектов по id
   void removeObjectByID(int id) {
-    for (var i = 0; i < _array.length; i++) {
-      if (id == _array[i].id) {
-         _array.removeWhere((object) => object.id == id);
-      }
-    }
+    _array.removeWhere((object) => object.id == id);
   }
 
- // метод для удаления объектов по name
+  // метод для удаления объектов по name
   void removeAllObjectsByName(String name) {
     _array.removeWhere((object) => object.name == name);
   }
 
   // метод, который получает объекты по имени.
-  List<String> getObjectsByName(String name) {
-    List<String> result = [];
+  List<T> getObjectsByName(String name) {
+    return _array.where((object) => object.name == name).toList();
+  }
 
-    for (var i = 0; i < _array.length; i++) {
-      if (name == _array[i].name) {
-        result.add("Name: ${_array[i].name}, ID: ${_array[i].id}");
-      }
+  T? getObjectByName(String name) {
+    try {
+      return _array.firstWhere((object) => object.name == name);
+    } catch (_) {
+      return null;
     }
-    return result;
   }
 
-  // метод, который получает первый объект по имени.
-  String getObjectByName(String name) {
-    final result =  _array.firstWhere((object) => object.name == name);
-    return 'Name: ${result.name}, ID: ${result.id}'; 
+  T? getObjectById(int id) {
+    try {
+      return _array.firstWhere((object) => object.id == id);
+    } catch (_) {
+      return null;
+    }
   }
-  
+
   //Преобразование объектов в нужный формат.
   @override
   String toString() {
-    String result = 'Results:\n';
-    for (T object in _array) {
-      result += 'Name: ${object.name}, ID: ${object.id}\n';
-    }
-    return result;
+    return 'Results:\n${_array.map((object) => 'Name: ${object.name}, ID: ${object.id}').join('\n')}';
   }
 }
 
@@ -185,13 +179,13 @@ class Animals extends NamedModel {
 
 void main() {
   var storage = SmartStorage<Animals>();
-  
+
   Animals obj1 = Animals('Cat', 1);
   Animals obj2 = Animals('Dog', 2);
   Animals obj3 = Animals('Horse', 3);
   Animals obj4 = Animals('Dog', 4);
   Animals obj5 = Animals('Lion', 5);
-  
+
   storage.addObject(obj1);
   storage.addObject(obj2);
   storage.addObject(obj3);
@@ -217,10 +211,10 @@ void main() {
   // Name: Horse, ID: 3
   // Name: Dog, ID: 4
   // Name: Lion, ID: 5
-  
+
   storage.removeObject(obj5);
   print(storage.toString());
-  // Output: 
+  // Output:
   //   Results:
   // Name: Dog, ID: 2
   // Name: Horse, ID: 3
@@ -242,11 +236,15 @@ void main() {
   // Name: Dog, ID: 2
   // Name: Horse, ID: 3
   // Name: Dog, ID: 4
-  
-  print(storage.getObjectByName('Dog'));
+
+  print(storage.getObjectByName('Dog').toString());
+  //Instance of 'Animals'
   //Name: Dog, ID: 2
 
+  print(storage.getObjectByName('Frog'));
+
   print(storage.getObjectsByName("Dog"));
+  //[Instance of 'Animals', Instance of 'Animals']
   //[Name: Dog, ID: 2, Name: Dog, ID: 4]
 }
 
@@ -306,26 +304,22 @@ class TimeService {
     if (_lastUpdatedTime == null ||
         DateTime.now().difference(_lastUpdatedTime!).inSeconds >=
             _updatePeriodInSeconds) {
-      _currentTime = DateTimeApiService.getTime(now, "Got time");
+      _currentTime = _formatTime(now, "Got time");
       _lastUpdatedTime = now;
 
       return _currentTime;
     }
-    return DateTimeApiService.getTime(_lastUpdatedTime!, "Limit is exceeded");
+    return _formatTime(_lastUpdatedTime!,"Limit is exceeded");
   }
 
   set time(int value) {
     if (value > 0) {
-      _updatePeriodInSeconds = value;
+       _updatePeriodInSeconds = value;
     }
   }
-}
-
-class DateTimeApiService {
-  static String getTime(DateTime time, String message) {
-    print(message);
-    final DateFormat formatter =
-        DateFormat('Hms'); //формат: часы:минуты:секунды
+String _formatTime(DateTime time, String message) {
+  print(message);
+    final formatter = DateFormat('Hms');
     return formatter.format(time);
   }
 }
