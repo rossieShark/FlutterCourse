@@ -1,0 +1,44 @@
+{
+    // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+    // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=COLOR=#06021D",
+                "--dart-define=TITLE=Test",
+                "--dart-define=TITLEColor=#7C7E0C",
+                
+            ]
+        },
+
+        {
+            "name": "HelloWorld",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=COLOR=#021D02",
+                "--dart-define=TITLE=Hello world!",
+                "--dart-define=TITLEColor=#7E0C51"
+            ] 
+        },
+        
+        {
+            "name": "Imagine",
+            "request": "launch",
+            "type": "dart",
+    
+            "args": [
+                "--dart-define=COLOR=#021D02",
+                "--dart-define=TITLE=My Trip",
+            ] 
+            
+        },
+    ]
+}
