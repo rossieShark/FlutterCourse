@@ -35,7 +35,7 @@ class ProfileTabBarScreen extends StatelessWidget {
             "assets/images/Black.jpg",
             fit: BoxFit.fill,
             width: double.infinity,
-            height: double.infinity,
+            height: MediaQuery.of(context).size.height,
           ),
           ShaderMask(
             shaderCallback: (Rect bounds) {
@@ -53,7 +53,7 @@ class ProfileTabBarScreen extends StatelessWidget {
               'assets/images/art2.JPG',
               fit: BoxFit.cover,
               width: double.infinity,
-              height: 400,
+              height: MediaQuery.of(context).size.height / 2,
             ),
           ),
           Positioned(
@@ -65,34 +65,7 @@ class ProfileTabBarScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButtonWidget(
-                        iconData: CupertinoIcons.share,
-                        color: AppColorData.white,
-                        onPressed: () {
-                          print('ShareButton pressed');
-                        },
-                      ),
-                      Row(
-                        children: [
-                          IconButtonWidget(
-                              iconData: CupertinoIcons.settings,
-                              color: AppColorData.white,
-                              onPressed: () {
-                                print('ShareButton pressed');
-                              }),
-                          IconButtonWidget(
-                              iconData: Icons.logout,
-                              color: AppColorData.white,
-                              onPressed: () {
-                                print('LogoutButton pressed');
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
+                  const AppBarButtons(),
                   LayoutBuilder(
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
@@ -105,7 +78,7 @@ class ProfileTabBarScreen extends StatelessWidget {
 
                       return Column(
                         children: [
-                          CustomSizedBox(iPadheight: 40, phoneHeight: 20),
+                          const CustomSizedBox(iPadheight: 40, phoneHeight: 20),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
@@ -139,7 +112,7 @@ class ProfileTabBarScreen extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          CustomSizedBox(iPadheight: 20, phoneHeight: 10),
+                          const CustomSizedBox(iPadheight: 20, phoneHeight: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -162,87 +135,10 @@ class ProfileTabBarScreen extends StatelessWidget {
                       final crossAxisCount =
                           isIpad ? screenWidth ~/ 250 : screenWidth ~/ 150;
 
-                      return GridView.count(
-                        padding: const EdgeInsets.all(20),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: crossAxisCount,
-                        scrollDirection: Axis.vertical,
-                        children: profileGrid.map((item) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PhotosScreen(
-                                    label: item.imageLabel,
-                                    images: item.images,
-                                  ),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: theme.primaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        AppColorData.lightGrey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    flex: 4,
-                                    child: LayoutBuilder(builder:
-                                        (BuildContext context,
-                                            BoxConstraints constraints) {
-                                      final double imageWidth =
-                                          constraints.maxWidth;
-
-                                      return SizedBox(
-                                        child: Image.asset(
-                                          item.images.first,
-                                          width: imageWidth,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: SizedBox(
-                                      child: FittedBox(
-                                        fit: BoxFit.contain,
-                                        alignment: Alignment.center,
-                                        child: AutoSizeText(
-                                          item.imageLabel,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: AppFonts.cormorant.font,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      );
+                      return PhotosGridView(
+                          crossAxisCount: crossAxisCount,
+                          profileGrid: profileGrid,
+                          theme: theme);
                     }),
                   ),
                   Align(
@@ -271,6 +167,137 @@ class ProfileTabBarScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PhotosGridView extends StatelessWidget {
+  const PhotosGridView({
+    Key? key, // Add the Key parameter here
+    required this.crossAxisCount,
+    required this.profileGrid,
+    required this.theme,
+  }) : super(key: key); // Use the 'key' keyword instead of 'super.key'
+
+  final int crossAxisCount;
+  final List<ProfileGridModel> profileGrid;
+  final ThemeData theme;
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      padding: const EdgeInsets.all(20),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      crossAxisCount: crossAxisCount,
+      scrollDirection: Axis.vertical,
+      children: profileGrid.map((item) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PhotosScreen(
+                  label: item.imageLabel,
+                  images: item.images,
+                ),
+                fullscreenDialog: true,
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: theme.primaryColor,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColorData.lightGrey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 4,
+                  child: LayoutBuilder(builder:
+                      (BuildContext context, BoxConstraints constraints) {
+                    final double imageWidth = constraints.maxWidth;
+
+                    return SizedBox(
+                      child: Image.asset(
+                        item.images.first,
+                        width: imageWidth,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  }),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: SizedBox(
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                      child: AutoSizeText(
+                        item.imageLabel,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: AppFonts.cormorant.font,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class AppBarButtons extends StatelessWidget {
+  const AppBarButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButtonWidget(
+          iconData: CupertinoIcons.share,
+          color: AppColorData.white,
+          onPressed: () {
+            print('ShareButton pressed');
+          },
+        ),
+        Row(
+          children: [
+            IconButtonWidget(
+                iconData: CupertinoIcons.settings,
+                color: AppColorData.white,
+                onPressed: () {
+                  print('ShareButton pressed');
+                }),
+            IconButtonWidget(
+                iconData: Icons.logout,
+                color: AppColorData.white,
+                onPressed: () {
+                  print('LogoutButton pressed');
+                }),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:portico/main.dart';
+import 'package:portico/widgets/button_widget.dart';
+import 'package:portico/widgets/sized_box_widget.dart';
 
 class LightroomScreen extends StatefulWidget {
   final String image;
-
   const LightroomScreen({Key? key, required this.image}) : super(key: key);
 
   @override
@@ -22,21 +23,43 @@ class LightroomScreenState extends State<LightroomScreen> {
   late Offset _startOffset = Offset.zero;
   late double _boundaryLeft;
   late double _boundaryTop;
-  double _boundaryRight = 0;
-  double _boundaryBottom = 0;
-
-  final GlobalKey _changedContainerKey = GlobalKey();
-
+  late double _boundaryRight;
+  late double _boundaryBottom;
+  late double containerWidth;
+  late double containerHeight;
+  late double imageHeight = 0;
+  late double imageWidth = 0;
+  final double maxZoom = 1.2;
   var changedText = '';
   final TextEditingController _textEditingController = TextEditingController();
   late Widget changedContainer;
   int? selectedIndex;
-
   Color textColor = AppColorData.white;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _initializeVariables();
+  }
+
+  void _initializeVariables() {
+    bool isIpad = MediaQuery.of(context).size.width > 650;
+
+    containerWidth = MediaQuery.of(context).size.width / 5 * 4;
+    containerHeight = MediaQuery.of(context).size.height / 7 * 3;
+
+    imageHeight = isIpad
+        ? MediaQuery.of(context).size.height / 3.5
+        : MediaQuery.of(context).size.height / 4;
+    imageWidth = isIpad
+        ? MediaQuery.of(context).size.width / 3.2
+        : MediaQuery.of(context).size.width / 2.3;
+
+    _boundaryLeft = -(containerWidth - imageWidth * _scale) / 2;
+    _boundaryTop = -(containerHeight - imageHeight * _scale) / 2;
+    _boundaryRight = -_boundaryLeft;
+    _boundaryBottom = -_boundaryTop;
+
     changedContainer = _buildColorFilteredContainer(0);
   }
 
@@ -61,18 +84,15 @@ class LightroomScreenState extends State<LightroomScreen> {
       double newLeft = _left + deltaPosition.dx;
       double newTop = _top + deltaPosition.dy;
 
-      // Calculate the maximum boundaries within the container
-      double maxLeft = _boundaryLeft;
-      double maxTop = _boundaryTop;
-      double maxRight = _boundaryRight;
-      double maxBottom = _boundaryBottom;
-
       // Limit the new position within the boundaries of the container
-      newLeft = newLeft.clamp(maxLeft, maxRight);
-      newTop = newTop.clamp(maxTop, maxBottom);
+      newLeft = newLeft.clamp(_boundaryLeft, _boundaryRight);
+      newTop = newTop.clamp(_boundaryTop, _boundaryBottom);
 
       _left = newLeft;
       _top = newTop;
+
+      // Limit the _scale to the maxZoom value
+      _scale = _scale.clamp(1.0, maxZoom);
     });
 
     _startOffset = currentPosition;
@@ -101,19 +121,22 @@ class LightroomScreenState extends State<LightroomScreen> {
 
   Widget _buildColorFilteredContainer(int index) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 3.4,
       child: Stack(
         children: [
           index == 0
               ? Image.asset(
                   widget.image,
-                  fit: BoxFit.fitHeight,
+                  height: imageHeight,
+                  width: imageWidth,
+                  fit: BoxFit.cover,
                 )
               : ColorFiltered(
                   colorFilter: colorFilters[index]!,
                   child: Image.asset(
                     widget.image,
-                    fit: BoxFit.fitHeight,
+                    height: imageHeight,
+                    width: imageWidth,
+                    fit: BoxFit.cover,
                   ),
                 ),
           Positioned(
@@ -122,7 +145,7 @@ class LightroomScreenState extends State<LightroomScreen> {
             bottom: 0,
             right: 0,
             child: SizedBox(
-              height: MediaQuery.of(context).size.height / 3.4,
+              height: imageHeight,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
@@ -146,36 +169,25 @@ class LightroomScreenState extends State<LightroomScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isCupertino = Theme.of(context).platform == TargetPlatform.iOS;
-    bool isIpad = mediaQuery.size.width > 600;
 
     return Scaffold(
+      backgroundColor: AppColorData.white,
       appBar: AppBar(
         title: const Text(''),
         actions: [
-          !isCupertino
-              ? IconButton(
-                  onPressed: () {
-                    print('share button pressed');
-                  },
-                  icon: const Icon(Icons.share),
-                )
-              : CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    print('SettingsButton pressed');
-                  },
-                  child: const Icon(
-                    CupertinoIcons.share,
-                    color: Colors.black,
-                  ),
-                )
+          IconButtonWidget(
+              iconData: CupertinoIcons.share,
+              color: Colors.black,
+              onPressed: () {
+                print('share button pressed');
+              })
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            isIpad ? const SizedBox(height: 50) : const SizedBox(height: 20),
+            const CustomSizedBox(iPadheight: 50, phoneHeight: 20),
             GestureDetector(
               onScaleStart: _onScaleStart,
               onScaleUpdate: _onScaleUpdate,
@@ -183,35 +195,13 @@ class LightroomScreenState extends State<LightroomScreen> {
               child: Stack(
                 children: [
                   Center(
-                    child: LayoutBuilder(
-                      builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        _boundaryLeft =
-                            -(MediaQuery.of(context).size.width / 5 * 4) / 5;
-                        _boundaryTop =
-                            -(MediaQuery.of(context).size.height / 7 * 3) / 5;
-
-                        _boundaryBottom = ((MediaQuery.of(context).size.height /
-                                    7 *
-                                    3) -
-                                MediaQuery.of(context).size.height / 3.4 -
-                                (MediaQuery.of(context).size.width / 5 * 4) /
-                                    5) *
-                            _scale;
-                        _boundaryRight =
-                            (MediaQuery.of(context).size.width / 5 * 4 -
-                                    MediaQuery.of(context).size.height / 3.4) *
-                                _scale;
-
-                        return Container(
-                          width: MediaQuery.of(context).size.width / 5 * 4,
-                          height: MediaQuery.of(context).size.height / 7 * 3,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 3.0),
-                            color: AppColorData.white,
-                          ),
-                        );
-                      },
+                    child: Container(
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 3.0),
+                        color: AppColorData.white,
+                      ),
                     ),
                   ),
                   Positioned.fill(
@@ -220,10 +210,7 @@ class LightroomScreenState extends State<LightroomScreen> {
                         scale: _scale,
                         child: Transform.translate(
                           offset: Offset(_left, _top),
-                          child: Container(
-                            key: _changedContainerKey,
-                            child: changedContainer,
-                          ),
+                          child: changedContainer,
                         ),
                       ),
                     ),
@@ -231,7 +218,7 @@ class LightroomScreenState extends State<LightroomScreen> {
                 ],
               ),
             ),
-            isIpad ? const SizedBox(height: 50) : const SizedBox(height: 20),
+            const CustomSizedBox(iPadheight: 50, phoneHeight: 20),
             Column(
               children: [
                 SizedBox(
@@ -248,62 +235,16 @@ class LightroomScreenState extends State<LightroomScreen> {
                           onTap: () {
                             _changeFilter(index);
                           },
-                          child: Stack(
-                            children: [
-                              if (index == 0)
-                                SizedBox(
-                                  height: imageHeight,
-                                  child: Image.asset(
-                                    'assets/images/Retouch.JPG',
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              else
-                                ColorFiltered(
-                                  colorFilter: colorFilters[index]!,
-                                  child: SizedBox(
-                                    height: imageHeight,
-                                    child: Image.asset(
-                                      'assets/images/Retouch.JPG',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: imageHeight,
-                                  decoration: BoxDecoration(
-                                    color: selectedIndex == index
-                                        ? Colors.black.withOpacity(0.5)
-                                        : Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      filterName[index],
-                                      style: TextStyle(
-                                          color: selectedIndex == index
-                                              ? AppColorData.white
-                                              : Colors.transparent,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: AppFonts.cormorant.font),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          child: RetouchImageList(
+                              imageHeight: imageHeight,
+                              selectedIndex: selectedIndex,
+                              index: index),
                         ),
                       );
                     },
                   ),
                 ),
-                isIpad
-                    ? const SizedBox(height: 50)
-                    : const SizedBox(height: 20),
+                const CustomSizedBox(iPadheight: 50, phoneHeight: 20),
                 Row(children: [
                   Expanded(
                     child: Container(
@@ -388,24 +329,8 @@ class LightroomScreenState extends State<LightroomScreen> {
                                 );
                               },
                               padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                      'assets/images/pencil.png',
-                                      color: AppColorData.white,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 10,
-                                    width: 20,
-                                    color: textColor,
-                                  ),
-                                ],
-                              ),
+                              child:
+                                  ChooseColorButtonText(textColor: textColor),
                             ),
                           )
                         : ElevatedButton(
@@ -462,24 +387,7 @@ class LightroomScreenState extends State<LightroomScreen> {
                               padding: const EdgeInsets.all(16.0),
                               backgroundColor: Colors.black,
                             ),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Image.asset(
-                                    'assets/images/pencil.png',
-                                    color: AppColorData.white,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Container(
-                                  height: 10,
-                                  width: 20,
-                                  color: textColor,
-                                ),
-                              ],
-                            ),
+                            child: ChooseColorButtonText(textColor: textColor),
                           ),
                   ),
                 ]),
@@ -489,6 +397,102 @@ class LightroomScreenState extends State<LightroomScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ChooseColorButtonText extends StatelessWidget {
+  const ChooseColorButtonText({
+    Key? key,
+    required this.textColor,
+  }) : super(key: key);
+
+  final Color textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 20,
+          height: 20,
+          child: Image.asset(
+            'assets/images/pencil.png',
+            color: AppColorData.white,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Container(
+          height: 10,
+          width: 20,
+          color: textColor,
+        ),
+      ],
+    );
+  }
+}
+
+class RetouchImageList extends StatelessWidget {
+  const RetouchImageList({
+    Key? key,
+    required this.imageHeight,
+    required this.selectedIndex,
+    required this.index,
+  }) : super(key: key);
+
+  final double imageHeight;
+  final int? selectedIndex;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        if (index == 0)
+          SizedBox(
+            height: imageHeight,
+            child: Image.asset(
+              'assets/images/Retouch.JPG',
+              fit: BoxFit.cover,
+            ),
+          )
+        else
+          ColorFiltered(
+            colorFilter: colorFilters[index]!,
+            child: SizedBox(
+              height: imageHeight,
+              child: Image.asset(
+                'assets/images/Retouch.JPG',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          child: Container(
+            width: double.infinity,
+            height: imageHeight,
+            decoration: BoxDecoration(
+              color: selectedIndex == index
+                  ? Colors.black.withOpacity(0.5)
+                  : Colors.transparent,
+            ),
+            child: Center(
+              child: Text(
+                filterName[index],
+                style: TextStyle(
+                    color: selectedIndex == index
+                        ? AppColorData.white
+                        : Colors.transparent,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: AppFonts.cormorant.font),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

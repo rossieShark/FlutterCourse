@@ -67,7 +67,6 @@ class PhotosScreen extends StatelessWidget {
                       );
                     },
                     child: SizedBox(
-                      width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Image.asset(

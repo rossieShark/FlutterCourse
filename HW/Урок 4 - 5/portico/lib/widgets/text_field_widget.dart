@@ -9,7 +9,8 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets? padding;
   final BoxDecoration? boxDecoration;
 
-  CustomTextField({
+  const CustomTextField({
+    super.key,
     required this.onChanged,
     required this.placeholder,
     this.icon,

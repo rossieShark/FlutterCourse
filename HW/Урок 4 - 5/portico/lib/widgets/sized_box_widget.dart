@@ -4,7 +4,8 @@ class CustomSizedBox extends StatelessWidget {
   final double iPadheight;
   final double phoneHeight;
 
-  CustomSizedBox({required this.iPadheight, this.phoneHeight = 0});
+  const CustomSizedBox(
+      {super.key, required this.iPadheight, this.phoneHeight = 0});
 
   @override
   Widget build(BuildContext context) {

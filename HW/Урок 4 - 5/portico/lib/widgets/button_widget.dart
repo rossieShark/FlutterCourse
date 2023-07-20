@@ -9,8 +9,9 @@ class TextButtonWidget extends StatelessWidget {
   final ButtonStyle? style;
   final EdgeInsets? padding;
 
-  TextButtonWidget(
-      {required this.onPressed,
+  const TextButtonWidget(
+      {super.key,
+      required this.onPressed,
       this.text,
       this.color,
       this.image,
@@ -21,13 +22,13 @@ class TextButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
         ? CupertinoButton(
-            child: image != null ? image! : text!,
             onPressed: onPressed,
-            color: color)
+            color: color,
+            child: image != null ? image! : text!)
         : ElevatedButton(
-            child: image != null ? image! : text!,
             onPressed: onPressed,
             style: style,
+            child: image != null ? image! : text!,
           );
   }
 }
@@ -37,7 +38,8 @@ class IconButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final Color? color;
 
-  IconButtonWidget({
+  const IconButtonWidget({
+    super.key,
     required this.iconData,
     required this.onPressed,
     this.color,
