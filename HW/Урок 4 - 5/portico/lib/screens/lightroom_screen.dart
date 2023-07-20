@@ -3,18 +3,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:portico/Helper/colors_fonts.dart';
+import 'package:portico/main.dart';
 
-class LightroomController extends StatefulWidget {
+class LightroomScreen extends StatefulWidget {
   final String image;
 
-  const LightroomController({Key? key, required this.image}) : super(key: key);
+  const LightroomScreen({Key? key, required this.image}) : super(key: key);
 
   @override
-  LightroomControllerState createState() => LightroomControllerState();
+  LightroomScreenState createState() => LightroomScreenState();
 }
 
-class LightroomControllerState extends State<LightroomController> {
+class LightroomScreenState extends State<LightroomScreen> {
   late double _scale = 1.0;
   late double _previousScale = 1.0;
   late double _top = 0.0;
@@ -22,8 +22,8 @@ class LightroomControllerState extends State<LightroomController> {
   late Offset _startOffset = Offset.zero;
   late double _boundaryLeft;
   late double _boundaryTop;
-  late double _boundaryRight;
-  late double _boundaryBottom;
+  double _boundaryRight = 0;
+  double _boundaryBottom = 0;
 
   final GlobalKey _changedContainerKey = GlobalKey();
 
@@ -37,12 +37,6 @@ class LightroomControllerState extends State<LightroomController> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _boundaryLeft = -(MediaQuery.of(context).size.width / 5 * 4) / 5;
-    _boundaryTop = -(MediaQuery.of(context).size.height / 7 * 3) / 5;
-    _boundaryRight = _boundaryLeft + MediaQuery.of(context).size.width / 5 * 4;
-    _boundaryBottom = _boundaryTop + MediaQuery.of(context).size.height / 7 * 3;
-
     changedContainer = _buildColorFilteredContainer(0);
   }
 
@@ -70,9 +64,8 @@ class LightroomControllerState extends State<LightroomController> {
       // Calculate the maximum boundaries within the container
       double maxLeft = _boundaryLeft;
       double maxTop = _boundaryTop;
-      double maxRight = _boundaryRight - _getChangedContainerWidth() * _scale;
-      double maxBottom =
-          _boundaryBottom - _getChangedContainerHeight() * _scale;
+      double maxRight = _boundaryRight;
+      double maxBottom = _boundaryBottom;
 
       // Limit the new position within the boundaries of the container
       newLeft = newLeft.clamp(maxLeft, maxRight);
@@ -83,18 +76,6 @@ class LightroomControllerState extends State<LightroomController> {
     });
 
     _startOffset = currentPosition;
-  }
-
-  double _getChangedContainerWidth() {
-    final RenderBox? box =
-        _changedContainerKey.currentContext?.findRenderObject() as RenderBox?;
-    return box?.size.width ?? 0.0;
-  }
-
-  double _getChangedContainerHeight() {
-    final RenderBox? box =
-        _changedContainerKey.currentContext?.findRenderObject() as RenderBox?;
-    return box?.size.height ?? 0.0;
   }
 
   void _resetScaleAndPosition() {
@@ -199,13 +180,56 @@ class LightroomControllerState extends State<LightroomController> {
               onScaleStart: _onScaleStart,
               onScaleUpdate: _onScaleUpdate,
               onDoubleTap: _resetScaleAndPosition,
-              child: MainImageStack(
-                  mediaQuery: mediaQuery,
-                  scale: _scale,
-                  left: _left,
-                  top: _top,
-                  changedContainerKey: _changedContainerKey,
-                  changedContainer: changedContainer),
+              child: Stack(
+                children: [
+                  Center(
+                    child: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        _boundaryLeft =
+                            -(MediaQuery.of(context).size.width / 5 * 4) / 5;
+                        _boundaryTop =
+                            -(MediaQuery.of(context).size.height / 7 * 3) / 5;
+
+                        _boundaryBottom = ((MediaQuery.of(context).size.height /
+                                    7 *
+                                    3) -
+                                MediaQuery.of(context).size.height / 3.4 -
+                                (MediaQuery.of(context).size.width / 5 * 4) /
+                                    5) *
+                            _scale;
+                        _boundaryRight =
+                            (MediaQuery.of(context).size.width / 5 * 4 -
+                                    MediaQuery.of(context).size.height / 3.4) *
+                                _scale;
+
+                        return Container(
+                          width: MediaQuery.of(context).size.width / 5 * 4,
+                          height: MediaQuery.of(context).size.height / 7 * 3,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 3.0),
+                            color: AppColorData.white,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: Transform.scale(
+                        scale: _scale,
+                        child: Transform.translate(
+                          offset: Offset(_left, _top),
+                          child: Container(
+                            key: _changedContainerKey,
+                            child: changedContainer,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             isIpad ? const SizedBox(height: 50) : const SizedBox(height: 20),
             Column(
@@ -465,60 +489,6 @@ class LightroomControllerState extends State<LightroomController> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class MainImageStack extends StatelessWidget {
-  const MainImageStack({
-    super.key,
-    required this.mediaQuery,
-    required double scale,
-    required double left,
-    required double top,
-    required GlobalKey<State<StatefulWidget>> changedContainerKey,
-    required this.changedContainer,
-  })  : _scale = scale,
-        _left = left,
-        _top = top,
-        _changedContainerKey = changedContainerKey;
-
-  final MediaQueryData mediaQuery;
-  final double _scale;
-  final double _left;
-  final double _top;
-  final GlobalKey<State<StatefulWidget>> _changedContainerKey;
-  final Widget? changedContainer;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: Container(
-            width: mediaQuery.size.width / 5 * 4,
-            height: mediaQuery.size.height / 7 * 3,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 3.0),
-              color: AppColorData.white,
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Center(
-            child: Transform.scale(
-              scale: _scale,
-              child: Transform.translate(
-                offset: Offset(_left, _top),
-                child: Container(
-                  key: _changedContainerKey,
-                  child: changedContainer,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

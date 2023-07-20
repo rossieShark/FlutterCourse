@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:portico/Controllers/lightroom_controller.dart';
-import 'package:portico/Helper/colors_fonts.dart';
 
-class FilterController extends StatelessWidget {
+import 'package:portico/main.dart';
+import 'package:portico/screens/lightroom_screen.dart';
+
+class PhotosScreen extends StatelessWidget {
   final String label;
   final List<String> images;
-  const FilterController(
-      {super.key, required this.label, required this.images});
+  const PhotosScreen({super.key, required this.label, required this.images});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class FilterController extends StatelessWidget {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) {
-                            return LightroomController(
+                            return LightroomScreen(
                               image: images[index],
                             );
                           },

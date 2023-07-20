@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SavedTabBarController extends StatelessWidget {
-  const SavedTabBarController({super.key});
+class SavedTabBarScreen extends StatelessWidget {
+  const SavedTabBarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

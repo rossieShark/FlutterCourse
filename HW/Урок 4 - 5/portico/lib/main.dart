@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
-import 'package:portico/Helper/colors_fonts.dart';
 
-import 'Controllers/profile_tab_bar_controller.dart';
-import 'Controllers/saved_tab_bar_controller.dart';
-import 'Controllers/useful_tab_bar_controller.dart';
+import 'screens/profile_tab_bar_screen.dart';
+import 'screens/saved_tab_bar_screen.dart';
+import 'screens/useful_tab_bar_screen.dart';
 
 void main() {
   runApp(const App());
@@ -127,9 +126,9 @@ class AndroidPortico extends StatelessWidget {
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    ProfileTabBarController(),
-                    UsefulTabBarController(),
-                    const SavedTabBarController(),
+                    ProfileTabBarScreen(),
+                    UsefulTabBarScreen(),
+                    const SavedTabBarScreen(),
                   ],
                 ),
               ),
@@ -141,9 +140,9 @@ class AndroidPortico extends StatelessWidget {
               body: TabBarView(
                 controller: tabController,
                 children: [
-                  ProfileTabBarController(),
-                  UsefulTabBarController(),
-                  const SavedTabBarController(),
+                  ProfileTabBarScreen(),
+                  UsefulTabBarScreen(),
+                  const SavedTabBarScreen(),
                 ],
               ),
               bottomNavigationBar: SafeArea(
@@ -174,9 +173,9 @@ class WebPortico extends StatelessWidget {
         body: TabBarView(
           controller: tabController,
           children: [
-            ProfileTabBarController(),
-            UsefulTabBarController(),
-            const SavedTabBarController(),
+            ProfileTabBarScreen(),
+            UsefulTabBarScreen(),
+            const SavedTabBarScreen(),
           ],
         ),
         bottomNavigationBar: SafeArea(
@@ -235,9 +234,9 @@ class CupertinoPortico extends StatelessWidget {
                   child: TabBarView(
                     controller: tabController,
                     children: [
-                      ProfileTabBarController(),
-                      UsefulTabBarController(),
-                      const SavedTabBarController(),
+                      ProfileTabBarScreen(),
+                      UsefulTabBarScreen(),
+                      const SavedTabBarScreen(),
                     ],
                   ),
                 ),
@@ -274,13 +273,37 @@ class CupertinoPortico extends StatelessWidget {
   Widget getContentForTab(int index) {
     switch (index) {
       case 0:
-        return ProfileTabBarController();
+        return ProfileTabBarScreen();
       case 1:
-        return UsefulTabBarController();
+        return UsefulTabBarScreen();
       case 2:
-        return const SavedTabBarController();
+        return const SavedTabBarScreen();
       default:
         return Container();
+    }
+  }
+}
+
+class AppColorData {
+  static const Color grey = Color.fromARGB(255, 67, 68, 67);
+  static const Color white = Color.fromARGB(255, 233, 233, 233);
+  static const Color darkRed = Color.fromARGB(255, 79, 11, 3);
+  static const Color blue = Color.fromARGB(255, 12, 5, 122);
+  static const Color darkGrey = Color.fromARGB(255, 29, 30, 34);
+  static const Color lightGrey = Color.fromARGB(255, 162, 162, 162);
+}
+
+enum AppFonts { asteria, cormorant, rosiebrown }
+
+extension AppFontsExtension on AppFonts {
+  String get font {
+    switch (this) {
+      case AppFonts.cormorant:
+        return "CormorantInfant";
+      case AppFonts.rosiebrown:
+        return "Rosiebrown";
+      default:
+        return "Asteria";
     }
   }
 }
