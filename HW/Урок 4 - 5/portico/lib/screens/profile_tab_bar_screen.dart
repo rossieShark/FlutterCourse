@@ -8,8 +8,10 @@ import 'package:portico/main.dart';
 import 'package:portico/screens/photos_screen.dart';
 
 import 'package:portico/models/profile_grid_model.dart';
-import 'package:portico/widgets/button_widget.dart';
-import 'package:portico/widgets/sized_box_widget.dart';
+import 'package:portico/widgets/general_widgets/button_widget.dart';
+import 'package:portico/widgets/general_widgets/sized_box_widget.dart';
+
+import '../widgets/general_widgets/assest.dart';
 
 class ProfileTabBarScreen extends StatelessWidget {
   ProfileTabBarScreen({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class ProfileTabBarScreen extends StatelessWidget {
       body: Stack(
         children: [
           Image.asset(
-            "assets/images/Black.jpg",
+            Assets.blackSquare.asset,
             fit: BoxFit.fill,
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
@@ -50,7 +52,7 @@ class ProfileTabBarScreen extends StatelessWidget {
               ).createShader(bounds);
             },
             child: Image.asset(
-              'assets/images/art2.JPG',
+              Assets.art2.asset,
               fit: BoxFit.cover,
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 2,
@@ -86,8 +88,8 @@ class ProfileTabBarScreen extends StatelessWidget {
                               height: imageSize,
                               child: ClipOval(
                                 child: CircleAvatar(
-                                  backgroundImage: const AssetImage(
-                                    'assets/images/user.png',
+                                  backgroundImage: AssetImage(
+                                    Assets.user.asset,
                                   ),
                                   radius: imageSize * 0.5,
                                 ),
@@ -149,16 +151,16 @@ class ProfileTabBarScreen extends StatelessWidget {
                           onPressed: () {
                             print("Add button tapped");
                           },
-                          text: const Text(
+                          color: Colors.black,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black),
+                          child: const Text(
                             '+',
                             style: TextStyle(
                                 color: AppColorData.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          color: Colors.black,
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black),
                         )),
                   ),
                 ],
@@ -325,7 +327,7 @@ class FollowersButton extends StatelessWidget {
               print('icon Button pressed');
             },
             child: Image.asset(
-              'assets/images/subscribtion.png',
+              Assets.subscribtion.asset,
               color: AppColorData.white,
             ),
           ),

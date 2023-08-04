@@ -1,3 +1,5 @@
+import '../widgets/general_widgets/assest.dart';
+
 class ProfileGridModel {
   final String imageLabel;
   final List<String> images;
@@ -6,46 +8,46 @@ class ProfileGridModel {
 }
 
 final List<String> flowersList = [
-  'assets/images/Flowers.JPG',
-  'assets/images/Flowers.JPG',
-  'assets/images/Flowers.JPG',
-  'assets/images/Flowers.JPG',
-  'assets/images/Flowers.JPG'
+  Assets.flowers.asset,
+  Assets.flowers.asset,
+  Assets.flowers.asset,
+  Assets.flowers.asset,
+  Assets.flowers.asset
 ];
 final List<String> coldList = [
-  'assets/images/Cold.JPG',
-  'assets/images/Cold.JPG',
-  'assets/images/Cold.JPG',
-  'assets/images/Cold.JPG',
-  'assets/images/Cold.JPG'
+  Assets.cold.asset,
+  Assets.cold.asset,
+  Assets.cold.asset,
+  Assets.cold.asset,
+  Assets.cold.asset,
 ];
 final List<String> girlsList = [
-  'assets/images/Girls.JPG',
-  'assets/images/Girls.JPG',
-  'assets/images/Girls.JPG',
-  'assets/images/Girls.JPG',
-  'assets/images/Girls.JPG'
+  Assets.girls.asset,
+  Assets.girls.asset,
+  Assets.girls.asset,
+  Assets.girls.asset,
+  Assets.girls.asset,
 ];
 final List<String> liquidList = [
-  'assets/images/Liquid.JPG',
-  'assets/images/Liquid.JPG',
-  'assets/images/Liquid.JPG',
-  'assets/images/Liquid.JPG',
-  'assets/images/Liquid.JPG'
+  Assets.liquid.asset,
+  Assets.liquid.asset,
+  Assets.liquid.asset,
+  Assets.liquid.asset,
+  Assets.liquid.asset,
 ];
 final List<String> naturalnessList = [
-  'assets/images/Naturalness.JPG',
-  'assets/images/Naturalness.JPG',
-  'assets/images/Naturalness.JPG',
-  'assets/images/Naturalness.JPG',
-  'assets/images/Naturalness.JPG'
+  Assets.naturalness.asset,
+  Assets.naturalness.asset,
+  Assets.naturalness.asset,
+  Assets.naturalness.asset,
+  Assets.naturalness.asset,
 ];
 final List<String> natureList = [
-  'assets/images/Nature.JPG',
-  'assets/images/Nature.JPG',
-  'assets/images/Nature.JPG',
-  'assets/images/Nature.JPG',
-  'assets/images/Nature.JPG'
+  Assets.nature.asset,
+  Assets.nature.asset,
+  Assets.nature.asset,
+  Assets.nature.asset,
+  Assets.nature.asset,
 ];
 
 final List<String> imageLabels = [

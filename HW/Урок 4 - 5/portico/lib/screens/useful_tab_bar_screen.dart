@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:portico/main.dart';
 import 'package:portico/models/useful_model.dart';
-import 'package:portico/widgets/button_widget.dart';
-import 'package:portico/widgets/sized_box_widget.dart';
-import 'package:portico/widgets/text_field_widget.dart';
+import 'package:portico/widgets/general_widgets/button_widget.dart';
+import 'package:portico/widgets/general_widgets/sized_box_widget.dart';
+import 'package:portico/widgets/general_widgets/text_field_widget.dart';
+
+import '../widgets/general_widgets/assest.dart';
 
 class UsefulTabBarScreen extends StatelessWidget {
   UsefulTabBarScreen({super.key});
@@ -18,7 +20,7 @@ class UsefulTabBarScreen extends StatelessWidget {
       nameLabel: 'Paolo Roversi',
       description:
           'Learn how the great Paolo Roversi shot his masterpieces, his popular lighting schemes and backstages from the shoot.',
-      image: "assets/images/Roversi.JPG",
+      image: Assets.roversi.asset,
     ),
   );
 
@@ -57,7 +59,7 @@ class UsefulTabBarScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     Image.asset(
-                      "assets/images/Black.jpg",
+                      Assets.blackSquare.asset,
                       fit: BoxFit.fill,
                       width: double.infinity,
                       height: scrollableHeight,
@@ -75,7 +77,7 @@ class UsefulTabBarScreen extends StatelessWidget {
                         ).createShader(bounds);
                       },
                       child: Image.asset(
-                        'assets/images/art1.JPG',
+                        Assets.art1.asset,
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: scrollableHeight / 2,
@@ -252,7 +254,7 @@ class IpadUsefulInformationListView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
                   Expanded(
                     flex: 2,
                     child: Padding(
@@ -275,7 +277,7 @@ class IpadUsefulInformationListView extends StatelessWidget {
                             Text(
                               categoryItem.description,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontFamily: AppFonts.cormorant.font,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -295,14 +297,6 @@ class IpadUsefulInformationListView extends StatelessWidget {
                         onPressed: () {
                           print('CategoryButton tapped');
                         },
-                        text: Text(
-                          'Learn more',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: AppColorData.blue,
-                              fontFamily: AppFonts.cormorant.font,
-                              fontWeight: FontWeight.bold),
-                        ),
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 16),
                         style: ElevatedButton.styleFrom(
@@ -311,6 +305,14 @@ class IpadUsefulInformationListView extends StatelessWidget {
                             vertical: 0,
                             horizontal: 16,
                           ),
+                        ),
+                        child: Text(
+                          'Learn more',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: AppColorData.blue,
+                              fontFamily: AppFonts.cormorant.font,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -393,14 +395,6 @@ class PhoneUsefulInformationListView extends StatelessWidget {
                                 onPressed: () {
                                   print('CategoryButton tapped');
                                 },
-                                text: Text(
-                                  'Learn more',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: AppColorData.blue,
-                                      fontFamily: AppFonts.cormorant.font,
-                                      fontWeight: FontWeight.bold),
-                                ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 0, horizontal: 12),
                                 style: ElevatedButton.styleFrom(
@@ -409,6 +403,14 @@ class PhoneUsefulInformationListView extends StatelessWidget {
                                     vertical: 0,
                                     horizontal: 16,
                                   ),
+                                ),
+                                child: Text(
+                                  'Learn more',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: AppColorData.blue,
+                                      fontFamily: AppFonts.cormorant.font,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
