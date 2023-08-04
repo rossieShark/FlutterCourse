@@ -1,6 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:receipe_app/services/json_serializable_converter.dart';
-import 'package:receipe_app/services/url_structure.dart';
+import '../../services/services.dart';
 
 part 'search_service.chopper.dart';
 

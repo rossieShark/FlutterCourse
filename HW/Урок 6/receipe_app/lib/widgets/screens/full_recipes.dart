@@ -59,7 +59,7 @@ class FullRecipe extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 45,
                                 color: AppColors.white.color,
-                                fontFamily: 'gogol',
+                                fontFamily: AppFonts.gogol.font,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

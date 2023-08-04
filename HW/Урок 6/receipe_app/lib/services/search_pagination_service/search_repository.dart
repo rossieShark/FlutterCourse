@@ -1,6 +1,5 @@
-import 'package:receipe_app/services/search_pagination_service/search_service.dart';
-
-import '../../models/popular_recipe/popular_recipes.dart';
+import '../../services/services.dart';
+import '../../models/index.dart';
 
 class SearchRecipeRepository {
   final SearchRecipeService searchRecipeService = SearchRecipeService.create();

@@ -1,11 +1,11 @@
-import 'package:receipe_app/services/search_pagination_service/search_repository.dart';
-
-import '../../models/popular_recipe/popular_recipes.dart';
+import '../../services/services.dart';
+import '../../models/index.dart';
 
 class SearchPaginationService {
   bool _isLoading = false;
 
   final SearchRecipeRepository _searchRepository = SearchRecipeRepository();
+  int quantityOfSearchElements = 10;
   int _start = 0;
   int _maxResult = 10;
   String _q = ' ';
@@ -20,7 +20,7 @@ class SearchPaginationService {
     }
     if (_q != q) {
       _start = 0;
-      _maxResult = 10;
+      _maxResult = quantityOfSearchElements;
       items.clear();
     }
     _q = q;
@@ -31,6 +31,6 @@ class SearchPaginationService {
     items.addAll(newPortion);
     _isLoading = false;
     _start += _maxResult;
-    _maxResult += 10;
+    _maxResult += quantityOfSearchElements;
   }
 }

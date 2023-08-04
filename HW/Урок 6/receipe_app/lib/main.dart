@@ -6,8 +6,7 @@ import 'package:receipe_app/widgets/screens/my_favorite_recipes.dart';
 import 'package:receipe_app/widgets/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe_app/widgets/widgets/ui_widget.dart';
-
-import 'models/favorite_receipe/favorite_recipe_model.dart';
+import 'widgets/providers/favorite_provider.dart';
 
 void main() {
   runApp(const App());
@@ -39,22 +38,6 @@ class App extends StatelessWidget {
         home: const ReceipeApp(),
       ),
     );
-  }
-}
-
-class FavoriteProvider extends ChangeNotifier {
-  final List<Recipe> _favoriteReceipe = [];
-
-  List<Recipe> get favoriteReceipe => _favoriteReceipe;
-
-  void addToFavorites(Recipe recipe) {
-    _favoriteReceipe.add(recipe);
-    notifyListeners();
-  }
-
-  void removeFromFavorites(Recipe recipe) {
-    _favoriteReceipe.removeWhere((item) => item.name == recipe.name);
-    notifyListeners();
   }
 }
 

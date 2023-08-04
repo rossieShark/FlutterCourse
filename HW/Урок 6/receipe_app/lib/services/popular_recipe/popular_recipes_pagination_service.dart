@@ -1,5 +1,5 @@
-import '../../models/popular_recipe/popular_recipes.dart';
-import 'popular_recipe_repository.dart';
+import '../../models/index.dart';
+import '../../services/services.dart';
 
 class RecipesPaginationService {
   bool _isLoading = false;

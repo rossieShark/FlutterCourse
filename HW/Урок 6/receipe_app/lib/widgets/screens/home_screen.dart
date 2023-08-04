@@ -3,16 +3,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import 'package:receipe_app/services/category_receipe/category_recipe_response.dart';
 import 'package:receipe_app/services/search_pagination_service/search_pagination_service.dart';
 import 'package:receipe_app/widgets/screens/recipe_detail_screen.dart';
 import 'package:receipe_app/widgets/widgets/button_widget.dart';
 import 'package:receipe_app/widgets/widgets/custom_spinner.dart';
 import 'package:receipe_app/widgets/widgets/rating_widget.dart';
-
-import '../../models/category_recipe/category_receipe.dart';
-import '../../models/popular_recipe/popular_recipes.dart';
-import '../../services/popular_recipe/popular_recipes_pagination_service.dart';
+import '../../services/services.dart';
+import '../../models/index.dart';
 import '../widgets/ui_widget.dart';
 
 class HomeController extends StatefulWidget {

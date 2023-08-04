@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
-import '../../models/favorite_receipe/favorite_recipe_model.dart';
+import '../../models/index.dart';
 
-import '../../models/popular_recipe/popular_recipes.dart';
+import '../providers/favorite_provider.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/rating_widget.dart';
 import '../widgets/ui_widget.dart';

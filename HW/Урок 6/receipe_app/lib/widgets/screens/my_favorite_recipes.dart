@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:receipe_app/main.dart';
 import 'package:receipe_app/widgets/widgets/button_widget.dart';
 
+import '../providers/favorite_provider.dart';
 import '../widgets/ui_widget.dart';
 
 class MyRecepiecesWidget extends StatelessWidget {

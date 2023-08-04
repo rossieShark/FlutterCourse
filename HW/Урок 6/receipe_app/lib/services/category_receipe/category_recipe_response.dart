@@ -1,6 +1,6 @@
-import 'package:receipe_app/services/category_receipe/category_recipe_service.dart';
+import '../../services/services.dart';
 
-import '../../models/category_recipe/category_receipe.dart';
+import '../../models/index.dart';
 
 class CategoryRecipeRepository {
   final CategoryRecipeService categoryRecipeService =
