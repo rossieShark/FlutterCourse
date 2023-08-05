@@ -17,7 +17,7 @@ class _$SearchRecipeService extends SearchRecipeService {
   final definitionType = SearchRecipeService;
 
   @override
-  Future<Response<Object>> getSearchList(
+  Future<Response<RecipeResponce>> getSearchList(
     int start,
     int maxResult,
     String q,
@@ -34,6 +34,6 @@ class _$SearchRecipeService extends SearchRecipeService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<Object, Object>($request);
+    return client.send<RecipeResponce, RecipeResponce>($request);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
-import '../../services/services.dart';
+import '../../models/models_export.dart';
+import '../services_export.dart';
 
 part 'search_service.chopper.dart';
 
@@ -12,6 +13,6 @@ abstract class SearchRecipeService extends ChopperService {
       );
 
   @Get(path: 'feeds/search')
-  Future<Response<Object>> getSearchList(
+  Future<Response<RecipeResponce>> getSearchList(
       @Query() int start, @Query() int maxResult, @Query() String q);
 }

@@ -17,7 +17,7 @@ class _$PopularRecipeService extends PopularRecipeService {
   final definitionType = PopularRecipeService;
 
   @override
-  Future<Response<Object>> getApi(
+  Future<Response<RecipeResponce>> getApi(
     int start,
     int limit,
     String tag,
@@ -34,6 +34,6 @@ class _$PopularRecipeService extends PopularRecipeService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<Object, Object>($request);
+    return client.send<RecipeResponce, RecipeResponce>($request);
   }
 }

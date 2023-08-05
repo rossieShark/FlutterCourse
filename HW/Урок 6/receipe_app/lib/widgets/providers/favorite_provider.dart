@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/index.dart';
+import '../../models/models_export.dart';
 
 class FavoriteProvider extends ChangeNotifier {
   final List<Recipe> _favoriteReceipe = [];

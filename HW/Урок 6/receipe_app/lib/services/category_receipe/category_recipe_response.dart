@@ -1,6 +1,6 @@
-import '../../services/services.dart';
+import '../services_export.dart';
 
-import '../../models/index.dart';
+import '../../models/models_export.dart';
 
 class CategoryRecipeRepository {
   final CategoryRecipeService categoryRecipeService =
@@ -9,10 +9,11 @@ class CategoryRecipeRepository {
   Future<List<CategoryData>> getCategoryRecipes() async {
     final apiReceipes = await categoryRecipeService.getApi();
 
-    final apiRecipeResponse = apiReceipes.body as Map<String, dynamic>;
-    final apiRecipeList = CategoryRecipeResponce.fromJson(apiRecipeResponse);
-    final recipeList = apiRecipeList.browseCategories;
+    final apiRecipeResponse =
+        apiReceipes.body?.browseCategories as List<CategoryData>;
+    // final apiRecipeList = CategoryRecipeResponce.fromJson(apiRecipeResponse);
+    // final recipeList = apiRecipeList.browseCategories;
 
-    return recipeList;
+    return apiRecipeResponse;
   }
 }

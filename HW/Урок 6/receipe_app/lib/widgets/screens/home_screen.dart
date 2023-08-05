@@ -2,15 +2,10 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-
-import 'package:receipe_app/services/search_pagination_service/search_pagination_service.dart';
+import 'package:receipe_app/services/services_export.dart';
 import 'package:receipe_app/widgets/screens/recipe_detail_screen.dart';
-import 'package:receipe_app/widgets/widgets/button_widget.dart';
-import 'package:receipe_app/widgets/widgets/custom_spinner.dart';
-import 'package:receipe_app/widgets/widgets/rating_widget.dart';
-import '../../services/services.dart';
-import '../../models/index.dart';
-import '../widgets/ui_widget.dart';
+import 'package:receipe_app/widgets/widgets/widgets_export.dart';
+import 'package:receipe_app/models/models_export.dart';
 
 class HomeController extends StatefulWidget {
   const HomeController({Key? key}) : super(key: key);
@@ -100,14 +95,13 @@ class HomeControllerState extends State<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = MediaQuery.of(context).size.height;
     final double maxWidth = MediaQuery.of(context).size.width;
-
+    bool isIpad = MediaQuery.of(context).size.width > 600;
     return Scaffold(
       backgroundColor: AppColors.black.color,
       body: SafeArea(
         child: CustomScrollView(controller: _scrollController, slivers: [
-          HeaderWidget(maxHeight: maxHeight),
+          HeaderWidget(maxWidth: maxWidth),
           SliverAppBar(
             backgroundColor: AppColors.black.color,
             expandedHeight: 25,
@@ -122,12 +116,12 @@ class HomeControllerState extends State<HomeController> {
             ),
           ),
           _isLoading
-              ? const SliverToBoxAdapter(child: CustomSpinner())
+              ? const SliverToBoxAdapter(child: CustomFadingCircleIndicator())
               : isTappedTextField
                   ? SearchResultList(searchResult: _searchResult)
                   : SliverToBoxAdapter(
                       child: Column(children: [
-                        SizedBox(height: maxHeight * 0.01),
+                        SizedBox(height: maxWidth * 0.02),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -135,7 +129,9 @@ class HomeControllerState extends State<HomeController> {
                             child: Text(
                               'Receipes category',
                               style: TextStyle(
-                                  fontSize: maxHeight * 0.03,
+                                  fontSize: isIpad
+                                      ? maxWidth * 0.045
+                                      : maxWidth * 0.06,
                                   color: AppColors.white.color,
                                   fontFamily: AppFonts.fontspring.font,
                                   fontWeight: FontWeight.w500),
@@ -157,7 +153,9 @@ class HomeControllerState extends State<HomeController> {
                             child: Text(
                               'Popular receipes',
                               style: TextStyle(
-                                  fontSize: maxHeight * 0.03,
+                                  fontSize: isIpad
+                                      ? maxWidth * 0.045
+                                      : maxWidth * 0.06,
                                   fontFamily: AppFonts.fontspring.font,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.white.color),
@@ -172,7 +170,7 @@ class HomeControllerState extends State<HomeController> {
                                       color: AppColors.white.color))),
                         ),
                         _feed.isEmpty
-                            ? const CustomSpinner()
+                            ? const CustomFadingCircleIndicator()
                             : PopularListViewWidget(feed: _feed),
                       ]),
                     ),
@@ -213,6 +211,10 @@ class HomeControllerState extends State<HomeController> {
                 )
               : null,
         ),
+        style: TextStyle(
+          color: AppColors.white.color, // Set your desired color here.
+          fontFamily: AppFonts.montserrat.font,
+        ),
         onChanged: (query) {
           setState(() {
             isTappedTextField = true;
@@ -224,13 +226,14 @@ class HomeControllerState extends State<HomeController> {
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
     super.key,
-    required this.maxHeight,
+    required this.maxWidth,
   });
 
-  final double maxHeight;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
+    bool isIpad = MediaQuery.of(context).size.width > 600;
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -245,17 +248,18 @@ class HeaderWidget extends StatelessWidget {
                         color: AppColors.white.color,
                         fontFamily: AppFonts.fontspring.font,
                         fontWeight: FontWeight.w200,
-                        fontSize: maxHeight * 0.025)),
+                        fontSize: isIpad ? maxWidth * 0.04 : maxWidth * 0.06)),
                 Text('Rosie',
                     style: TextStyle(
                         color: AppColors.yellow.color,
                         fontFamily: AppFonts.fontspring.font,
-                        fontSize: maxHeight * 0.03)),
+                        fontSize:
+                            isIpad ? maxWidth * 0.045 : maxWidth * 0.065)),
               ],
             ),
             CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: maxHeight * 0.035,
+              radius: isIpad ? maxWidth * 0.045 : maxWidth * 0.065,
               backgroundImage: AssetImage(AppImages.userImage.image),
             ),
           ],
@@ -348,8 +352,9 @@ class PopularListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final maxHeight = MediaQuery.of(context).size.height;
     final maxWidth = MediaQuery.of(context).size.width;
+    bool isIpad = MediaQuery.of(context).size.width > 600;
     return SizedBox(
-      height: _feed.length * (maxHeight * 0.1 + 35),
+      height: _feed.length * (maxHeight * 0.11 + 33),
       child: ListView.separated(
           separatorBuilder: (context, index) => Divider(
                 color: AppColors.white.color,
@@ -371,8 +376,8 @@ class PopularListViewWidget extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(60)),
                       child: SizedBox(
-                        height: maxHeight * 0.1,
-                        width: maxHeight * 0.1,
+                        height: maxHeight * 0.11,
+                        width: maxHeight * 0.11,
                         child: Image.network(
                           receipe.images[0].hostedLargeUrl,
                           fit: BoxFit.cover,
@@ -381,8 +386,8 @@ class PopularListViewWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: maxHeight * 0.1,
-                    width: maxWidth - maxHeight * 0.1 - 50,
+                    height: maxHeight * 0.11,
+                    width: maxWidth - maxHeight * 0.11 - 48,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
@@ -392,7 +397,7 @@ class PopularListViewWidget extends StatelessWidget {
                           receipe.name,
                           style: TextStyle(
                             color: AppColors.white.color,
-                            fontSize: maxHeight * 0.013,
+                            fontSize: maxWidth * 0.02,
                             fontFamily: AppFonts.montserrat.font,
                             fontWeight: FontWeight.w700,
                           ),
@@ -404,7 +409,7 @@ class PopularListViewWidget extends StatelessWidget {
                               starCount: 5,
                               rating: receipe.rating,
                               color: AppColors.yellow.color,
-                              size: maxHeight * 0.018,
+                              size: isIpad ? maxWidth * 0.03 : maxWidth * 0.04,
                             ),
                             const SizedBox(
                               width: 10,
@@ -414,13 +419,15 @@ class PopularListViewWidget extends StatelessWidget {
                               style: TextStyle(
                                   color: AppColors.white.color,
                                   fontFamily: AppFonts.montserrat.font,
-                                  fontSize: maxHeight * 0.013),
+                                  fontSize: isIpad
+                                      ? maxWidth * 0.02
+                                      : maxWidth * 0.03),
                             ),
                           ],
                         ),
                         Container(
-                          height: maxHeight * 0.034,
-                          width: maxHeight * 0.08,
+                          height: isIpad ? maxWidth * 0.04 : maxWidth * 0.07,
+                          width: isIpad ? maxWidth * 0.1 : maxWidth * 0.14,
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(maxHeight * 0.02),
@@ -460,7 +467,9 @@ class PopularListViewWidget extends StatelessWidget {
                               child: Text(
                                 'See',
                                 style: TextStyle(
-                                  fontSize: maxHeight * 0.01,
+                                  fontSize: isIpad
+                                      ? maxWidth * 0.015
+                                      : maxWidth * 0.02,
                                   fontFamily: AppFonts.montserrat.font,
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
@@ -512,15 +521,16 @@ class CategoryListState extends State<CategoryList> {
 
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = MediaQuery.of(context).size.height;
+    final double maxWidth = MediaQuery.of(context).size.width;
+    bool isIpad = MediaQuery.of(context).size.width > 600;
     if (!_isDataFetched) {
-      return const CustomSpinner();
+      return const CustomFadingCircleIndicator();
     } else if (_categoryRecipeList == null) {
       return const Center(child: Text('No data available'));
     }
 
     return SizedBox(
-      height: maxHeight * 0.16,
+      height: isIpad ? maxWidth * 0.2 : maxWidth * 0.3,
       child: ListView.builder(
           addAutomaticKeepAlives: true,
           scrollDirection: Axis.horizontal,
@@ -537,10 +547,10 @@ class CategoryListState extends State<CategoryList> {
                   children: [
                     ClipRRect(
                       borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
+                          const BorderRadius.all(Radius.circular(20.0)),
                       child: SizedBox(
-                        height: maxHeight * 0.16,
-                        width: maxHeight * 0.16,
+                        height: isIpad ? maxWidth * 0.2 : maxWidth * 0.3,
+                        width: isIpad ? maxWidth * 0.2 : maxWidth * 0.3,
                         child: Image.network(
                           categoryRecipe.display.categoryImage,
                           fit: BoxFit.cover,
@@ -550,9 +560,9 @@ class CategoryListState extends State<CategoryList> {
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
+                            const BorderRadius.all(Radius.circular(20.0)),
                         child: Container(
-                          width: maxHeight * 0.16,
+                          width: isIpad ? maxWidth * 0.2 : maxWidth * 0.3,
                           color: Colors.black.withOpacity(0.5),
                           child: Center(
                             child: Text(
@@ -561,7 +571,9 @@ class CategoryListState extends State<CategoryList> {
                                   color: Colors.white,
                                   fontFamily: AppFonts.montserrat.font,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: maxHeight * 0.02),
+                                  fontSize: isIpad
+                                      ? maxWidth * 0.025
+                                      : maxWidth * 0.035),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                             ),

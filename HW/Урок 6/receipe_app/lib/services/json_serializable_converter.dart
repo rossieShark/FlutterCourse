@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:chopper/chopper.dart';
 
-import '../../models/index.dart';
+import '../models/models_export.dart';
 
 final Map<Type, Object Function(Map<String, dynamic>)> generatedMapping = {
   CategoryRecipeResponce: CategoryRecipeResponce.fromJsonFactory,

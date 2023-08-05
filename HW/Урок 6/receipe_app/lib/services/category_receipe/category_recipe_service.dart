@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
-import '../../services/services.dart';
+import '../../models/models_export.dart';
+import '../services_export.dart';
 
 part 'category_recipe_service.chopper.dart';
 
@@ -11,5 +12,5 @@ abstract class CategoryRecipeService extends ChopperService {
             converter: $JsonSerializableConverter()),
       );
   @Get(path: '/categories/list/')
-  Future<Response<Object>> getApi();
+  Future<Response<CategoryRecipeResponce>> getApi();
 }

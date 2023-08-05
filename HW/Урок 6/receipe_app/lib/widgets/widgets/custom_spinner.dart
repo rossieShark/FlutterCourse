@@ -1,50 +1,109 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
+import 'package:receipe_app/widgets/widgets/widgets_export.dart';
 
-import 'ui_widget.dart';
-
-class CustomSpinner extends StatefulWidget {
-  const CustomSpinner({super.key});
+class CustomFadingCircleIndicator extends StatefulWidget {
+  final double size;
+  const CustomFadingCircleIndicator({
+    Key? key,
+    this.size = 50.0,
+  }) : super(key: key);
 
   @override
-
-  // ignore: library_private_types_in_public_api
-  _CustomSpinnerState createState() => _CustomSpinnerState();
+  State<CustomFadingCircleIndicator> createState() =>
+      _CustomFadingCircleIndicatorState();
 }
 
-class _CustomSpinnerState extends State<CustomSpinner>
+class _CustomFadingCircleIndicatorState
+    extends State<CustomFadingCircleIndicator>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+  // create quantity of elements
+  static const _itemCount = 8;
 
-  // ignore: unused_field
-  late Animation<double> _animation;
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat();
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+    _controller =
+        (AnimationController(vsync: this, duration: const Duration(seconds: 1)))
+          ..repeat();
   }
+  //AnimationController:
+  //vsync - обеспечивает плавный и эффективный рендеринг анимации за счет синхронизации частоты кадров анимации с частотой обновления дисплея устройства.
+  //vsync: this - SingleTickerProviderStateMixin
+// Duration - время анимации
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: _animationController,
-      alignment: Alignment.center,
-      child: Image.asset(
-        AppImages.loading.image,
-        width: 40,
-        height: 40,
+    return Center(
+      child: SizedBox.fromSize(
+        size: Size.square(widget.size),
+        child: Stack(
+          children: List.generate(_itemCount, (i) {
+            final position = widget.size * .5;
+            //центральное положение виджета(radius)
+            return Positioned.fill(
+              left: position,
+              top: position,
+              child: Transform(
+                transform:
+                    Matrix4.rotationZ(360 / _itemCount * i * math.pi / 180),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: FadeTransition(
+                    opacity: DelayTween(
+                      begin: 0.1,
+                      end: 1.0,
+                      delay: i / _itemCount,
+                    ).animate(_controller),
+                    child: SizedBox.fromSize(
+                      size: Size.square(widget.size * 0.15),
+                      child: _itemBuilder(i),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
+
+  Widget _itemBuilder(int index) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: AppColors.yellow.color,
+          shape: BoxShape.circle,
+        ),
+      );
 }
+
+class DelayTween extends Tween<double> {
+  DelayTween({
+    double? begin,
+    double? end,
+    required this.delay,
+  }) : super(begin: begin, end: end);
+
+  final double delay;
+
+  @override
+  double lerp(double t) {
+    return super.lerp((math.sin((t - delay) * 2 * math.pi) + 1) / 2);
+  }
+//Основная формула begin + t * (end - begin)
+//(t - delay) - величина задержки
+//Величина 2 * math.pi используется для преобразования значения из диапазона от 0,0 до 1,0 в диапазон от 0,0 до 2π радиан .
+//+ 1) / 2) -  функция синуса генерирует значения от -1 до 1, добавление 1 и деление на 2 возвращает значение в диапазон от 0,0 до 1,0.
+
+  @override
+  double evaluate(Animation<double> animation) => lerp(animation.value);
+}
+//Метод evaluate переопределяется для вызова пользовательского метода lerp с текущим значением объекта Animation<double>. 

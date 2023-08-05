@@ -2,15 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/index.dart';
-
-import '../providers/favorite_provider.dart';
-import '../widgets/button_widget.dart';
-import '../widgets/rating_widget.dart';
-import '../widgets/ui_widget.dart';
-import 'full_recipes.dart';
-import 'home_screen.dart';
+import 'package:receipe_app/models/models_export.dart';
+import 'package:receipe_app/widgets/screens/full_recipes.dart';
+import 'package:receipe_app/widgets/screens/home_screen.dart';
+import 'package:receipe_app/widgets/widgets/widgets_export.dart';
 
 class ReceipeDetailScreen extends StatefulWidget {
   final int numberOfServings;
@@ -45,17 +40,10 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
   final int _maxServings = 10;
   List<Recipe> favoriteReceipe = [];
 
-  bool isFavorite = false;
   @override
   void initState() {
     super.initState();
     _numberOfServings = widget.numberOfServings;
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      isFavorite = !isFavorite;
-    });
   }
 
   void _incrementCounter() {
@@ -74,189 +62,31 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
     });
   }
 
-  String textModifier() {
-    String originalText = widget.description ?? "";
-
-    if (originalText.contains('The recipe is a Yummly original')) {
-      int lastIndex =
-          originalText.lastIndexOf('The recipe is a Yummly original');
-      String modifiedText = originalText.substring(0, lastIndex);
-      return modifiedText;
-    } else {
-      return " ";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = MediaQuery.of(context).size.height;
-    final favoriteProvider =
-        Provider.of<FavoriteProvider>(context, listen: false);
+    final double maxWidth = MediaQuery.of(context).size.width;
+
+    bool isIpad = MediaQuery.of(context).size.width > 600;
+
     return Scaffold(
       backgroundColor: AppColors.black.color,
       body: Column(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Stack(children: [
-            Image.network(widget.images,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 2),
-            Positioned.fill(
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2,
-                color: Colors.black.withOpacity(0.5),
-              ),
+        Flexible(
+          flex: 1,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: HeaderStack(
+              description: widget.description,
+              totalTime: widget.totalTime,
+              images: widget.images,
+              name: widget.name,
+              rating: widget.rating,
+              numberOfServings: _numberOfServings,
             ),
-            Positioned(
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SafeArea(
-                    child: Container(
-                      height: 20,
-                      width: MediaQuery.of(context).size.width - 32,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButtonWidget(
-                            iconData: Icons.close,
-                            color: AppColors.white.color,
-                            onPressed: () {
-                              Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeController(),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            },
-                          ),
-                          IconButtonWidget(
-                            iconData: isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined,
-                            onPressed: () {
-                              setState(() {
-                                _toggleFavorite();
-                                if (isFavorite) {
-                                  favoriteProvider.addToFavorites(Recipe(
-                                    numberOfServings: widget.numberOfServings,
-                                    totalTime: widget.totalTime,
-                                    images: widget.images,
-                                    name: widget.name,
-                                    rating: widget.rating,
-                                  ));
-                                } else {
-                                  favoriteProvider.removeFromFavorites(Recipe(
-                                    numberOfServings: widget.numberOfServings,
-                                    totalTime: widget.totalTime,
-                                    images: widget.images,
-                                    name: widget.name,
-                                    rating: widget.rating,
-                                  ));
-                                }
-                              });
-                            },
-                            color: isFavorite
-                                ? AppColors.white.color
-                                : AppColors.white.color,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.name,
-                              style: TextStyle(
-                                fontFamily: AppFonts.fontspring.font,
-                                color: AppColors.white.color,
-                                fontWeight: FontWeight.w600,
-                                fontSize: maxHeight * 0.032,
-                              ),
-                              maxLines: 2,
-                            ),
-                            SizedBox(height: maxHeight * 0.01),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  StarRating(
-                                      starCount: 5,
-                                      rating: widget.rating,
-                                      color: AppColors.yellow.color,
-                                      size: maxHeight * 0.027),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.av_timer,
-                                        color: AppColors.white.color,
-                                        size: maxHeight * 0.025,
-                                      ),
-                                      Text(
-                                        ' ${widget.totalTime}',
-                                        style: TextStyle(
-                                            color: AppColors.white.color,
-                                            fontFamily:
-                                                AppFonts.montserrat.font,
-                                            fontSize: maxHeight * 0.021),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.room_service_outlined,
-                                        color: AppColors.white.color,
-                                        size: maxHeight * 0.025,
-                                      ),
-                                      Text(
-                                        '$_numberOfServings',
-                                        style: TextStyle(
-                                            fontFamily:
-                                                AppFonts.montserrat.font,
-                                            color: AppColors.white.color,
-                                            fontSize: maxHeight * 0.021),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              textModifier(),
-                              maxLines: 8,
-                              style: TextStyle(
-                                  color: AppColors.white.color,
-                                  fontFamily: AppFonts.montserrat.font,
-                                  fontSize: maxHeight * 0.017),
-                            ),
-                            SizedBox(height: maxHeight * 0.01)
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ]),
+          ),
         ),
         SizedBox(
-          height: maxHeight * 0.01,
+          height: maxWidth * 0.03,
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -268,13 +98,13 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
                 "Ingredients",
                 style: TextStyle(
                   color: AppColors.white.color,
-                  fontSize: maxHeight * 0.027,
+                  fontSize: isIpad ? maxWidth * 0.04 : maxWidth * 0.06,
                   fontFamily: AppFonts.fontspring.font,
                 ),
               ),
               Container(
-                height: maxHeight * 0.04,
-                width: maxHeight * 0.11,
+                height: isIpad ? maxWidth * 0.06 : maxWidth * 0.09,
+                width: isIpad ? maxWidth * 0.18 : maxWidth * 0.25,
                 decoration: BoxDecoration(
                     border: Border.all(color: AppColors.white.color, width: 2),
                     borderRadius: BorderRadius.circular(15)),
@@ -284,19 +114,20 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
                     _MyButton(
                       icon: Icons.remove,
                       onClick: _decrementCounter,
-                      size: maxHeight * 0.03,
+                      size: isIpad ? maxWidth * 0.05 : maxWidth * 0.06,
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(45),
                       child: Container(
-                        height: maxHeight * 0.027,
-                        width: maxHeight * 0.027,
+                        height: isIpad ? maxWidth * 0.04 : maxWidth * 0.06,
+                        width: isIpad ? maxWidth * 0.04 : maxWidth * 0.06,
                         color: AppColors.yellow.color,
                         child: Center(
                           child: Text(
                             '$_numberOfServings',
                             style: TextStyle(
-                                fontSize: maxHeight * 0.015,
+                                fontSize:
+                                    isIpad ? maxWidth * 0.025 : maxWidth * 0.04,
                                 fontFamily: AppFonts.montserrat.font,
                                 color: Colors.black),
                           ),
@@ -306,7 +137,7 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
                     _MyButton(
                       icon: Icons.add,
                       onClick: _incrementCounter,
-                      size: maxHeight * 0.03,
+                      size: isIpad ? maxWidth * 0.05 : maxWidth * 0.06,
                     ),
                   ],
                 ),
@@ -320,11 +151,12 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: maxHeight * 0.18,
+            height: isIpad ? maxWidth * 0.3 : maxWidth * 0.4,
             child: IngredientsListView(
               widget: widget,
+              isIpad: isIpad,
               numberOfServings: _numberOfServings,
-              maxHeight: maxHeight,
+              maxWidth: maxWidth,
             ),
           ),
         ),
@@ -332,10 +164,10 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
           height: 30,
         ),
         Container(
-          height: maxHeight * 0.05,
-          width: maxHeight * 0.16,
+          height: isIpad ? maxWidth * 0.07 : maxWidth * 0.1,
+          width: isIpad ? maxWidth * 0.3 : maxWidth * 0.4,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(maxHeight * 0.02),
+              borderRadius: BorderRadius.circular(20),
               border:
                   Border.all(color: const Color.fromARGB(255, 247, 172, 33))),
           child: TextButton(
@@ -356,7 +188,7 @@ class _ReceipeDetailScreenState extends State<ReceipeDetailScreen> {
             child: Text(
               'See a receipe',
               style: TextStyle(
-                fontSize: maxHeight * 0.014,
+                fontSize: isIpad ? maxWidth * 0.02 : maxWidth * 0.03,
                 fontFamily: AppFonts.montserrat.font,
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
@@ -372,12 +204,13 @@ class IngredientsListView extends StatelessWidget {
   const IngredientsListView({
     super.key,
     required this.widget,
-    required this.maxHeight,
+    required this.maxWidth,
+    required this.isIpad,
     required int numberOfServings,
   }) : _numberOfServings = numberOfServings;
 
-  final double maxHeight;
-
+  final double maxWidth;
+  final bool isIpad;
   final int _numberOfServings;
   final ReceipeDetailScreen widget;
 
@@ -393,7 +226,7 @@ class IngredientsListView extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
           child: Container(
-            width: maxHeight * 0.13,
+            width: isIpad ? maxWidth * 0.18 : maxWidth * 0.25,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: AppColors.black.color.withOpacity(1),
@@ -404,8 +237,8 @@ class IngredientsListView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    height: maxHeight * 0.07,
-                    width: maxHeight * 0.07,
+                    height: isIpad ? maxWidth * 0.12 : maxWidth * 0.16,
+                    width: isIpad ? maxWidth * 0.12 : maxWidth * 0.16,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(45),
                         color: AppColors.white.color),
@@ -419,7 +252,7 @@ class IngredientsListView extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 4, 4, 4),
                   child: Center(
                     child: Container(
-                      height: maxHeight * 0.05,
+                      height: isIpad ? maxWidth * 0.1 : maxWidth * 0.1,
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -436,7 +269,9 @@ class IngredientsListView extends StatelessWidget {
                             widget.ingredients?[index].ingredient ?? '',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: maxHeight * 0.011,
+                                fontSize: isIpad
+                                    ? maxWidth * 0.017
+                                    : maxWidth * 0.022,
                                 fontFamily: AppFonts.montserrat.font,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.white.color),
@@ -457,13 +292,16 @@ class IngredientsListView extends StatelessWidget {
                                 ? '-'
                                 : '${(quantityForOnePerson * _numberOfServings).toStringAsFixed(2)} ',
                             style: TextStyle(
-                                fontSize: maxHeight * 0.011,
+                                fontSize: isIpad
+                                    ? maxWidth * 0.015
+                                    : maxWidth * 0.022,
                                 fontFamily: AppFonts.montserrat.font,
                                 color: AppColors.white.color)),
                       ),
                       Text(widget.ingredients?[index].unit ?? '-',
                           style: TextStyle(
-                              fontSize: maxHeight * 0.01,
+                              fontSize:
+                                  isIpad ? maxWidth * 0.015 : maxWidth * 0.022,
                               fontFamily: AppFonts.montserrat.font,
                               color: AppColors.white.color))
                     ],
@@ -503,5 +341,223 @@ class _MyButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class HeaderStack extends StatefulWidget {
+  final int numberOfServings;
+  final String totalTime;
+  final String images;
+  final String name;
+  final double rating;
+  final String? description;
+
+  const HeaderStack(
+      {Key? key,
+      required this.numberOfServings,
+      required this.totalTime,
+      required this.images,
+      required this.name,
+      required this.rating,
+      required this.description})
+      : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _HeaderStackState createState() => _HeaderStackState();
+}
+
+class _HeaderStackState extends State<HeaderStack> {
+  bool isFavorite = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
+
+  String textModifier() {
+    String originalText = widget.description ?? "";
+
+    if (originalText.contains('The recipe is a Yummly original')) {
+      int lastIndex =
+          originalText.lastIndexOf('The recipe is a Yummly original');
+      String modifiedText = originalText.substring(0, lastIndex);
+      return modifiedText;
+    } else {
+      return " ";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double maxWidth = MediaQuery.of(context).size.width;
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: false);
+    bool isIpad = MediaQuery.of(context).size.width > 600;
+    return Stack(children: [
+      Image.network(widget.images,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height / 2),
+      Positioned.fill(
+        child: Container(
+          height: MediaQuery.of(context).size.height / 2,
+          color: Colors.black.withOpacity(0.5),
+        ),
+      ),
+      Positioned(
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SafeArea(
+              child: Container(
+                height: 20,
+                width: maxWidth - 32,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButtonWidget(
+                      iconData: Icons.close,
+                      color: AppColors.white.color,
+                      onPressed: () {
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeController(),
+                            fullscreenDialog: true,
+                          ),
+                        );
+                      },
+                    ),
+                    IconButtonWidget(
+                      iconData: isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      onPressed: () {
+                        setState(() {
+                          _toggleFavorite();
+                          if (isFavorite) {
+                            favoriteProvider.addToFavorites(Recipe(
+                              numberOfServings: widget.numberOfServings,
+                              totalTime: widget.totalTime,
+                              images: widget.images,
+                              name: widget.name,
+                              rating: widget.rating,
+                            ));
+                          } else {
+                            favoriteProvider.removeFromFavorites(Recipe(
+                              numberOfServings: widget.numberOfServings,
+                              totalTime: widget.totalTime,
+                              images: widget.images,
+                              name: widget.name,
+                              rating: widget.rating,
+                            ));
+                          }
+                        });
+                      },
+                      color: isFavorite
+                          ? AppColors.white.color
+                          : AppColors.white.color,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          fontFamily: AppFonts.fontspring.font,
+                          color: AppColors.white.color,
+                          fontWeight: FontWeight.w600,
+                          fontSize: isIpad ? maxWidth * 0.05 : maxWidth * 0.06,
+                        ),
+                        maxLines: 2,
+                      ),
+                      SizedBox(height: maxWidth * 0.01),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StarRating(
+                                starCount: 5,
+                                rating: widget.rating,
+                                color: AppColors.yellow.color,
+                                size:
+                                    isIpad ? maxWidth * 0.04 : maxWidth * 0.05),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.av_timer,
+                                  color: AppColors.white.color,
+                                  size: isIpad
+                                      ? maxWidth * 0.04
+                                      : maxWidth * 0.05,
+                                ),
+                                Text(
+                                  ' ${widget.totalTime}',
+                                  style: TextStyle(
+                                      color: AppColors.white.color,
+                                      fontFamily: AppFonts.montserrat.font,
+                                      fontSize: isIpad
+                                          ? maxWidth * 0.03
+                                          : maxWidth * 0.04),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.room_service_outlined,
+                                  color: AppColors.white.color,
+                                  size: isIpad
+                                      ? maxWidth * 0.04
+                                      : maxWidth * 0.05,
+                                ),
+                                Text(
+                                  '${widget.numberOfServings}',
+                                  style: TextStyle(
+                                      fontFamily: AppFonts.montserrat.font,
+                                      color: AppColors.white.color,
+                                      fontSize: isIpad
+                                          ? maxWidth * 0.03
+                                          : maxWidth * 0.04),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        textModifier(),
+                        maxLines: 8,
+                        style: TextStyle(
+                            color: AppColors.white.color,
+                            fontFamily: AppFonts.montserrat.font,
+                            fontSize:
+                                isIpad ? maxWidth * 0.025 : maxWidth * 0.03),
+                      ),
+                      SizedBox(height: maxWidth * 0.03)
+                    ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ]);
   }
 }

@@ -17,7 +17,7 @@ class _$CategoryRecipeService extends CategoryRecipeService {
   final definitionType = CategoryRecipeService;
 
   @override
-  Future<Response<Object>> getApi() {
+  Future<Response<CategoryRecipeResponce>> getApi() {
     final Uri $url =
         Uri.parse('https://yummly2.p.rapidapi.com/categories/list/');
     final Request $request = Request(
@@ -25,6 +25,7 @@ class _$CategoryRecipeService extends CategoryRecipeService {
       $url,
       client.baseUrl,
     );
-    return client.send<Object, Object>($request);
+    return client
+        .send<CategoryRecipeResponce, CategoryRecipeResponce>($request);
   }
 }

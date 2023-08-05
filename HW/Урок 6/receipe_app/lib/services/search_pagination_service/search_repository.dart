@@ -1,5 +1,5 @@
-import '../../services/services.dart';
-import '../../models/index.dart';
+import '../services_export.dart';
+import '../../models/models_export.dart';
 
 class SearchRecipeRepository {
   final SearchRecipeService searchRecipeService = SearchRecipeService.create();
@@ -11,10 +11,10 @@ class SearchRecipeRepository {
     final apiRecipes =
         await searchRecipeService.getSearchList(start, maxResult, q);
 
-    final apiRecipeResponse = apiRecipes.body as Map<String, dynamic>;
-    final apiRecipeList = RecipeResponce.fromJson(apiRecipeResponse);
-    final searchList = apiRecipeList.feed;
-
-    return searchList;
+    final apiRecipeResponseFeed = apiRecipes.body?.feed as List<RecipeFeed>;
+    //final apiRecipeList = RecipeResponce.fromJson(apiRecipeResponse);
+    // final searchList = RecipeResponce.fromJson(apiRecipeResponse).feed;
+    return apiRecipeResponseFeed;
+    // return searchList;
   }
 }

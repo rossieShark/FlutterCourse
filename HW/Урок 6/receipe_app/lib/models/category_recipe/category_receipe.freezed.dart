@@ -168,7 +168,6 @@ abstract class _CategoryReceipeResponce implements CategoryRecipeResponce {
   factory _CategoryReceipeResponce.fromJson(Map<String, dynamic> json) =
       _$_CategoryReceipeResponce.fromJson;
 
-  @override
   @JsonKey(name: 'browse-categories')
   List<CategoryData> get browseCategories;
   @override
