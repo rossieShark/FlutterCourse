@@ -1,0 +1,9 @@
+export 'package:audio_player/app_logic/providers/favorite_provider.dart';
+export 'package:audio_player/app_logic/blocs/album_detail_bloc.dart';
+export 'package:provider/provider.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
+export 'package:audio_player/app_logic/blocs/detail_music_bloc.dart';
+export 'package:audio_player/app_logic/blocs/home_screen_bloc.dart';
+export 'package:audio_player/app_logic/blocs/search_screen_bloc.dart';
+export 'package:audio_player/app_logic/providers/recently_searched_provider.dart';
+export 'package:audio_player/app_logic/blocs/tab_bar_bloc.dart';
