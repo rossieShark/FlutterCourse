@@ -168,7 +168,7 @@ class RecentlySearchedList extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: Text(
               'Search history is empty',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ))
         : SizedBox(
@@ -176,7 +176,7 @@ class RecentlySearchedList extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: ListView.separated(
               itemCount: recentlySearched.favoriteSong.length,
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
                 final song = recentlySearched.favoriteSong[index];
 
@@ -218,14 +218,14 @@ class RecentlySearchedList extends StatelessWidget {
                                     32 -
                                     48,
                                 child: Text(
-                                  textModifier2(song.artist_names),
+                                  textModifier1(song.artist_names),
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Text(
-                                textModifier2(song.title),
+                                textModifier1(song.title),
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],

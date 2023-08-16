@@ -118,11 +118,7 @@ class TabBarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isIpad = MediaQuery.of(context).size.width > 600;
     final maxWidth = MediaQuery.of(context).size.width;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.4;
-    }
 
     return ChangeNotifierProvider<FavoriteProvider>(
       create: (context) => FavoriteProvider(),
@@ -135,44 +131,44 @@ class TabBarScreen extends StatelessWidget {
                 textTheme: TextTheme(
                   titleLarge: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: sizeInspector(maxWidth * 0.048),
+                      fontSize: getResponsiveSize(maxWidth, 18),
                       fontFamily: AppFonts.lusitana.font,
                       fontWeight: FontWeight.w400),
                   titleMedium: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: sizeInspector(maxWidth * 0.035),
+                      fontSize: getResponsiveSize(maxWidth, 14),
                       fontFamily: AppFonts.lusitana.font,
                       fontWeight: FontWeight.w400),
                   titleSmall: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: sizeInspector(maxWidth * 0.033),
+                      fontSize: getResponsiveSize(maxWidth, 13),
                       fontFamily: AppFonts.lusitana.font,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w500),
                   bodyLarge: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: sizeInspector(maxWidth * 0.045),
+                      fontSize: getResponsiveSize(maxWidth, 15),
                       fontFamily: AppFonts.colombia.font,
                       fontWeight: FontWeight.w700),
                   bodyMedium: TextStyle(
                     color: Colors.white,
                     fontFamily: AppFonts.lusitana.font,
-                    fontSize: sizeInspector(maxWidth * 0.022),
+                    fontSize: getResponsiveSize(maxWidth, 8),
                     fontWeight: FontWeight.w500,
                   ),
                   bodySmall: TextStyle(
                       fontFamily: AppFonts.colombia.font,
-                      fontSize: sizeInspector(maxWidth * 0.035),
+                      fontSize: getResponsiveSize(maxWidth, 10),
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                   displayMedium: TextStyle(
                     fontFamily: AppFonts.montserrat.font,
                     fontWeight: FontWeight.w600,
                     color: AppColors.white.color,
-                    fontSize: sizeInspector(maxWidth * 0.025),
+                    fontSize: getResponsiveSize(maxWidth, 13),
                   ),
                   displaySmall: TextStyle(
                       fontFamily: AppFonts.montserrat.font,
-                      fontSize: sizeInspector(maxWidth * 0.023),
+                      fontSize: getResponsiveSize(maxWidth, 8),
                       fontWeight: FontWeight.w600,
                       color: const Color.fromARGB(255, 123, 123, 123)),
                 ))),

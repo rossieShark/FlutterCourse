@@ -1,6 +1,6 @@
 import 'package:audio_player/app_logic/blocs/home_screen_bloc.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,15 +25,6 @@ class _RecentlyPlayedListState extends State<RecentlyPlayedList> {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-
-    bool isIpad = maxWidth > 600;
-    double sizeInspector(double size) {
-      return isIpad
-          ? size * 1
-          : kIsWeb
-              ? size * 0.5
-              : size * 1.5;
-    }
 
     return BlocBuilder<RecentlyPlayedBloc, RecentlyPlayedBlocState>(
         builder: (context, state) {
@@ -61,8 +52,8 @@ class _RecentlyPlayedListState extends State<RecentlyPlayedList> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: SizedBox(
-                        height: sizeInspector(maxWidth * 0.3),
-                        width: sizeInspector(maxWidth * 0.3),
+                        height: getResponsiveSize(maxWidth, 100),
+                        width: getResponsiveSize(maxWidth, 100),
                         child: Image.network(
                             chartItems[index].item.header_image_url ?? '',
                             fit: BoxFit.cover),
@@ -79,7 +70,7 @@ class _RecentlyPlayedListState extends State<RecentlyPlayedList> {
                       height: 4,
                     ),
                     SizedBox(
-                      width: sizeInspector(maxWidth * 0.3),
+                      width: getResponsiveSize(maxWidth, 100),
                       child: Text(
                         chartItems[index].item.title ?? "",
                         style: Theme.of(context).textTheme.displaySmall,

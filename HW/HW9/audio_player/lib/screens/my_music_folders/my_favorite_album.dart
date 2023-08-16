@@ -66,6 +66,7 @@ class FavoriteAlbumListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double maxWidth = MediaQuery.of(context).size.width;
     return ListView.separated(
         itemCount: favoriteProvider.favoriteAlbum.length,
         separatorBuilder: (context, index) => const Divider(),
@@ -95,7 +96,7 @@ class FavoriteAlbumListView extends StatelessWidget {
                 favoriteProvider.removeFromFavoritesAlbum(song);
               },
               child: SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.21,
+                  height: getResponsiveSize(maxWidth, 70),
                   width: MediaQuery.of(context).size.width - 32,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,30 +108,26 @@ class FavoriteAlbumListView extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
-                                    MediaQuery.of(context).size.width *
-                                        0.2 /
-                                        2),
+                                    getResponsiveSize(maxWidth, 60) / 2),
                                 child: SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.2,
+                                  width: getResponsiveSize(maxWidth, 60),
+                                  height: getResponsiveSize(maxWidth, 60),
                                   child: Image.network(song.header_image_url,
                                       fit: BoxFit.cover),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.fromLTRB(10, 30, 0, 30),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     song.artist_names,
                                     style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                        Theme.of(context).textTheme.bodyLarge,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),

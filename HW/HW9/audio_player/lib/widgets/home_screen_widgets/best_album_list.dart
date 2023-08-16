@@ -40,7 +40,7 @@ class BestAlbumsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: bestAlbumList.length.toDouble() / crossAxisCount * 100,
+      height: bestAlbumList.length.toDouble() / crossAxisCount * 200,
       child: GridView.count(
         padding: const EdgeInsets.all(20),
         crossAxisSpacing: 16,
@@ -52,7 +52,7 @@ class BestAlbumsGrid extends StatelessWidget {
           final index = entry.key;
           final int id = bestAlbumList[index].item.id;
           final String title =
-              textModifier2(bestAlbumList[index].item.full_title ?? '');
+              textModifier1(bestAlbumList[index].item.full_title ?? '');
 
           return GestureDetector(
             onTap: () {
@@ -86,14 +86,14 @@ class BestAlbumsGrid extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                          textModifier2(
+                          textModifier1(
                               bestAlbumList[index].item.full_title ?? ''),
                           style: Theme.of(context).textTheme.titleSmall),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        textModifier3(
+                        textModifier2(
                             bestAlbumList[index].item.full_title ?? ''),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
@@ -125,14 +125,14 @@ class BestAlbumsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: (150 + 24) * bestAlbumList.length.toDouble(),
+      height: bestAlbumList.length.toDouble() * 150 + 24,
       child: ListView(
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),
         children: List.generate(bestAlbumList.length, (index) {
           final int id = bestAlbumList[index].item.id;
           final String title =
-              textModifier2(bestAlbumList[index].item.full_title ?? '');
+              textModifier1(bestAlbumList[index].item.full_title ?? '');
 
           return GestureDetector(
             onTap: () {
@@ -174,7 +174,7 @@ class BestAlbumsListView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              textModifier2(
+                              textModifier1(
                                   bestAlbumList[index].item.full_title ?? ''),
                               style: Theme.of(context).textTheme.titleSmall,
                               textAlign: TextAlign.center),
@@ -182,7 +182,7 @@ class BestAlbumsListView extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            textModifier3(
+                            textModifier2(
                                 bestAlbumList[index].item.full_title ?? ''),
                             style: Theme.of(context).textTheme.bodySmall,
                             textAlign: TextAlign.center,

@@ -77,10 +77,6 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
         Provider.of<FavoriteProvider>(context, listen: false);
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
-    bool isIpad = maxWidth > 600;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.3;
-    }
 
     return Column(
       children: [
@@ -92,7 +88,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
             children: [
               _createTitleSection(songInfo, favoriteProvider),
               _createSliderSection(),
-              _createMusicControlSection(maxWidth, sizeInspector),
+              _createMusicControlSection(maxWidth),
               const SizedBox(
                 height: 10,
               )
@@ -103,10 +99,9 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
     );
   }
 
-  Widget _createMusicControlSection(
-      double maxWidth, double Function(double size) sizeInspector) {
+  Widget _createMusicControlSection(double maxWidth) {
     return SizedBox(
-      width: maxWidth / 1.7,
+      width: getResponsiveSize(maxWidth, 150),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -119,8 +114,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: sizeInspector(maxWidth * 0.08),
-                  width: sizeInspector(maxWidth * 0.07),
+                  height: getResponsiveSize(maxWidth, 25),
+                  width: getResponsiveSize(maxWidth, 20),
                   decoration: BoxDecoration(
                       color: AppColors.white.color.withOpacity(0.1)),
                   child: IconButtonWidget(
@@ -135,13 +130,13 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: sizeInspector(maxWidth * 0.09),
-                  width: sizeInspector(maxWidth * 0.08),
+                  height: getResponsiveSize(maxWidth, 35),
+                  width: getResponsiveSize(maxWidth, 35),
                   decoration: BoxDecoration(color: AppColors.accent.color),
                   child: IconButtonWidget(
                       iconData: Icons.play_arrow,
                       color: AppColors.white.color,
-                      size: sizeInspector(maxWidth * 0.05),
+                      size: getResponsiveSize(maxWidth, 25),
                       onPressed: () {}),
                 ),
               ),
@@ -151,8 +146,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: sizeInspector(maxWidth * 0.08),
-                  width: sizeInspector(maxWidth * 0.07),
+                  height: getResponsiveSize(maxWidth, 25),
+                  width: getResponsiveSize(maxWidth, 20),
                   decoration: BoxDecoration(
                       color: AppColors.white.color.withOpacity(0.1)),
                   child: IconButtonWidget(
@@ -175,22 +170,25 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
   Widget _createSliderSection() {
     return Column(
       children: [
-        Slider(
-          activeColor: AppColors.white.color,
-          inactiveColor: AppColors.accent.color,
-          thumbColor: AppColors.darkAccent.color,
-          value: _sliderValue,
-          min: 0.0,
-          max: _audioDuration.inMilliseconds.toDouble(),
-          onChanged: (newValue) {
-            setState(() {
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Slider(
+            activeColor: AppColors.white.color,
+            inactiveColor: AppColors.accent.color,
+            thumbColor: AppColors.darkAccent.color,
+            value: _sliderValue,
+            min: 0.0,
+            max: _audioDuration.inMilliseconds.toDouble(),
+            onChanged: (newValue) {
               setState(() {
-                _sliderValue = newValue;
-                _formattedDuration = sliderValueFormatDuration(_sliderValue);
+                setState(() {
+                  _sliderValue = newValue;
+                  _formattedDuration = sliderValueFormatDuration(_sliderValue);
+                });
               });
-            });
-          },
-          onChangeEnd: (newValue) {},
+            },
+            onChangeEnd: (newValue) {},
+          ),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),

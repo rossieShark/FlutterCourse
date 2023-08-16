@@ -23,10 +23,6 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    bool isIpad = maxWidth > 600;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.29;
-    }
 
     return BlocBuilder<FavoriteArtistBloc, FavoriteArtistState>(
         builder: (context, state) {
@@ -46,10 +42,10 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(
-                        sizeInspector(maxWidth * 0.165) / 2),
+                        getResponsiveSize(maxWidth, 50) / 2),
                     child: SizedBox(
-                      height: sizeInspector(maxWidth * 0.165),
-                      width: sizeInspector(maxWidth * 0.165),
+                      height: getResponsiveSize(maxWidth, 50),
+                      width: getResponsiveSize(maxWidth, 50),
                       child: Image.network(
                           favoriteArtistList[index].item.image_url ?? '',
                           fit: BoxFit.cover),

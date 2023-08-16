@@ -1,40 +1,28 @@
-String textModifier1(String text) {
-  String originalText = text;
-
+String textModifier1(String originalText) {
   if (originalText.contains('-')) {
     int lastIndex = originalText.lastIndexOf('-');
-    String modifiedText = originalText.substring(0, lastIndex);
-
-    return modifiedText;
+    originalText = originalText.substring(0, lastIndex);
   }
+
   if (originalText.contains('Ft.')) {
     int lastIndex = originalText.lastIndexOf('(Ft.');
-    String modifiedText = originalText.substring(0, lastIndex);
-    return modifiedText;
-  } else {
-    return text;
+    originalText = originalText.substring(0, lastIndex);
   }
-}
-
-String textModifier2(String originalText) {
-  bool modified = false;
 
   if (originalText.contains('by')) {
     int lastIndex = originalText.lastIndexOf('by');
     originalText = originalText.substring(0, lastIndex);
-    modified = true;
   }
 
   if (originalText.contains('(')) {
     int lastIndex = originalText.lastIndexOf('(');
     originalText = originalText.substring(0, lastIndex);
-    modified = true;
   }
 
-  return modified ? originalText : originalText;
+  return originalText;
 }
 
-String textModifier3(String originalText) {
+String textModifier2(String originalText) {
   int index = originalText.indexOf('by');
   if (index != -1) {
     String modifiedText = originalText.substring(index + 2).trim();
@@ -58,4 +46,15 @@ String sliderValueFormatDuration(double sliderValue) {
   String formattedDuration =
       '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   return formattedDuration;
+}
+
+double getResponsiveSize(double maxWidth, double width) {
+  if (maxWidth <= 480) {
+    return width * 1;
+  }
+  if (maxWidth <= 650) {
+    return width * 2.2;
+  } else {
+    return width * 1.8;
+  }
 }

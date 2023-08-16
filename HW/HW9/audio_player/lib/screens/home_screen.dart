@@ -38,17 +38,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isIpad = MediaQuery.of(context).size.width > 600;
     final maxWidth = MediaQuery.of(context).size.width;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.5;
-    }
 
-    return _buildMainStructure(context, sizeInspector, maxWidth);
+    return _buildMainStructure(context, maxWidth);
   }
 
-  Widget _buildMainStructure(BuildContext context,
-      double Function(double size) sizeInspector, double maxWidth) {
+  Widget _buildMainStructure(BuildContext context, double maxWidth) {
     return Scaffold(
       backgroundColor: AppColors.background.color,
       appBar: AppBar(
@@ -72,8 +67,8 @@ class _HomePageState extends State<HomePage> {
         controller: _scrollController,
         child: Column(
           children: [
-            _buildRecentlyPlayedSection(sizeInspector, maxWidth),
-            _buildFavoriteArtistSection(context, sizeInspector, maxWidth),
+            _buildRecentlyPlayedSection(maxWidth),
+            _buildFavoriteArtistSection(context, maxWidth),
             const SizedBox(
               height: 15,
             ),
@@ -107,8 +102,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildFavoriteArtistSection(BuildContext context,
-      double Function(double size) sizeInspector, double maxWidth) {
+  Widget _buildFavoriteArtistSection(BuildContext context, double maxWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -118,15 +112,14 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.titleMedium),
         ),
         SizedBox(
-          height: sizeInspector(maxWidth * 0.23),
+          height: getResponsiveSize(maxWidth, 70),
           child: const FavoriteArtistList(),
         ),
       ],
     );
   }
 
-  Widget _buildRecentlyPlayedSection(
-      double Function(double size) sizeInspector, double maxWidth) {
+  Widget _buildRecentlyPlayedSection(double maxWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,15 +127,11 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: Text(
             'Recently played',
-            style: TextStyle(
-                color: AppColors.white.color,
-                fontSize: sizeInspector(maxWidth * 0.053),
-                fontFamily: AppFonts.lusitana.font,
-                fontWeight: FontWeight.w400),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
         SizedBox(
-          height: sizeInspector(maxWidth * 0.45),
+          height: getResponsiveSize(maxWidth, 142),
           child: const Padding(
               padding: EdgeInsets.all(8.0), child: RecentlyPlayedList()),
         ),

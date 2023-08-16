@@ -132,10 +132,6 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
 
   Widget _buildPlayButton(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    bool isIpad = maxWidth > 600;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.3;
-    }
 
     return Container(
       color: Colors.transparent,
@@ -143,14 +139,14 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: sizeInspector(maxWidth * 0.09),
-          width: sizeInspector(maxWidth * 0.09),
+          height: getResponsiveSize(maxWidth, 30),
+          width: getResponsiveSize(maxWidth, 30),
           decoration:
               const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
           child: IconButtonWidget(
             onPressed: () {},
             iconData: Icons.play_arrow,
-            size: sizeInspector(maxWidth * 0.05),
+            size: getResponsiveSize(maxWidth, 15),
             color: AppColors.black.color,
           ),
         ),
@@ -246,10 +242,6 @@ class SongsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    bool isIpad = maxWidth > 600;
-    double sizeInspector(double size) {
-      return isIpad ? size * 1 : size * 1.5;
-    }
 
     return ListView(
         scrollDirection: Axis.vertical,
@@ -262,7 +254,7 @@ class SongsList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
-                height: sizeInspector(maxWidth * 0.07),
+                height: getResponsiveSize(maxWidth, 25),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -282,7 +274,9 @@ class SongsList extends StatelessWidget {
                               Text(songList[index].song.title ?? '',
                                   style:
                                       Theme.of(context).textTheme.bodyMedium),
-                              Text(songList[index].song.artist_names ?? '',
+                              Text(
+                                  textModifier1(
+                                      songList[index].song.artist_names ?? ''),
                                   style: Theme.of(context).textTheme.bodySmall),
                             ],
                           ),
