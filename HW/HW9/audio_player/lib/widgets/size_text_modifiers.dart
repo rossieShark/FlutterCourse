@@ -50,7 +50,7 @@ String sliderValueFormatDuration(double sliderValue) {
 
 double getResponsiveSize(double maxWidth, double width) {
   if (maxWidth <= 480) {
-    return width * 1;
+    return width * 1.6;
   }
   if (maxWidth <= 650) {
     return width * 2.2;

@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.titleMedium),
         ),
         SizedBox(
-          height: getResponsiveSize(maxWidth, 70),
+          height: getResponsiveSize(maxWidth, 72),
           child: const FavoriteArtistList(),
         ),
       ],
