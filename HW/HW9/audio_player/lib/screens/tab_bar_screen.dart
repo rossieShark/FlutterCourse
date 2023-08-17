@@ -131,33 +131,33 @@ class TabBarScreen extends StatelessWidget {
                 textTheme: TextTheme(
                   titleLarge: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: getResponsiveSize(maxWidth, 18),
+                      fontSize: getResponsiveSize(maxWidth, 30),
                       fontFamily: AppFonts.lusitana.font,
                       fontWeight: FontWeight.w400),
                   titleMedium: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: getResponsiveSize(maxWidth, 14),
+                      fontSize: getResponsiveSize(maxWidth, 23),
                       fontFamily: AppFonts.lusitana.font,
                       fontWeight: FontWeight.w400),
                   titleSmall: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: getResponsiveSize(maxWidth, 13),
+                      fontSize: getResponsiveSize(maxWidth, 20),
                       fontFamily: AppFonts.lusitana.font,
                       fontWeight: FontWeight.w500),
                   bodyLarge: TextStyle(
                       color: AppColors.white.color,
-                      fontSize: getResponsiveSize(maxWidth, 15),
+                      fontSize: getResponsiveSize(maxWidth, 20),
                       fontFamily: AppFonts.colombia.font,
                       fontWeight: FontWeight.w700),
                   bodyMedium: TextStyle(
                     color: Colors.white,
                     fontFamily: AppFonts.lusitana.font,
-                    fontSize: getResponsiveSize(maxWidth, 8),
+                    fontSize: getResponsiveSize(maxWidth, 13),
                     fontWeight: FontWeight.w500,
                   ),
                   bodySmall: TextStyle(
                       fontFamily: AppFonts.colombia.font,
-                      fontSize: getResponsiveSize(maxWidth, 10),
+                      fontSize: getResponsiveSize(maxWidth, 16),
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                   displayMedium: TextStyle(
@@ -168,7 +168,7 @@ class TabBarScreen extends StatelessWidget {
                   ),
                   displaySmall: TextStyle(
                       fontFamily: AppFonts.montserrat.font,
-                      fontSize: getResponsiveSize(maxWidth, 8),
+                      fontSize: getResponsiveSize(maxWidth, 12),
                       fontWeight: FontWeight.w600,
                       color: const Color.fromARGB(255, 123, 123, 123)),
                 ))),

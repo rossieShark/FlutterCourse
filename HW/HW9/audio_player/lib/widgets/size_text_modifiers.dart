@@ -47,14 +47,3 @@ String sliderValueFormatDuration(double sliderValue) {
       '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   return formattedDuration;
 }
-
-double getResponsiveSize(double maxWidth, double width) {
-  if (maxWidth <= 480) {
-    return width * 1.6;
-  }
-  if (maxWidth <= 650) {
-    return width * 2.2;
-  } else {
-    return width * 1.8;
-  }
-}

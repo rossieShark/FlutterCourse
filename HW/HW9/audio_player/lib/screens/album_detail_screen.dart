@@ -139,14 +139,14 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: getResponsiveSize(maxWidth, 30),
-          width: getResponsiveSize(maxWidth, 30),
+          height: getResponsiveSize(maxWidth, 50),
+          width: getResponsiveSize(maxWidth, 50),
           decoration:
               const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
           child: IconButtonWidget(
             onPressed: () {},
             iconData: Icons.play_arrow,
-            size: getResponsiveSize(maxWidth, 15),
+            size: getResponsiveSize(maxWidth, 30),
             color: AppColors.black.color,
           ),
         ),
@@ -254,7 +254,7 @@ class SongsList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
-                height: getResponsiveSize(maxWidth, 25),
+                height: getResponsiveSize(maxWidth, 40),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -82,7 +82,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
       children: [
         _buildImageSection(songInfo),
         SizedBox(
-          height: maxHeight / 2 - maxWidth * 0.2,
+          height: maxHeight / 2 - 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -101,7 +101,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
 
   Widget _createMusicControlSection(double maxWidth) {
     return SizedBox(
-      width: getResponsiveSize(maxWidth, 150),
+      width: getResponsiveSize(maxWidth, 280),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -114,8 +114,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: getResponsiveSize(maxWidth, 25),
-                  width: getResponsiveSize(maxWidth, 20),
+                  height: getResponsiveSize(maxWidth, 30),
+                  width: getResponsiveSize(maxWidth, 40),
                   decoration: BoxDecoration(
                       color: AppColors.white.color.withOpacity(0.1)),
                   child: IconButtonWidget(
@@ -130,8 +130,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: getResponsiveSize(maxWidth, 35),
-                  width: getResponsiveSize(maxWidth, 35),
+                  height: getResponsiveSize(maxWidth, 50),
+                  width: getResponsiveSize(maxWidth, 50),
                   decoration: BoxDecoration(color: AppColors.accent.color),
                   child: IconButtonWidget(
                       iconData: Icons.play_arrow,
@@ -146,8 +146,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: getResponsiveSize(maxWidth, 25),
-                  width: getResponsiveSize(maxWidth, 20),
+                  height: getResponsiveSize(maxWidth, 35),
+                  width: getResponsiveSize(maxWidth, 40),
                   decoration: BoxDecoration(
                       color: AppColors.white.color.withOpacity(0.1)),
                   child: IconButtonWidget(

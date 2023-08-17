@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/home_screen_bloc.dart';
+
 import 'package:audio_player/widgets/widget_exports.dart';
 
 import 'package:flutter/material.dart';
@@ -52,8 +53,8 @@ class _RecentlyPlayedListState extends State<RecentlyPlayedList> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: SizedBox(
-                        height: getResponsiveSize(maxWidth, 100),
-                        width: getResponsiveSize(maxWidth, 100),
+                        height: getResponsiveSize(maxWidth, 140),
+                        width: getResponsiveSize(maxWidth, 140),
                         child: Image.network(
                             chartItems[index].item.header_image_url ?? '',
                             fit: BoxFit.cover),

@@ -42,10 +42,10 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(
-                        getResponsiveSize(maxWidth, 50) / 2),
+                        getResponsiveSize(maxWidth, 70) / 2),
                     child: SizedBox(
-                      height: getResponsiveSize(maxWidth, 50),
-                      width: getResponsiveSize(maxWidth, 50),
+                      height: getResponsiveSize(maxWidth, 70),
+                      width: getResponsiveSize(maxWidth, 70),
                       child: Image.network(
                           favoriteArtistList[index].item.image_url ?? '',
                           fit: BoxFit.cover),

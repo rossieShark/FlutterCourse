@@ -96,7 +96,7 @@ class FavoriteAlbumListView extends StatelessWidget {
                 favoriteProvider.removeFromFavoritesAlbum(song);
               },
               child: SizedBox(
-                  height: getResponsiveSize(maxWidth, 70),
+                  height: getResponsiveSize(maxWidth, 100),
                   width: MediaQuery.of(context).size.width - 32,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,19 +108,19 @@ class FavoriteAlbumListView extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
-                                    getResponsiveSize(maxWidth, 60) / 2),
+                                    getResponsiveSize(maxWidth, 80) / 2),
                                 child: SizedBox(
-                                  width: getResponsiveSize(maxWidth, 60),
-                                  height: getResponsiveSize(maxWidth, 60),
+                                  width: getResponsiveSize(maxWidth, 80),
+                                  height: getResponsiveSize(maxWidth, 80),
                                   child: Image.network(song.header_image_url,
                                       fit: BoxFit.cover),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 30, 0, 30),
+                              padding: const EdgeInsets.fromLTRB(10, 20, 0, 20),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [

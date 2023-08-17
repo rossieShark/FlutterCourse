@@ -125,7 +125,7 @@ class BestAlbumsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: bestAlbumList.length.toDouble() * 150 + 24,
+      height: bestAlbumList.length.toDouble() * 150 + 26,
       child: ListView(
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),

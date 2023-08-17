@@ -107,12 +107,12 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 5, 16, 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Text('Your favorite Artists',
               style: Theme.of(context).textTheme.titleMedium),
         ),
         SizedBox(
-          height: getResponsiveSize(maxWidth, 72),
+          height: getResponsiveSize(maxWidth, 105),
           child: const FavoriteArtistList(),
         ),
       ],
@@ -131,9 +131,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         SizedBox(
-          height: getResponsiveSize(maxWidth, 142),
+          height: getResponsiveSize(maxWidth, 220),
           child: const Padding(
-              padding: EdgeInsets.all(8.0), child: RecentlyPlayedList()),
+              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: RecentlyPlayedList()),
         ),
       ],
     );
