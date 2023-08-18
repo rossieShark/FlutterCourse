@@ -97,8 +97,15 @@ final _router = GoRouter(
           GoRoute(
             path: '/search',
             pageBuilder: (context, state) => CupertinoPage(
-              child: BlocProvider(
-                create: (context) => SearchResultBloc(SearchRepository()),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => SearchResultBloc(SearchRepository()),
+                  ),
+                  BlocProvider<GenresBloc>(
+                    create: (context) => GenresBloc(GenresRepository()),
+                  ),
+                ],
                 child: const SearchPage(),
               ),
             ),

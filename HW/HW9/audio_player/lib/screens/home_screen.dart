@@ -111,10 +111,16 @@ class _HomePageState extends State<HomePage> {
           child: Text('Your favorite Artists',
               style: Theme.of(context).textTheme.titleMedium),
         ),
-        SizedBox(
-          height: getResponsiveSize(maxWidth, 105),
-          child: const FavoriteArtistList(),
-        ),
+        ResponsiveBuilder(
+            narrow: 105.0,
+            medium: 150.0,
+            large: 185.0,
+            builder: (context, child, height) {
+              return SizedBox(
+                height: height,
+                child: const FavoriteArtistList(),
+              );
+            }),
       ],
     );
   }
@@ -130,12 +136,18 @@ class _HomePageState extends State<HomePage> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        SizedBox(
-          height: getResponsiveSize(maxWidth, 220),
-          child: const Padding(
-              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-              child: RecentlyPlayedList()),
-        ),
+        ResponsiveBuilder(
+            narrow: 265.0,
+            medium: 340.0,
+            large: 380.0,
+            builder: (context, child, height) {
+              return SizedBox(
+                height: height,
+                child: const Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: RecentlyPlayedList()),
+              );
+            }),
       ],
     );
   }

@@ -1,5 +1,4 @@
 import 'package:audio_player/models/favorite_folder_model.dart';
-
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

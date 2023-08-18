@@ -1,6 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, duplicate_ignore
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'detail_album_model.dart';
@@ -106,9 +106,7 @@ class _$_AlbumDetailsResponce implements _AlbumDetailsResponce {
   factory _$_AlbumDetailsResponce.fromJson(Map<String, dynamic> json) =>
       _$$_AlbumDetailsResponceFromJson(json);
 
-// ignore: invalid_annotation_target
   final List<AlbumAppearances> _album_appearances;
-// ignore: invalid_annotation_target
   @override
   List<AlbumAppearances> get album_appearances {
     if (_album_appearances is EqualUnmodifiableListView)
@@ -159,7 +157,7 @@ abstract class _AlbumDetailsResponce implements AlbumDetailsResponce {
   factory _AlbumDetailsResponce.fromJson(Map<String, dynamic> json) =
       _$_AlbumDetailsResponce.fromJson;
 
-  @override // ignore: invalid_annotation_target
+  @override
   List<AlbumAppearances> get album_appearances;
   @override
   @JsonKey(ignore: true)

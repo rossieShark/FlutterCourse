@@ -1,94 +1,148 @@
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
-
 import 'package:flutter/material.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:go_router/go_router.dart';
 
-class BestAlbumList extends StatefulWidget {
+class BestAlbumList extends StatelessWidget {
   final List<ChartItems>? bestAlbumList;
   const BestAlbumList({super.key, required this.bestAlbumList});
-
-  @override
-  State<BestAlbumList> createState() => _BestAlbumListState();
-}
-
-class _BestAlbumListState extends State<BestAlbumList> {
   @override
   Widget build(BuildContext context) {
     final crossAxisCount = MediaQuery.of(context).size.width ~/ 250;
-    final bool isIpad = MediaQuery.of(context).size.width > 600;
-    return !isIpad
-        ? BestAlbumsListView(bestAlbumList: widget.bestAlbumList!)
-        : BestAlbumsGrid(
-            crossAxisCount: crossAxisCount,
-            bestAlbumList: widget.bestAlbumList!);
+
+    return ResponsiveWidget(
+      narrow: (context) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: bestAlbumList!.length.toDouble() * 150 + 26,
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          children: List.generate(bestAlbumList!.length, (index) {
+            return BestAlbumsContent(
+                bestAlbumList: bestAlbumList!, index: index);
+          }),
+        ),
+      ),
+      medium: (context) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: bestAlbumList!.length.toDouble() / crossAxisCount * 200,
+        child: GridView.count(
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          crossAxisCount: crossAxisCount,
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          children: bestAlbumList!.asMap().entries.map((entry) {
+            final index = entry.key;
+            return BestAlbumsContent(
+                bestAlbumList: bestAlbumList!, index: index);
+          }).toList(),
+        ),
+      ),
+      large: (context) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: bestAlbumList!.length.toDouble() / crossAxisCount * 200,
+        child: GridView.count(
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          crossAxisCount: crossAxisCount,
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          children: bestAlbumList!.asMap().entries.map((entry) {
+            final index = entry.key;
+            return BestAlbumsContent(
+                bestAlbumList: bestAlbumList!, index: index);
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
 
-class BestAlbumsGrid extends StatelessWidget {
-  const BestAlbumsGrid({
-    Key? key,
-    required this.crossAxisCount,
-    required this.bestAlbumList,
-  }) : super(key: key);
-
-  final int crossAxisCount;
+class BestAlbumsContent extends StatelessWidget {
   final List<ChartItems> bestAlbumList;
+  final int index;
+
+  const BestAlbumsContent(
+      {super.key, required this.bestAlbumList, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: bestAlbumList.length.toDouble() / crossAxisCount * 200,
-      child: GridView.count(
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        crossAxisCount: crossAxisCount,
-        scrollDirection: Axis.vertical,
-        physics: const NeverScrollableScrollPhysics(),
-        children: bestAlbumList.asMap().entries.map((entry) {
-          final index = entry.key;
-          final int id = bestAlbumList[index].item.id;
-          final String title =
-              textModifier1(bestAlbumList[index].item.full_title ?? '');
+    final int id = bestAlbumList[index].item.id;
+    final String title =
+        textModifier1(bestAlbumList[index].item.full_title ?? '');
 
-          return GestureDetector(
-            onTap: () {
-              print('tapped');
-
-              context.go(Uri(
-                path: '/album_detail/$id',
-                queryParameters: {'title': title},
-              ).toString());
-            },
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                      bestAlbumList[index].item.cover_art_url ?? ''),
-                ),
-                Positioned.fill(
-                  child: Container(
+    return GestureDetector(
+      onTap: () {
+        context.go(Uri(
+          path: '/album_detail/$id',
+          queryParameters: {'title': title}, // Add additional parameters here
+        ).toString());
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        child: HoverableWidget(
+          builder: (context, child, isHovered) {
+            return AnimatedScale(
+              scale: isHovered ? 1.1 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              child: child,
+            );
+          },
+          child: Stack(
+            children: [
+              ResponsiveBuilder(
+                  narrow: 150.0,
+                  medium: 300.0,
+                  large: 350.0,
+                  builder: (context, child, height) {
+                    return Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: SizedBox(
+                          height: height,
+                          width: MediaQuery.of(context).size.width - 32,
+                          child: Image.network(
+                            bestAlbumList[index].item.cover_art_url ?? '',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+              Positioned.fill(
+                child: HoverableWidget(builder: (context, child, isHovered) {
+                  return Container(
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
+                      color: isHovered
+                          ? Colors.black.withOpacity(0.1)
+                          : Colors.black.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                ),
-                Positioned.fill(
-                    child: Padding(
+                  );
+                }),
+              ),
+              Positioned.fill(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                          textModifier1(
-                              bestAlbumList[index].item.full_title ?? ''),
-                          style: Theme.of(context).textTheme.titleSmall),
+                      AutoSizeText(
+                        textModifier1(
+                            bestAlbumList[index].item.full_title ?? ''),
+                        style: Theme.of(context).textTheme.titleSmall,
+                        textAlign: TextAlign.center,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        minFontSize: 15,
+                        stepGranularity: 1,
+                      ),
                       const SizedBox(
                         height: 5,
                       ),
@@ -96,116 +150,23 @@ class BestAlbumsGrid extends StatelessWidget {
                         textModifier2(
                             bestAlbumList[index].item.full_title ?? ''),
                         style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                          bestAlbumList[index].item.release_date_for_display ??
-                              '',
-                          style: Theme.of(context).textTheme.bodyLarge)
+                        bestAlbumList[index].item.release_date_for_display ??
+                            '',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      )
                     ],
                   ),
-                )),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class BestAlbumsListView extends StatelessWidget {
-  final List<ChartItems> bestAlbumList;
-
-  const BestAlbumsListView({super.key, required this.bestAlbumList});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: bestAlbumList.length.toDouble() * 150 + 26,
-      child: ListView(
-        scrollDirection: Axis.vertical,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(bestAlbumList.length, (index) {
-          final int id = bestAlbumList[index].item.id;
-          final String title =
-              textModifier1(bestAlbumList[index].item.full_title ?? '');
-
-          return GestureDetector(
-            onTap: () {
-              context.go(Uri(
-                path: '/album_detail/$id',
-                queryParameters: {
-                  'title': title
-                }, // Add additional parameters here
-              ).toString());
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width - 32,
-                      child: Image.network(
-                        bestAlbumList[index].item.cover_art_url ?? '',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                              textModifier1(
-                                  bestAlbumList[index].item.full_title ?? ''),
-                              style: Theme.of(context).textTheme.titleSmall,
-                              textAlign: TextAlign.center),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            textModifier2(
-                                bestAlbumList[index].item.full_title ?? ''),
-                            style: Theme.of(context).textTheme.bodySmall,
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            bestAlbumList[index]
-                                    .item
-                                    .release_date_for_display ??
-                                '',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          );
-        }),
+            ],
+          ),
+        ),
       ),
     );
   }

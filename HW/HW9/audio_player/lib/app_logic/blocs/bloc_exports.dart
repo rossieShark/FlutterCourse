@@ -7,3 +7,4 @@ export 'package:audio_player/app_logic/blocs/home_screen_bloc.dart';
 export 'package:audio_player/app_logic/blocs/search_screen_bloc.dart';
 export 'package:audio_player/app_logic/providers/recently_searched_provider.dart';
 export 'package:audio_player/app_logic/blocs/tab_bar_bloc.dart';
+export 'package:audio_player/app_logic/blocs/genres_bloc.dart';

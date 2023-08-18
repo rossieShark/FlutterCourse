@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,11 +19,29 @@ class MyFavoriteAlbum extends StatelessWidget {
           "All tracks",
           style: Theme.of(context).textTheme.titleMedium,
         )),
-        leading: IconButtonWidget(
-            iconData: Icons.arrow_back_ios,
-            color: AppColors.accent.color,
-            onPressed: () {
-              context.go('/my_music');
+        leading: PlatformBuilder(
+            web: ResponsiveButton(
+              iconData: Icons.arrow_back_ios,
+              onPressed: null,
+              color: Colors.transparent,
+            ),
+            iOS: ResponsiveButton(
+                iconData: Icons.arrow_back_ios,
+                onPressed: () {
+                  context.go('/my_music');
+                },
+                color: AppColors.white.color),
+            other: ResponsiveButton(
+                iconData: Icons.arrow_back,
+                onPressed: () {
+                  context.go('/my_music');
+                },
+                color: AppColors.white.color),
+            builder: (context, child, data) {
+              return IconButtonWidget(
+                  iconData: data.iconData,
+                  color: data.color,
+                  onPressed: data.onPressed);
             }),
         actions: [
           IconButtonWidget(
@@ -66,7 +85,6 @@ class FavoriteAlbumListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double maxWidth = MediaQuery.of(context).size.width;
     return ListView.separated(
         itemCount: favoriteProvider.favoriteAlbum.length,
         separatorBuilder: (context, index) => const Divider(),
@@ -95,59 +113,70 @@ class FavoriteAlbumListView extends StatelessWidget {
               onDismissed: (direction) {
                 favoriteProvider.removeFromFavoritesAlbum(song);
               },
-              child: SizedBox(
-                  height: getResponsiveSize(maxWidth, 100),
-                  width: MediaQuery.of(context).size.width - 32,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    getResponsiveSize(maxWidth, 80) / 2),
-                                child: SizedBox(
-                                  width: getResponsiveSize(maxWidth, 80),
-                                  height: getResponsiveSize(maxWidth, 80),
-                                  child: Image.network(song.header_image_url,
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 20, 0, 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+              child: ResponsiveBuilder(
+                  narrow: 100.0,
+                  medium: 120.0,
+                  large: 120.0,
+                  builder: (context, child, height) {
+                    return SizedBox(
+                        height: height,
+                        width: MediaQuery.of(context).size.width - 32,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    song.artist_names,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(height) / 2,
+                                      child: SizedBox(
+                                        width: height,
+                                        height: height,
+                                        child: Image.network(
+                                            song.header_image_url,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
                                   ),
-                                  Text(song.title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium)
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        10, 20, 0, 20),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          song.artist_names,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(song.title,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium)
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                          child: IconButtonWidget(
-                              iconData: Icons.keyboard_control,
-                              color: AppColors.white.color,
-                              onPressed: () {}),
-                        )
-                      ])),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                child: IconButtonWidget(
+                                    iconData: Icons.keyboard_control,
+                                    color: AppColors.white.color,
+                                    onPressed: () {}),
+                              )
+                            ]));
+                  }),
             ),
           );
         });

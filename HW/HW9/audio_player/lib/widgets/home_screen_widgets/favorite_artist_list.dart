@@ -22,8 +22,6 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
 
   @override
   Widget build(BuildContext context) {
-    final maxWidth = MediaQuery.of(context).size.width;
-
     return BlocBuilder<FavoriteArtistBloc, FavoriteArtistState>(
         builder: (context, state) {
       if (state.favoriteArtistList.isEmpty) {
@@ -40,21 +38,26 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        getResponsiveSize(maxWidth, 70) / 2),
-                    child: SizedBox(
-                      height: getResponsiveSize(maxWidth, 70),
-                      width: getResponsiveSize(maxWidth, 70),
-                      child: Image.network(
-                          favoriteArtistList[index].item.image_url ?? '',
-                          fit: BoxFit.cover),
-                    ),
-                  ),
+                  ResponsiveBuilder(
+                      narrow: 78.0,
+                      medium: 115.0,
+                      large: 150.0,
+                      builder: (context, child, height) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(height / 2),
+                          child: SizedBox(
+                            height: height,
+                            width: height,
+                            child: Image.network(
+                                favoriteArtistList[index].item.image_url ?? '',
+                                fit: BoxFit.cover),
+                          ),
+                        );
+                      }),
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(favoriteArtistList[index].item.name ?? '',
+                  Text(textModifier1(favoriteArtistList[index].item.name ?? ''),
                       style: Theme.of(context).textTheme.bodySmall),
                   const SizedBox(
                     height: 5,

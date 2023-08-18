@@ -75,7 +75,6 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
   Widget _builMainSection(SongDetail? songInfo) {
     final favoriteProvider =
         Provider.of<FavoriteProvider>(context, listen: false);
-    final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
 
     return Column(
@@ -88,7 +87,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
             children: [
               _createTitleSection(songInfo, favoriteProvider),
               _createSliderSection(),
-              _createMusicControlSection(maxWidth),
+              _createMusicControlSection(),
               const SizedBox(
                 height: 10,
               )
@@ -99,72 +98,87 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
     );
   }
 
-  Widget _createMusicControlSection(double maxWidth) {
-    return SizedBox(
-      width: getResponsiveSize(maxWidth, 280),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButtonWidget(
-              iconData: Icons.repeat,
-              color: AppColors.accent.color,
-              onPressed: () {}),
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  height: getResponsiveSize(maxWidth, 30),
-                  width: getResponsiveSize(maxWidth, 40),
-                  decoration: BoxDecoration(
-                      color: AppColors.white.color.withOpacity(0.1)),
-                  child: IconButtonWidget(
-                      iconData: Icons.fast_rewind,
-                      color: AppColors.white.color,
-                      onPressed: () {}),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  height: getResponsiveSize(maxWidth, 50),
-                  width: getResponsiveSize(maxWidth, 50),
-                  decoration: BoxDecoration(color: AppColors.accent.color),
-                  child: IconButtonWidget(
-                      iconData: Icons.play_arrow,
-                      color: AppColors.white.color,
-                      size: getResponsiveSize(maxWidth, 25),
-                      onPressed: () {}),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  height: getResponsiveSize(maxWidth, 35),
-                  width: getResponsiveSize(maxWidth, 40),
-                  decoration: BoxDecoration(
-                      color: AppColors.white.color.withOpacity(0.1)),
-                  child: IconButtonWidget(
-                      iconData: Icons.fast_forward,
-                      color: AppColors.white.color,
-                      onPressed: () {}),
-                ),
-              ),
-            ],
-          ),
-          IconButtonWidget(
-              iconData: Icons.shuffle,
-              color: AppColors.accent.color,
-              onPressed: () {}),
-        ],
-      ),
-    );
+  Widget _createMusicControlSection() {
+    return ResponsiveBuilder(
+        narrow: 280.0,
+        medium: 320.0,
+        large: 320.0,
+        builder: (context, child, height) {
+          return SizedBox(
+            width: height,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButtonWidget(
+                    iconData: Icons.repeat,
+                    color: AppColors.accent.color,
+                    onPressed: () {}),
+                ResponsiveBuilder(
+                    narrow: 50.0,
+                    medium: 60.0,
+                    large: 60.0,
+                    builder: (context, child, height) {
+                      return Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: height - 15,
+                              width: height - 10,
+                              decoration: BoxDecoration(
+                                  color:
+                                      AppColors.white.color.withOpacity(0.1)),
+                              child: IconButtonWidget(
+                                  iconData: Icons.fast_rewind,
+                                  color: AppColors.white.color,
+                                  onPressed: () {}),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: height,
+                              width: height,
+                              decoration:
+                                  BoxDecoration(color: AppColors.accent.color),
+                              child: IconButtonWidget(
+                                  iconData: Icons.play_arrow,
+                                  color: AppColors.white.color,
+                                  size: height / 2,
+                                  onPressed: () {}),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              height: height - 15,
+                              width: height - 10,
+                              decoration: BoxDecoration(
+                                  color:
+                                      AppColors.white.color.withOpacity(0.1)),
+                              child: IconButtonWidget(
+                                  iconData: Icons.fast_forward,
+                                  color: AppColors.white.color,
+                                  onPressed: () {}),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                IconButtonWidget(
+                    iconData: Icons.shuffle,
+                    color: AppColors.accent.color,
+                    onPressed: () {}),
+              ],
+            ),
+          );
+        });
   }
 
   Widget _createSliderSection() {
@@ -230,9 +244,8 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
                 style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
-        IconButtonWidget(
-          iconData:
-              isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
+        LikeButton(
+          color: AppColors.accent.color,
           onPressed: () {
             setState(() {
               _toggleFavorite();
@@ -253,7 +266,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
               }
             });
           },
-          color: AppColors.accent.color,
+          isFavorite: isFavorite,
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,11 +14,29 @@ class MyFavoriteSongs extends StatelessWidget {
       backgroundColor: AppColors.background.color,
       appBar: AppBar(
         backgroundColor: AppColors.background.color,
-        leading: IconButtonWidget(
-            iconData: Icons.arrow_back_ios,
-            color: AppColors.accent.color,
-            onPressed: () {
-              context.go('/my_music');
+        leading: PlatformBuilder(
+            web: ResponsiveButton(
+              iconData: Icons.arrow_back_ios,
+              onPressed: null,
+              color: Colors.transparent,
+            ),
+            iOS: ResponsiveButton(
+                iconData: Icons.arrow_back_ios,
+                onPressed: () {
+                  context.go('/my_music');
+                },
+                color: AppColors.white.color),
+            other: ResponsiveButton(
+                iconData: Icons.arrow_back,
+                onPressed: () {
+                  context.go('/my_music');
+                },
+                color: AppColors.white.color),
+            builder: (context, child, data) {
+              return IconButtonWidget(
+                  iconData: data.iconData,
+                  color: data.color,
+                  onPressed: data.onPressed);
             }),
         actions: [
           IconButtonWidget(
@@ -61,6 +80,8 @@ class FavoriteSongListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double maxWidth = MediaQuery.of(context).size.width;
+    const double padding = 16;
     return ListView.separated(
         itemCount: favoriteProvider.favoriteSong.length,
         separatorBuilder: (context, index) => const Divider(),
@@ -79,56 +100,59 @@ class FavoriteSongListView extends StatelessWidget {
               background: Container(
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: Colors.red, // Background color when swiping
+                color: AppColors.accent.color,
                 child: const Icon(Icons.delete, color: Colors.white),
               ),
               onDismissed: (direction) {
                 favoriteProvider.removeFromFavorites(song);
               },
-              child: SizedBox(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width - 32,
-                  child: Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Image.network(song.header_image_url,
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width -
-                              60 -
-                              16 * 4 -
-                              48,
-                          child: Text(
-                            song.title,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+              child: ResponsiveBuilder(
+                  narrow: 70.0,
+                  medium: 90.0,
+                  large: 90.0,
+                  builder: (context, child, height) {
+                    return SizedBox(
+                        height: height,
+                        width: maxWidth - 32,
+                        child: Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: SizedBox(
+                                width: height,
+                                height: height,
+                                child: Image.network(song.header_image_url,
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
                           ),
-                        ),
-                        Text(song.artist_names,
-                            style: Theme.of(context).textTheme.bodySmall),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                      child: IconButtonWidget(
-                          iconData: Icons.keyboard_control,
-                          color: AppColors.white.color,
-                          onPressed: () {}),
-                    )
-                  ])),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: maxWidth - height - padding * 7,
+                                child: Text(
+                                  song.title,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(song.artist_names,
+                                  style: Theme.of(context).textTheme.bodySmall),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                            child: IconButtonWidget(
+                                iconData: Icons.keyboard_control,
+                                color: AppColors.white.color,
+                                onPressed: () {}),
+                          )
+                        ]));
+                  }),
             ),
           );
         });

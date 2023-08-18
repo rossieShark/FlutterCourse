@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/models/models.dart';
+import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
+import 'package:audio_player/widgets/search_screen_widget/exports.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -16,7 +16,6 @@ class _SearchPageState extends State<SearchPage> {
   late final ScrollController _scrollController = ScrollController();
   late final TextEditingController _textFieldController =
       TextEditingController();
-  bool _isTappedTextField = false;
   final FocusNode _focusNode = FocusNode();
   Timer? _debounceTimer;
 
@@ -58,20 +57,199 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    return PlatformBuilder(
+        web: WebScreen(
+          textFieldController: _textFieldController,
+          scrollController: _scrollController,
+          focusNode: _focusNode,
+        ),
+        other: OtherScreen(
+            textFieldController: _textFieldController,
+            focusNode: _focusNode,
+            scrollController: _scrollController),
+        builder: (context, child, widget) {
+          return widget;
+        });
+  }
+}
+
+class WebScreen extends StatefulWidget {
+  final TextEditingController textFieldController;
+  final FocusNode focusNode;
+  final ScrollController scrollController;
+  const WebScreen(
+      {Key? key,
+      required this.textFieldController,
+      required this.focusNode,
+      required this.scrollController})
+      : super(key: key);
+
+  @override
+  State<WebScreen> createState() => _WebScreenState();
+}
+
+class _WebScreenState extends State<WebScreen> {
+  bool _isTappedTextField = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background.color,
-      body: CustomScrollView(controller: _scrollController, slivers: [
-        SliverAppBar(
-          pinned: true,
-          backgroundColor: AppColors.background.color,
-          title: _buildTextField(context),
+      body: Row(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              controller: widget.scrollController,
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  backgroundColor: AppColors.background.color,
+                  title: _buildTextField(context),
+                ),
+                _isTappedTextField
+                    ? SliverToBoxAdapter(
+                        child: SearchResultlist(
+                          width: MediaQuery.of(context).size.width / 2 - 30,
+                        ),
+                      )
+                    : _buildGenresSection(context),
+              ],
+            ),
+          ),
+          VerticalDivider(
+            width: 2,
+            color: AppColors.white.color,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: _buildRecentlySearchedSection(context)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGenresSection(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        const SizedBox(
+          height: 20,
         ),
-        _isTappedTextField
-            ? const SliverToBoxAdapter(
-                child: SearchResultlist(),
-              )
-            : _buildRecentlySearchedSection(context),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: Text(
+              'Others',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+        ),
+        CategoriesList(
+          width: MediaQuery.of(context).size.width / 2 - 30,
+        ),
       ]),
+    );
+  }
+
+  Widget _buildTextField(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SearchTextField(
+        controller: widget.textFieldController,
+        focusNode: widget.focusNode,
+        isTappedTextField: _isTappedTextField,
+        onPressed: () {
+          setState(() {
+            widget.textFieldController.clear();
+            _isTappedTextField = false;
+          });
+        },
+        onChanged: (query) {
+          setState(() {
+            _isTappedTextField = true;
+          });
+        },
+      ),
+    );
+  }
+}
+
+Widget _buildRecentlySearchedSection(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          'Recently Searched',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+      Divider(
+        color: AppColors.accent.color,
+        height: 1,
+        thickness: 1,
+      ),
+      const SizedBox(height: 10),
+      Expanded(
+        child:
+            RecentlySearchedList(width: MediaQuery.of(context).size.width / 2),
+      ),
+    ],
+  );
+}
+
+class OtherScreen extends StatefulWidget {
+  final TextEditingController textFieldController;
+  final FocusNode focusNode;
+  final ScrollController scrollController;
+
+  const OtherScreen(
+      {super.key,
+      required this.textFieldController,
+      required this.focusNode,
+      required this.scrollController});
+
+  @override
+  State<OtherScreen> createState() => _OtherScreenState();
+}
+
+class _OtherScreenState extends State<OtherScreen> {
+  late final TextEditingController _textFieldController;
+  late final ScrollController _scrollController;
+  late final FocusNode _focusNode;
+  bool _isTappedTextField = false;
+
+  @override
+  void initState() {
+    _textFieldController = widget.textFieldController;
+    _scrollController = widget.scrollController;
+    _focusNode = widget.focusNode;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background.color,
+      body: Builder(builder: (context) {
+        return CustomScrollView(controller: _scrollController, slivers: [
+          SliverAppBar(
+            pinned: true,
+            backgroundColor: AppColors.background.color,
+            title: _buildTextField(context),
+          ),
+          _isTappedTextField
+              ? SliverToBoxAdapter(
+                  child: SearchResultlist(
+                      width: MediaQuery.of(context).size.width),
+                )
+              : _buildRecentlySearchedSection(context),
+        ]);
+      }),
     );
   }
 
@@ -104,265 +282,27 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(
               height: 10,
             ),
-            const RecentlySearchedList()
+            RecentlySearchedList(width: MediaQuery.of(context).size.width)
           ]),
     );
   }
 
   Widget _buildTextField(BuildContext context) {
-    return TextField(
+    return SearchTextField(
       controller: _textFieldController,
-      cursorColor: AppColors.accent.color,
       focusNode: _focusNode,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 6.0),
-        prefixIcon: const Icon(Icons.search, color: Colors.grey),
-        hintText: _focusNode.hasFocus ? '' : 'Song, Artist name',
-        hintStyle: Theme.of(context).textTheme.bodySmall,
-        labelStyle: TextStyle(color: AppColors.white.color),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide(
-            color: _focusNode.hasFocus
-                ? AppColors.white.color
-                : AppColors.accent.color,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: BorderSide(color: AppColors.white.color)),
-        suffixIcon: _textFieldController.text.isNotEmpty
-            ? IconButtonWidget(
-                iconData: Icons.clear,
-                color: AppColors.accent.color,
-                onPressed: () {
-                  setState(() {
-                    _textFieldController.clear();
-                    _isTappedTextField = false;
-                  });
-                },
-              )
-            : null,
-      ),
-      style: Theme.of(context).textTheme.bodySmall,
+      isTappedTextField: _isTappedTextField,
+      onPressed: () {
+        setState(() {
+          widget.textFieldController.clear();
+          _isTappedTextField = false;
+        });
+      },
       onChanged: (query) {
         setState(() {
           _isTappedTextField = true;
         });
       },
     );
-  }
-}
-
-class RecentlySearchedList extends StatelessWidget {
-  const RecentlySearchedList({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final recentlySearched = Provider.of<RecentlySearchedProvider>(context);
-    return recentlySearched.favoriteSong.isEmpty
-        ? SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Text(
-              'Search history is empty',
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ))
-        : SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: ListView.separated(
-              itemCount: recentlySearched.favoriteSong.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                final song = recentlySearched.favoriteSong[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    String id = song.id;
-                    context.go(Uri(path: '/detail_music/$id').toString());
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: SizedBox(
-                      height: 70,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: SizedBox(
-                                width: 70,
-                                height: 70,
-                                child: Image.network(
-                                  song.header_image_url,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width -
-                                    60 -
-                                    16 * 3 -
-                                    32 -
-                                    48,
-                                child: Text(
-                                  textModifier1(song.artist_names),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Text(
-                                textModifier1(song.title),
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ],
-                          ),
-                          IconButtonWidget(
-                            iconData: Icons.keyboard_control,
-                            color: AppColors.white.color,
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ));
-  }
-}
-
-class SearchResultlist extends StatelessWidget {
-  const SearchResultlist({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final recentlySearched =
-        Provider.of<RecentlySearchedProvider>(context, listen: false);
-    return BlocBuilder<SearchResultBloc, SearchResultState>(
-        builder: (context, state) {
-      print('SearchResultBloc State: $state');
-      if (state.searchResulList.isEmpty) {
-        return const Center(
-          child: CustomFadingCircleIndicator(),
-        );
-      } else {
-        final searchResult = state.searchResulList;
-        return searchResult.isEmpty
-            ? SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                    child: Text(
-                  'No results',
-                  style: TextStyle(color: AppColors.white.color, fontSize: 25),
-                )))
-            : SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 86 * searchResult.length.toDouble(),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: List.generate(searchResult.length, (index) {
-                      return GestureDetector(
-                          onTap: () {
-                            int id = searchResult[index].result.id;
-
-                            context
-                                .go(Uri(path: '/detail_music/$id').toString());
-
-                            recentlySearched.addToFavorites(SongModel(
-                              id: id.toString(),
-                              artist_names:
-                                  searchResult[index].result.artist_names ?? '',
-                              title: searchResult[index].result.title ?? '',
-                              header_image_url:
-                                  searchResult[index].result.header_image_url ??
-                                      '',
-                            ));
-                          },
-                          child: SizedBox(
-                              height: 70,
-                              width: MediaQuery.of(context).size.width - 32,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: SizedBox(
-                                        width: 60,
-                                        height: 60,
-                                        child: Image.network(
-                                            searchResult[index]
-                                                    .result
-                                                    .header_image_url ??
-                                                'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                60 -
-                                                16 * 4 -
-                                                48,
-                                        child: Text(
-                                          searchResult[index].result.title ??
-                                              '',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Text(
-                                          textModifier1(searchResult[index]
-                                              .result
-                                              .artist_names!),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                    child: IconButtonWidget(
-                                        iconData: Icons.keyboard_control,
-                                        color: AppColors.white.color,
-                                        onPressed: () {}),
-                                  )
-                                ],
-                              )));
-                    }),
-                  ),
-                ),
-              );
-      }
-    });
   }
 }
