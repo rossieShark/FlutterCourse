@@ -14,5 +14,5 @@ abstract class SearchResultService extends ChopperService {
 
   @Get(path: '/search/')
   Future<Response<SearchResultResponce>> getSearchResult(
-      @Query() int per_page, @Query() int page, @Query() String q);
+      @Query('per_page') int perPage, @Query() int page, @Query() String q);
 }

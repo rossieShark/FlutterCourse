@@ -171,8 +171,10 @@ SongDetail _$SongDetailFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SongDetail {
-  String? get artist_names => throw _privateConstructorUsedError;
-  String? get header_image_url => throw _privateConstructorUsedError;
+  @JsonKey(name: 'artist_names')
+  String? get artistNames => throw _privateConstructorUsedError;
+  @JsonKey(name: 'header_image_url')
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -187,7 +189,10 @@ abstract class $SongDetailCopyWith<$Res> {
           SongDetail value, $Res Function(SongDetail) then) =
       _$SongDetailCopyWithImpl<$Res, SongDetail>;
   @useResult
-  $Res call({String? artist_names, String? header_image_url, String? title});
+  $Res call(
+      {@JsonKey(name: 'artist_names') String? artistNames,
+      @JsonKey(name: 'header_image_url') String? imageUrl,
+      String? title});
 }
 
 /// @nodoc
@@ -203,18 +208,18 @@ class _$SongDetailCopyWithImpl<$Res, $Val extends SongDetail>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artist_names = freezed,
-    Object? header_image_url = freezed,
+    Object? artistNames = freezed,
+    Object? imageUrl = freezed,
     Object? title = freezed,
   }) {
     return _then(_value.copyWith(
-      artist_names: freezed == artist_names
-          ? _value.artist_names
-          : artist_names // ignore: cast_nullable_to_non_nullable
+      artistNames: freezed == artistNames
+          ? _value.artistNames
+          : artistNames // ignore: cast_nullable_to_non_nullable
               as String?,
-      header_image_url: freezed == header_image_url
-          ? _value.header_image_url
-          : header_image_url // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -232,7 +237,10 @@ abstract class _$$_SongDetailCopyWith<$Res>
       __$$_SongDetailCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? artist_names, String? header_image_url, String? title});
+  $Res call(
+      {@JsonKey(name: 'artist_names') String? artistNames,
+      @JsonKey(name: 'header_image_url') String? imageUrl,
+      String? title});
 }
 
 /// @nodoc
@@ -246,18 +254,18 @@ class __$$_SongDetailCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artist_names = freezed,
-    Object? header_image_url = freezed,
+    Object? artistNames = freezed,
+    Object? imageUrl = freezed,
     Object? title = freezed,
   }) {
     return _then(_$_SongDetail(
-      artist_names: freezed == artist_names
-          ? _value.artist_names
-          : artist_names // ignore: cast_nullable_to_non_nullable
+      artistNames: freezed == artistNames
+          ? _value.artistNames
+          : artistNames // ignore: cast_nullable_to_non_nullable
               as String?,
-      header_image_url: freezed == header_image_url
-          ? _value.header_image_url
-          : header_image_url // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -271,23 +279,25 @@ class __$$_SongDetailCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SongDetail implements _SongDetail {
   _$_SongDetail(
-      {required this.artist_names,
-      required this.header_image_url,
+      {@JsonKey(name: 'artist_names') required this.artistNames,
+      @JsonKey(name: 'header_image_url') required this.imageUrl,
       required this.title});
 
   factory _$_SongDetail.fromJson(Map<String, dynamic> json) =>
       _$$_SongDetailFromJson(json);
 
   @override
-  final String? artist_names;
+  @JsonKey(name: 'artist_names')
+  final String? artistNames;
   @override
-  final String? header_image_url;
+  @JsonKey(name: 'header_image_url')
+  final String? imageUrl;
   @override
   final String? title;
 
   @override
   String toString() {
-    return 'SongDetail(artist_names: $artist_names, header_image_url: $header_image_url, title: $title)';
+    return 'SongDetail(artistNames: $artistNames, imageUrl: $imageUrl, title: $title)';
   }
 
   @override
@@ -295,17 +305,16 @@ class _$_SongDetail implements _SongDetail {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SongDetail &&
-            (identical(other.artist_names, artist_names) ||
-                other.artist_names == artist_names) &&
-            (identical(other.header_image_url, header_image_url) ||
-                other.header_image_url == header_image_url) &&
+            (identical(other.artistNames, artistNames) ||
+                other.artistNames == artistNames) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, artist_names, header_image_url, title);
+  int get hashCode => Object.hash(runtimeType, artistNames, imageUrl, title);
 
   @JsonKey(ignore: true)
   @override
@@ -323,17 +332,19 @@ class _$_SongDetail implements _SongDetail {
 
 abstract class _SongDetail implements SongDetail {
   factory _SongDetail(
-      {required final String? artist_names,
-      required final String? header_image_url,
+      {@JsonKey(name: 'artist_names') required final String? artistNames,
+      @JsonKey(name: 'header_image_url') required final String? imageUrl,
       required final String? title}) = _$_SongDetail;
 
   factory _SongDetail.fromJson(Map<String, dynamic> json) =
       _$_SongDetail.fromJson;
 
   @override
-  String? get artist_names;
+  @JsonKey(name: 'artist_names')
+  String? get artistNames;
   @override
-  String? get header_image_url;
+  @JsonKey(name: 'header_image_url')
+  String? get imageUrl;
   @override
   String? get title;
   @override

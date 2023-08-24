@@ -23,7 +23,10 @@ linter:
   # producing the lint.
   rules:
     avoid_print: false 
-    non_constant_identifier_names: false # Uncomment to disable the `avoid_print` rule
+    non_constant_identifier_names: false
+    avoid_annotating_with_dynamic: false
+    
+    # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
 # Additional information about this file can be found at

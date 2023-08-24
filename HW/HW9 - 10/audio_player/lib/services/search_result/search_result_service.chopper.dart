@@ -18,14 +18,14 @@ class _$SearchResultService extends SearchResultService {
 
   @override
   Future<Response<SearchResultResponce>> getSearchResult(
-    int per_page,
+    int perPage,
     int page,
     String q,
   ) {
     final Uri $url =
         Uri.parse('https://genius-song-lyrics1.p.rapidapi.com/search/');
     final Map<String, dynamic> $params = <String, dynamic>{
-      'per_page': per_page,
+      'per_page': perPage,
       'page': page,
       'q': q,
     };

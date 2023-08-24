@@ -17,7 +17,7 @@ class _$AlbumDetailsService extends AlbumDetailsService {
   final definitionType = AlbumDetailsService;
 
   @override
-  Future<Response<AlbumDetailsResponce>> getAlbumSongsList(String id) {
+  Future<Response<AlbumDetailsResponse>> getAlbumSongsList(String id) {
     final Uri $url = Uri.parse(
         'https://genius-song-lyrics1.p.rapidapi.com/album/appearances/');
     final Map<String, dynamic> $params = <String, dynamic>{'id': id};
@@ -27,6 +27,6 @@ class _$AlbumDetailsService extends AlbumDetailsService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<AlbumDetailsResponce, AlbumDetailsResponce>($request);
+    return client.send<AlbumDetailsResponse, AlbumDetailsResponse>($request);
   }
 }

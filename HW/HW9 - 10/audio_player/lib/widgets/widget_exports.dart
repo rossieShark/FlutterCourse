@@ -1,5 +1,5 @@
 export 'package:audio_player/widgets/custom_button.dart';
-export 'package:audio_player/widgets/custom_indicator.dart';
+export 'package:audio_player/widgets/fading_indicator.dart';
 export 'package:animate_gradient/animate_gradient.dart';
 export 'package:audio_player/widgets/ui_properties.dart';
 export 'package:audio_player/widgets/size_text_modifiers.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'song_model.freezed.dart';
@@ -16,8 +18,8 @@ class SongDetailsResponce with _$SongDetailsResponce {
 @freezed
 class SongDetail with _$SongDetail {
   factory SongDetail({
-    required String? artist_names,
-    required String? header_image_url,
+    @JsonKey(name: 'artist_names') required String? artistNames,
+    @JsonKey(name: 'header_image_url') required String? imageUrl,
     required String? title,
   }) = _SongDetail;
 

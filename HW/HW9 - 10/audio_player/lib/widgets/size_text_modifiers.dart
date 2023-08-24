@@ -1,34 +1,36 @@
-String textModifier1(String originalText) {
-  if (originalText.contains('-')) {
-    int lastIndex = originalText.lastIndexOf('-');
-    originalText = originalText.substring(0, lastIndex);
-  }
+class TextModifierService {
+  String removeTextAfter(String originalText) {
+    if (originalText.contains('-')) {
+      int lastIndex = originalText.lastIndexOf('-');
+      originalText = originalText.substring(0, lastIndex);
+    }
 
-  if (originalText.contains('Ft.')) {
-    int lastIndex = originalText.lastIndexOf('(Ft.');
-    originalText = originalText.substring(0, lastIndex);
-  }
+    if (originalText.contains('Ft.')) {
+      int lastIndex = originalText.lastIndexOf('(Ft.');
+      originalText = originalText.substring(0, lastIndex);
+    }
 
-  if (originalText.contains('by')) {
-    int lastIndex = originalText.lastIndexOf('by');
-    originalText = originalText.substring(0, lastIndex);
-  }
+    if (originalText.contains('by')) {
+      int lastIndex = originalText.lastIndexOf('by');
+      originalText = originalText.substring(0, lastIndex);
+    }
 
-  if (originalText.contains('(')) {
-    int lastIndex = originalText.lastIndexOf('(');
-    originalText = originalText.substring(0, lastIndex);
-  }
+    if (originalText.contains('(')) {
+      int lastIndex = originalText.lastIndexOf('(');
+      originalText = originalText.substring(0, lastIndex);
+    }
 
-  return originalText;
-}
-
-String textModifier2(String originalText) {
-  int index = originalText.indexOf('by');
-  if (index != -1) {
-    String modifiedText = originalText.substring(index + 2).trim();
-    return modifiedText;
-  } else {
     return originalText;
+  }
+
+  String removeTextBefore(String originalText) {
+    int index = originalText.indexOf('by');
+    if (index != -1) {
+      String modifiedText = originalText.substring(index + 2).trim();
+      return modifiedText;
+    } else {
+      return originalText;
+    }
   }
 }
 

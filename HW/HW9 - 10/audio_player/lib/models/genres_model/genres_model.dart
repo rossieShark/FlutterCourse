@@ -3,13 +3,13 @@ part 'genres_model.freezed.dart';
 part 'genres_model.g.dart';
 
 @freezed
-class GenresResponce with _$GenresResponce {
-  factory GenresResponce({
+class GenresResponse with _$GenresResponse {
+  factory GenresResponse({
     required Content content,
-  }) = _GenresResponce;
-  static const fromJsonFactory = _$GenresResponceFromJson;
-  factory GenresResponce.fromJson(Map<String, Object?> json) =>
-      _$GenresResponceFromJson(json);
+  }) = _GenresResponse;
+  static const fromJsonFactory = _$GenresResponseFromJson;
+  factory GenresResponse.fromJson(Map<String, Object?> json) =>
+      _$GenresResponseFromJson(json);
 }
 
 @freezed

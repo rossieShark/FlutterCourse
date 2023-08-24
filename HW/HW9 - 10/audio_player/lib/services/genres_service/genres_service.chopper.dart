@@ -17,7 +17,7 @@ class _$GenresService extends GenresService {
   final definitionType = GenresService;
 
   @override
-  Future<Response<GenresResponce>> getGenres() {
+  Future<Response<GenresResponse>> getGenres() {
     final Uri $url = Uri.parse(
         'https://spotify23.p.rapidapi.com/genre_view/?id=0JQ5DAqbMKFEC4WFtoNRpw&content_limit=10&limit=20');
     final Request $request = Request(
@@ -25,6 +25,6 @@ class _$GenresService extends GenresService {
       $url,
       client.baseUrl,
     );
-    return client.send<GenresResponce, GenresResponce>($request);
+    return client.send<GenresResponse, GenresResponse>($request);
   }
 }

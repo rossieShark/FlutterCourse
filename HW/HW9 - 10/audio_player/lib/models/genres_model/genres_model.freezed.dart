@@ -14,25 +14,25 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-GenresResponce _$GenresResponceFromJson(Map<String, dynamic> json) {
-  return _GenresResponce.fromJson(json);
+GenresResponse _$GenresResponseFromJson(Map<String, dynamic> json) {
+  return _GenresResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GenresResponce {
+mixin _$GenresResponse {
   Content get content => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GenresResponceCopyWith<GenresResponce> get copyWith =>
+  $GenresResponseCopyWith<GenresResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GenresResponceCopyWith<$Res> {
-  factory $GenresResponceCopyWith(
-          GenresResponce value, $Res Function(GenresResponce) then) =
-      _$GenresResponceCopyWithImpl<$Res, GenresResponce>;
+abstract class $GenresResponseCopyWith<$Res> {
+  factory $GenresResponseCopyWith(
+          GenresResponse value, $Res Function(GenresResponse) then) =
+      _$GenresResponseCopyWithImpl<$Res, GenresResponse>;
   @useResult
   $Res call({Content content});
 
@@ -40,9 +40,9 @@ abstract class $GenresResponceCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GenresResponceCopyWithImpl<$Res, $Val extends GenresResponce>
-    implements $GenresResponceCopyWith<$Res> {
-  _$GenresResponceCopyWithImpl(this._value, this._then);
+class _$GenresResponseCopyWithImpl<$Res, $Val extends GenresResponse>
+    implements $GenresResponseCopyWith<$Res> {
+  _$GenresResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -72,11 +72,11 @@ class _$GenresResponceCopyWithImpl<$Res, $Val extends GenresResponce>
 }
 
 /// @nodoc
-abstract class _$$_GenresResponceCopyWith<$Res>
-    implements $GenresResponceCopyWith<$Res> {
-  factory _$$_GenresResponceCopyWith(
-          _$_GenresResponce value, $Res Function(_$_GenresResponce) then) =
-      __$$_GenresResponceCopyWithImpl<$Res>;
+abstract class _$$_GenresResponseCopyWith<$Res>
+    implements $GenresResponseCopyWith<$Res> {
+  factory _$$_GenresResponseCopyWith(
+          _$_GenresResponse value, $Res Function(_$_GenresResponse) then) =
+      __$$_GenresResponseCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Content content});
@@ -86,11 +86,11 @@ abstract class _$$_GenresResponceCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GenresResponceCopyWithImpl<$Res>
-    extends _$GenresResponceCopyWithImpl<$Res, _$_GenresResponce>
-    implements _$$_GenresResponceCopyWith<$Res> {
-  __$$_GenresResponceCopyWithImpl(
-      _$_GenresResponce _value, $Res Function(_$_GenresResponce) _then)
+class __$$_GenresResponseCopyWithImpl<$Res>
+    extends _$GenresResponseCopyWithImpl<$Res, _$_GenresResponse>
+    implements _$$_GenresResponseCopyWith<$Res> {
+  __$$_GenresResponseCopyWithImpl(
+      _$_GenresResponse _value, $Res Function(_$_GenresResponse) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +98,7 @@ class __$$_GenresResponceCopyWithImpl<$Res>
   $Res call({
     Object? content = null,
   }) {
-    return _then(_$_GenresResponce(
+    return _then(_$_GenresResponse(
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -109,25 +109,25 @@ class __$$_GenresResponceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GenresResponce implements _GenresResponce {
-  _$_GenresResponce({required this.content});
+class _$_GenresResponse implements _GenresResponse {
+  _$_GenresResponse({required this.content});
 
-  factory _$_GenresResponce.fromJson(Map<String, dynamic> json) =>
-      _$$_GenresResponceFromJson(json);
+  factory _$_GenresResponse.fromJson(Map<String, dynamic> json) =>
+      _$$_GenresResponseFromJson(json);
 
   @override
   final Content content;
 
   @override
   String toString() {
-    return 'GenresResponce(content: $content)';
+    return 'GenresResponse(content: $content)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GenresResponce &&
+            other is _$_GenresResponse &&
             (identical(other.content, content) || other.content == content));
   }
 
@@ -138,28 +138,28 @@ class _$_GenresResponce implements _GenresResponce {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GenresResponceCopyWith<_$_GenresResponce> get copyWith =>
-      __$$_GenresResponceCopyWithImpl<_$_GenresResponce>(this, _$identity);
+  _$$_GenresResponseCopyWith<_$_GenresResponse> get copyWith =>
+      __$$_GenresResponseCopyWithImpl<_$_GenresResponse>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GenresResponceToJson(
+    return _$$_GenresResponseToJson(
       this,
     );
   }
 }
 
-abstract class _GenresResponce implements GenresResponce {
-  factory _GenresResponce({required final Content content}) = _$_GenresResponce;
+abstract class _GenresResponse implements GenresResponse {
+  factory _GenresResponse({required final Content content}) = _$_GenresResponse;
 
-  factory _GenresResponce.fromJson(Map<String, dynamic> json) =
-      _$_GenresResponce.fromJson;
+  factory _GenresResponse.fromJson(Map<String, dynamic> json) =
+      _$_GenresResponse.fromJson;
 
   @override
   Content get content;
   @override
   @JsonKey(ignore: true)
-  _$$_GenresResponceCopyWith<_$_GenresResponce> get copyWith =>
+  _$$_GenresResponseCopyWith<_$_GenresResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

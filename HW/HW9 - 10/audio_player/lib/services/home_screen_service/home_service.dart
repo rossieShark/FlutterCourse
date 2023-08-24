@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:audio_player/models/home_screen_data/favourite_artist_model/favourite_artist_model.dart';
 import 'package:audio_player/models/models.dart';
+import 'package:audio_player/models/recently_played_model/recently_played_model.dart';
 import 'package:audio_player/services/services.dart';
 import 'package:chopper/chopper.dart';
 
@@ -13,12 +15,12 @@ abstract class RecentlyPlayedService extends ChopperService {
             converter: $JsonSerializableConverter()),
       );
   @Get(path: '/chart/songs/')
-  Future<Response<TracksResponce>> getApi();
+  Future<Response<RecentlyPlayedResponse>> getRecentlyPlayedTracks();
 
   @Get(path: 'chart/artists/?time_period=week&per_page=15&page=2')
-  Future<Response<TracksResponce>> getFavorite();
+  Future<Response<FavouriteArtistResponse>> getFavorite();
 
   @Get(path: '/chart/albums/')
-  Future<Response<TracksResponce>> getBestAlbums(
-      @Query() int per_page, @Query() int page);
+  Future<Response<BestAlbumsResponse>> getBestAlbums(
+      @Query('per_page') int perPage, @Query() int page);
 }

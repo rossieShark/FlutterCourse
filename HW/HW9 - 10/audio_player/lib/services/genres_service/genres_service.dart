@@ -14,8 +14,8 @@ abstract class GenresService extends ChopperService {
             converter: $JsonSerializableConverter()),
       );
 
-  @Get(path: 'genre_view/?id=0JQ5DAqbMKFEC4WFtoNRpw&content_limit=0&limit=20')
-  Future<Response<GenresResponce>> getGenres();
+  @Get(path: '/genre_view/?id=0JQ5DAqbMKFEC4WFtoNRpw&content_limit=10&limit=20')
+  Future<Response<GenresResponse>> getGenres();
 }
 
 class HeaderInterceptor1 extends RequestInterceptor {

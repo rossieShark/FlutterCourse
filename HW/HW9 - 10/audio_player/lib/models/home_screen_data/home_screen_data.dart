@@ -1,36 +1,33 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'home_screen_data.freezed.dart';
 part 'home_screen_data.g.dart';
 
 @freezed
-class TracksResponce with _$TracksResponce {
-  factory TracksResponce({
-    required List<ChartItems> chart_items,
-  }) = _TracksResponce;
-  static const fromJsonFactory = _$TracksResponceFromJson;
-  factory TracksResponce.fromJson(Map<String, Object?> json) =>
-      _$TracksResponceFromJson(json);
+class BestAlbumsResponse with _$BestAlbumsResponse {
+  factory BestAlbumsResponse({
+    @JsonKey(name: 'chart_items') required List<BestAlbumsList> chartItems,
+  }) = _BestAlbumsResponse;
+  static const fromJsonFactory = _$BestAlbumsResponseFromJson;
+  factory BestAlbumsResponse.fromJson(Map<String, Object?> json) =>
+      _$BestAlbumsResponseFromJson(json);
 }
 
 @freezed
-class ChartItems with _$ChartItems {
-  factory ChartItems({required Item item}) = _ChartItems;
+class BestAlbumsList with _$BestAlbumsList {
+  factory BestAlbumsList({required Item item}) = _BestAlbumsList;
 
-  factory ChartItems.fromJson(Map<String, Object?> json) =>
-      _$ChartItemsFromJson(json);
+  factory BestAlbumsList.fromJson(Map<String, Object?> json) =>
+      _$BestAlbumsListFromJson(json);
 }
 
 @freezed
 class Item with _$Item {
   factory Item(
-      {required String? artist_names,
-      required String? name,
-      required String? title,
-      required String? header_image_url,
-      required String? cover_art_url,
-      required String? release_date_for_display,
-      required String? full_title,
-      required String? image_url,
+      {@JsonKey(name: 'cover_art_url') required String? coverImage,
+      @JsonKey(name: 'release_date_for_display') required String? releaseDate,
+      @JsonKey(name: 'full_title') required String? fullTitle,
       required int id}) = _Item;
 
   factory Item.fromJson(Map<String, Object?> json) => _$ItemFromJson(json);

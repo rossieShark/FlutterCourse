@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'package:audio_player/models/home_screen_data/favourite_artist_model/favourite_artist_model.dart';
 import 'package:audio_player/models/models.dart';
+import 'package:audio_player/models/recently_played_model/recently_played_model.dart';
 import 'package:chopper/chopper.dart';
 
 final Map<Type, Object Function(Map<String, dynamic>)> generatedMapping = {
-  TracksResponce: TracksResponce.fromJsonFactory,
-  AlbumDetailsResponce: AlbumDetailsResponce.fromJsonFactory,
+  BestAlbumsResponse: BestAlbumsResponse.fromJsonFactory,
+  AlbumDetailsResponse: AlbumDetailsResponse.fromJsonFactory,
   SongDetailsResponce: SongDetailsResponce.fromJsonFactory,
   SearchResultResponce: SearchResultResponce.fromJsonFactory,
-  GenresResponce: GenresResponce.fromJsonFactory
+  GenresResponse: GenresResponse.fromJsonFactory,
+  FavouriteArtistResponse: FavouriteArtistResponse.fromJsonFactory,
+  RecentlyPlayedResponse: RecentlyPlayedResponse.fromJsonFactory
 };
 
 class $JsonSerializableConverter extends JsonConverter {

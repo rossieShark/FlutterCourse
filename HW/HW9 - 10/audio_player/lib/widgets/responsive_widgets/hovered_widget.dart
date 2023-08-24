@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class HoverableWidget extends StatefulWidget {
   final Widget Function(BuildContext, Widget?, bool) builder;
   final Widget? child;
+
   const HoverableWidget({
     required this.builder,
     this.child,

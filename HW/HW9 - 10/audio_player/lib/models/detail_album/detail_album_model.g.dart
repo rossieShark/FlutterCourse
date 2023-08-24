@@ -9,7 +9,7 @@ part of 'detail_album_model.dart';
 _$_AlbumDetailsResponce _$$_AlbumDetailsResponceFromJson(
         Map<String, dynamic> json) =>
     _$_AlbumDetailsResponce(
-      album_appearances: (json['album_appearances'] as List<dynamic>)
+      albumAppearances: (json['album_appearances'] as List<dynamic>)
           .map((e) => AlbumAppearances.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17,7 +17,7 @@ _$_AlbumDetailsResponce _$$_AlbumDetailsResponceFromJson(
 Map<String, dynamic> _$$_AlbumDetailsResponceToJson(
         _$_AlbumDetailsResponce instance) =>
     <String, dynamic>{
-      'album_appearances': instance.album_appearances,
+      'album_appearances': instance.albumAppearances,
     };
 
 _$_AlbumAppearances _$$_AlbumAppearancesFromJson(Map<String, dynamic> json) =>
@@ -31,19 +31,19 @@ Map<String, dynamic> _$$_AlbumAppearancesToJson(_$_AlbumAppearances instance) =>
     };
 
 _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
-      artist_names: json['artist_names'] as String?,
+      artistNames: json['artist_names'] as String?,
       title: json['title'] as String?,
-      header_image_url: json['header_image_url'] as String?,
-      song_art_image_url: json['song_art_image_url'] as String?,
-      release_date_for_display: json['release_date_for_display'] as String?,
+      headerImageUrl: json['header_image_url'] as String?,
+      songImage: json['song_art_image_url'] as String?,
+      releaseDate: json['release_date_for_display'] as String?,
       id: json['id'] as int,
     );
 
 Map<String, dynamic> _$$_SongToJson(_$_Song instance) => <String, dynamic>{
-      'artist_names': instance.artist_names,
+      'artist_names': instance.artistNames,
       'title': instance.title,
-      'header_image_url': instance.header_image_url,
-      'song_art_image_url': instance.song_art_image_url,
-      'release_date_for_display': instance.release_date_for_display,
+      'header_image_url': instance.headerImageUrl,
+      'song_art_image_url': instance.songImage,
+      'release_date_for_display': instance.releaseDate,
       'id': instance.id,
     };

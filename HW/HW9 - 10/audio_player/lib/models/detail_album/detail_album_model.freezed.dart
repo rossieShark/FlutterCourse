@@ -14,35 +14,38 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AlbumDetailsResponce _$AlbumDetailsResponceFromJson(Map<String, dynamic> json) {
+AlbumDetailsResponse _$AlbumDetailsResponseFromJson(Map<String, dynamic> json) {
   return _AlbumDetailsResponce.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AlbumDetailsResponce {
-  List<AlbumAppearances> get album_appearances =>
+mixin _$AlbumDetailsResponse {
+  @JsonKey(name: 'album_appearances')
+  List<AlbumAppearances> get albumAppearances =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AlbumDetailsResponceCopyWith<AlbumDetailsResponce> get copyWith =>
+  $AlbumDetailsResponseCopyWith<AlbumDetailsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AlbumDetailsResponceCopyWith<$Res> {
-  factory $AlbumDetailsResponceCopyWith(AlbumDetailsResponce value,
-          $Res Function(AlbumDetailsResponce) then) =
-      _$AlbumDetailsResponceCopyWithImpl<$Res, AlbumDetailsResponce>;
+abstract class $AlbumDetailsResponseCopyWith<$Res> {
+  factory $AlbumDetailsResponseCopyWith(AlbumDetailsResponse value,
+          $Res Function(AlbumDetailsResponse) then) =
+      _$AlbumDetailsResponseCopyWithImpl<$Res, AlbumDetailsResponse>;
   @useResult
-  $Res call({List<AlbumAppearances> album_appearances});
+  $Res call(
+      {@JsonKey(name: 'album_appearances')
+      List<AlbumAppearances> albumAppearances});
 }
 
 /// @nodoc
-class _$AlbumDetailsResponceCopyWithImpl<$Res,
-        $Val extends AlbumDetailsResponce>
-    implements $AlbumDetailsResponceCopyWith<$Res> {
-  _$AlbumDetailsResponceCopyWithImpl(this._value, this._then);
+class _$AlbumDetailsResponseCopyWithImpl<$Res,
+        $Val extends AlbumDetailsResponse>
+    implements $AlbumDetailsResponseCopyWith<$Res> {
+  _$AlbumDetailsResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -52,12 +55,12 @@ class _$AlbumDetailsResponceCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? album_appearances = null,
+    Object? albumAppearances = null,
   }) {
     return _then(_value.copyWith(
-      album_appearances: null == album_appearances
-          ? _value.album_appearances
-          : album_appearances // ignore: cast_nullable_to_non_nullable
+      albumAppearances: null == albumAppearances
+          ? _value.albumAppearances
+          : albumAppearances // ignore: cast_nullable_to_non_nullable
               as List<AlbumAppearances>,
     ) as $Val);
   }
@@ -65,18 +68,20 @@ class _$AlbumDetailsResponceCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$_AlbumDetailsResponceCopyWith<$Res>
-    implements $AlbumDetailsResponceCopyWith<$Res> {
+    implements $AlbumDetailsResponseCopyWith<$Res> {
   factory _$$_AlbumDetailsResponceCopyWith(_$_AlbumDetailsResponce value,
           $Res Function(_$_AlbumDetailsResponce) then) =
       __$$_AlbumDetailsResponceCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<AlbumAppearances> album_appearances});
+  $Res call(
+      {@JsonKey(name: 'album_appearances')
+      List<AlbumAppearances> albumAppearances});
 }
 
 /// @nodoc
 class __$$_AlbumDetailsResponceCopyWithImpl<$Res>
-    extends _$AlbumDetailsResponceCopyWithImpl<$Res, _$_AlbumDetailsResponce>
+    extends _$AlbumDetailsResponseCopyWithImpl<$Res, _$_AlbumDetailsResponce>
     implements _$$_AlbumDetailsResponceCopyWith<$Res> {
   __$$_AlbumDetailsResponceCopyWithImpl(_$_AlbumDetailsResponce _value,
       $Res Function(_$_AlbumDetailsResponce) _then)
@@ -85,12 +90,12 @@ class __$$_AlbumDetailsResponceCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? album_appearances = null,
+    Object? albumAppearances = null,
   }) {
     return _then(_$_AlbumDetailsResponce(
-      album_appearances: null == album_appearances
-          ? _value._album_appearances
-          : album_appearances // ignore: cast_nullable_to_non_nullable
+      albumAppearances: null == albumAppearances
+          ? _value._albumAppearances
+          : albumAppearances // ignore: cast_nullable_to_non_nullable
               as List<AlbumAppearances>,
     ));
   }
@@ -100,24 +105,26 @@ class __$$_AlbumDetailsResponceCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AlbumDetailsResponce implements _AlbumDetailsResponce {
   _$_AlbumDetailsResponce(
-      {required final List<AlbumAppearances> album_appearances})
-      : _album_appearances = album_appearances;
+      {@JsonKey(name: 'album_appearances')
+      required final List<AlbumAppearances> albumAppearances})
+      : _albumAppearances = albumAppearances;
 
   factory _$_AlbumDetailsResponce.fromJson(Map<String, dynamic> json) =>
       _$$_AlbumDetailsResponceFromJson(json);
 
-  final List<AlbumAppearances> _album_appearances;
+  final List<AlbumAppearances> _albumAppearances;
   @override
-  List<AlbumAppearances> get album_appearances {
-    if (_album_appearances is EqualUnmodifiableListView)
-      return _album_appearances;
+  @JsonKey(name: 'album_appearances')
+  List<AlbumAppearances> get albumAppearances {
+    if (_albumAppearances is EqualUnmodifiableListView)
+      return _albumAppearances;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_album_appearances);
+    return EqualUnmodifiableListView(_albumAppearances);
   }
 
   @override
   String toString() {
-    return 'AlbumDetailsResponce(album_appearances: $album_appearances)';
+    return 'AlbumDetailsResponse(albumAppearances: $albumAppearances)';
   }
 
   @override
@@ -126,13 +133,13 @@ class _$_AlbumDetailsResponce implements _AlbumDetailsResponce {
         (other.runtimeType == runtimeType &&
             other is _$_AlbumDetailsResponce &&
             const DeepCollectionEquality()
-                .equals(other._album_appearances, _album_appearances));
+                .equals(other._albumAppearances, _albumAppearances));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_album_appearances));
+      runtimeType, const DeepCollectionEquality().hash(_albumAppearances));
 
   @JsonKey(ignore: true)
   @override
@@ -149,16 +156,18 @@ class _$_AlbumDetailsResponce implements _AlbumDetailsResponce {
   }
 }
 
-abstract class _AlbumDetailsResponce implements AlbumDetailsResponce {
+abstract class _AlbumDetailsResponce implements AlbumDetailsResponse {
   factory _AlbumDetailsResponce(
-          {required final List<AlbumAppearances> album_appearances}) =
+          {@JsonKey(name: 'album_appearances')
+          required final List<AlbumAppearances> albumAppearances}) =
       _$_AlbumDetailsResponce;
 
   factory _AlbumDetailsResponce.fromJson(Map<String, dynamic> json) =
       _$_AlbumDetailsResponce.fromJson;
 
   @override
-  List<AlbumAppearances> get album_appearances;
+  @JsonKey(name: 'album_appearances')
+  List<AlbumAppearances> get albumAppearances;
   @override
   @JsonKey(ignore: true)
   _$$_AlbumDetailsResponceCopyWith<_$_AlbumDetailsResponce> get copyWith =>
@@ -320,11 +329,15 @@ Song _$SongFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Song {
-  String? get artist_names => throw _privateConstructorUsedError;
+  @JsonKey(name: 'artist_names')
+  String? get artistNames => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  String? get header_image_url => throw _privateConstructorUsedError;
-  String? get song_art_image_url => throw _privateConstructorUsedError;
-  String? get release_date_for_display => throw _privateConstructorUsedError;
+  @JsonKey(name: 'header_image_url')
+  String? get headerImageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'song_art_image_url')
+  String? get songImage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'release_date_for_display')
+  String? get releaseDate => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -338,11 +351,11 @@ abstract class $SongCopyWith<$Res> {
       _$SongCopyWithImpl<$Res, Song>;
   @useResult
   $Res call(
-      {String? artist_names,
+      {@JsonKey(name: 'artist_names') String? artistNames,
       String? title,
-      String? header_image_url,
-      String? song_art_image_url,
-      String? release_date_for_display,
+      @JsonKey(name: 'header_image_url') String? headerImageUrl,
+      @JsonKey(name: 'song_art_image_url') String? songImage,
+      @JsonKey(name: 'release_date_for_display') String? releaseDate,
       int id});
 }
 
@@ -359,33 +372,33 @@ class _$SongCopyWithImpl<$Res, $Val extends Song>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artist_names = freezed,
+    Object? artistNames = freezed,
     Object? title = freezed,
-    Object? header_image_url = freezed,
-    Object? song_art_image_url = freezed,
-    Object? release_date_for_display = freezed,
+    Object? headerImageUrl = freezed,
+    Object? songImage = freezed,
+    Object? releaseDate = freezed,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
-      artist_names: freezed == artist_names
-          ? _value.artist_names
-          : artist_names // ignore: cast_nullable_to_non_nullable
+      artistNames: freezed == artistNames
+          ? _value.artistNames
+          : artistNames // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      header_image_url: freezed == header_image_url
-          ? _value.header_image_url
-          : header_image_url // ignore: cast_nullable_to_non_nullable
+      headerImageUrl: freezed == headerImageUrl
+          ? _value.headerImageUrl
+          : headerImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      song_art_image_url: freezed == song_art_image_url
-          ? _value.song_art_image_url
-          : song_art_image_url // ignore: cast_nullable_to_non_nullable
+      songImage: freezed == songImage
+          ? _value.songImage
+          : songImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      release_date_for_display: freezed == release_date_for_display
-          ? _value.release_date_for_display
-          : release_date_for_display // ignore: cast_nullable_to_non_nullable
+      releaseDate: freezed == releaseDate
+          ? _value.releaseDate
+          : releaseDate // ignore: cast_nullable_to_non_nullable
               as String?,
       id: null == id
           ? _value.id
@@ -402,11 +415,11 @@ abstract class _$$_SongCopyWith<$Res> implements $SongCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? artist_names,
+      {@JsonKey(name: 'artist_names') String? artistNames,
       String? title,
-      String? header_image_url,
-      String? song_art_image_url,
-      String? release_date_for_display,
+      @JsonKey(name: 'header_image_url') String? headerImageUrl,
+      @JsonKey(name: 'song_art_image_url') String? songImage,
+      @JsonKey(name: 'release_date_for_display') String? releaseDate,
       int id});
 }
 
@@ -419,33 +432,33 @@ class __$$_SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res, _$_Song>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artist_names = freezed,
+    Object? artistNames = freezed,
     Object? title = freezed,
-    Object? header_image_url = freezed,
-    Object? song_art_image_url = freezed,
-    Object? release_date_for_display = freezed,
+    Object? headerImageUrl = freezed,
+    Object? songImage = freezed,
+    Object? releaseDate = freezed,
     Object? id = null,
   }) {
     return _then(_$_Song(
-      artist_names: freezed == artist_names
-          ? _value.artist_names
-          : artist_names // ignore: cast_nullable_to_non_nullable
+      artistNames: freezed == artistNames
+          ? _value.artistNames
+          : artistNames // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      header_image_url: freezed == header_image_url
-          ? _value.header_image_url
-          : header_image_url // ignore: cast_nullable_to_non_nullable
+      headerImageUrl: freezed == headerImageUrl
+          ? _value.headerImageUrl
+          : headerImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      song_art_image_url: freezed == song_art_image_url
-          ? _value.song_art_image_url
-          : song_art_image_url // ignore: cast_nullable_to_non_nullable
+      songImage: freezed == songImage
+          ? _value.songImage
+          : songImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      release_date_for_display: freezed == release_date_for_display
-          ? _value.release_date_for_display
-          : release_date_for_display // ignore: cast_nullable_to_non_nullable
+      releaseDate: freezed == releaseDate
+          ? _value.releaseDate
+          : releaseDate // ignore: cast_nullable_to_non_nullable
               as String?,
       id: null == id
           ? _value.id
@@ -459,31 +472,35 @@ class __$$_SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res, _$_Song>
 @JsonSerializable()
 class _$_Song implements _Song {
   _$_Song(
-      {required this.artist_names,
+      {@JsonKey(name: 'artist_names') required this.artistNames,
       required this.title,
-      required this.header_image_url,
-      required this.song_art_image_url,
-      required this.release_date_for_display,
+      @JsonKey(name: 'header_image_url') required this.headerImageUrl,
+      @JsonKey(name: 'song_art_image_url') required this.songImage,
+      @JsonKey(name: 'release_date_for_display') required this.releaseDate,
       required this.id});
 
   factory _$_Song.fromJson(Map<String, dynamic> json) => _$$_SongFromJson(json);
 
   @override
-  final String? artist_names;
+  @JsonKey(name: 'artist_names')
+  final String? artistNames;
   @override
   final String? title;
   @override
-  final String? header_image_url;
+  @JsonKey(name: 'header_image_url')
+  final String? headerImageUrl;
   @override
-  final String? song_art_image_url;
+  @JsonKey(name: 'song_art_image_url')
+  final String? songImage;
   @override
-  final String? release_date_for_display;
+  @JsonKey(name: 'release_date_for_display')
+  final String? releaseDate;
   @override
   final int id;
 
   @override
   String toString() {
-    return 'Song(artist_names: $artist_names, title: $title, header_image_url: $header_image_url, song_art_image_url: $song_art_image_url, release_date_for_display: $release_date_for_display, id: $id)';
+    return 'Song(artistNames: $artistNames, title: $title, headerImageUrl: $headerImageUrl, songImage: $songImage, releaseDate: $releaseDate, id: $id)';
   }
 
   @override
@@ -491,23 +508,22 @@ class _$_Song implements _Song {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Song &&
-            (identical(other.artist_names, artist_names) ||
-                other.artist_names == artist_names) &&
+            (identical(other.artistNames, artistNames) ||
+                other.artistNames == artistNames) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.header_image_url, header_image_url) ||
-                other.header_image_url == header_image_url) &&
-            (identical(other.song_art_image_url, song_art_image_url) ||
-                other.song_art_image_url == song_art_image_url) &&
-            (identical(
-                    other.release_date_for_display, release_date_for_display) ||
-                other.release_date_for_display == release_date_for_display) &&
+            (identical(other.headerImageUrl, headerImageUrl) ||
+                other.headerImageUrl == headerImageUrl) &&
+            (identical(other.songImage, songImage) ||
+                other.songImage == songImage) &&
+            (identical(other.releaseDate, releaseDate) ||
+                other.releaseDate == releaseDate) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, artist_names, title,
-      header_image_url, song_art_image_url, release_date_for_display, id);
+  int get hashCode => Object.hash(runtimeType, artistNames, title,
+      headerImageUrl, songImage, releaseDate, id);
 
   @JsonKey(ignore: true)
   @override
@@ -525,25 +541,30 @@ class _$_Song implements _Song {
 
 abstract class _Song implements Song {
   factory _Song(
-      {required final String? artist_names,
+      {@JsonKey(name: 'artist_names') required final String? artistNames,
       required final String? title,
-      required final String? header_image_url,
-      required final String? song_art_image_url,
-      required final String? release_date_for_display,
+      @JsonKey(name: 'header_image_url') required final String? headerImageUrl,
+      @JsonKey(name: 'song_art_image_url') required final String? songImage,
+      @JsonKey(name: 'release_date_for_display')
+      required final String? releaseDate,
       required final int id}) = _$_Song;
 
   factory _Song.fromJson(Map<String, dynamic> json) = _$_Song.fromJson;
 
   @override
-  String? get artist_names;
+  @JsonKey(name: 'artist_names')
+  String? get artistNames;
   @override
   String? get title;
   @override
-  String? get header_image_url;
+  @JsonKey(name: 'header_image_url')
+  String? get headerImageUrl;
   @override
-  String? get song_art_image_url;
+  @JsonKey(name: 'song_art_image_url')
+  String? get songImage;
   @override
-  String? get release_date_for_display;
+  @JsonKey(name: 'release_date_for_display')
+  String? get releaseDate;
   @override
   int get id;
   @override

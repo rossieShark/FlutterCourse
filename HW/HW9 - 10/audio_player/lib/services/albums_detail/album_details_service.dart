@@ -13,5 +13,5 @@ abstract class AlbumDetailsService extends ChopperService {
       );
 
   @Get(path: 'album/appearances/')
-  Future<Response<AlbumDetailsResponce>> getAlbumSongsList(@Query() String id);
+  Future<Response<AlbumDetailsResponse>> getAlbumSongsList(@Query() String id);
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'search_result_model.freezed.dart';
@@ -25,8 +27,8 @@ class Hits with _$Hits {
 @freezed
 class Result with _$Result {
   factory Result({
-    required String? artist_names,
-    required String? header_image_url,
+    @JsonKey(name: 'artist_names') required String? artistNames,
+    @JsonKey(name: 'header_image_url') required String? imageUrl,
     required String? title,
     required int id,
   }) = _Result;

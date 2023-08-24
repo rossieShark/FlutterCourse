@@ -10,7 +10,6 @@ class GenresRepository {
     final genresList = await _genresService.getGenres();
 
     final items = genresList.body?.content.items as List<Items>;
-    print(items);
     return items;
   }
 }

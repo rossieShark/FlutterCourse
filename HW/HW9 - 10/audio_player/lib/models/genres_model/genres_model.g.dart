@@ -6,12 +6,12 @@ part of 'genres_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GenresResponce _$$_GenresResponceFromJson(Map<String, dynamic> json) =>
-    _$_GenresResponce(
+_$_GenresResponse _$$_GenresResponseFromJson(Map<String, dynamic> json) =>
+    _$_GenresResponse(
       content: Content.fromJson(json['content'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_GenresResponceToJson(_$_GenresResponce instance) =>
+Map<String, dynamic> _$$_GenresResponseToJson(_$_GenresResponse instance) =>
     <String, dynamic>{
       'content': instance.content,
     };

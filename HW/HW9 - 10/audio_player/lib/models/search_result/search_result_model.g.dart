@@ -29,15 +29,15 @@ Map<String, dynamic> _$$_HitsToJson(_$_Hits instance) => <String, dynamic>{
     };
 
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
-      artist_names: json['artist_names'] as String?,
-      header_image_url: json['header_image_url'] as String?,
+      artistNames: json['artist_names'] as String?,
+      imageUrl: json['header_image_url'] as String?,
       title: json['title'] as String?,
       id: json['id'] as int,
     );
 
 Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
-      'artist_names': instance.artist_names,
-      'header_image_url': instance.header_image_url,
+      'artist_names': instance.artistNames,
+      'header_image_url': instance.imageUrl,
       'title': instance.title,
       'id': instance.id,
     };
