@@ -14,10 +14,12 @@ class RecentlySearchedProvider extends ChangeNotifier {
     notifyListeners();
     await _database.insertRecentlySearched(
       RecentlySearchedSong(
-          id: int.parse(detailSong.id),
-          title: detailSong.title,
-          artist: detailSong.artist_names,
-          songImage: detailSong.header_image_url),
+        id: int.parse(detailSong.id),
+        // id: int.parse(detailSong.id),
+        title: detailSong.title,
+        artist: detailSong.artist_names,
+        songImage: detailSong.header_image_url,
+      ),
     );
   }
 

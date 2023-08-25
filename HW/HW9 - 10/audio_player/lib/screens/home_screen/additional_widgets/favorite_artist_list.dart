@@ -38,36 +38,47 @@ class _FavoriteArtistListState extends State<FavoriteArtistList> {
             return Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ResponsiveBuilder(
-                      narrow: 78.0,
-                      medium: 115.0,
-                      large: 150.0,
-                      builder: (context, child, height) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(height / 2),
-                          child: SizedBox(
-                            height: height,
-                            width: height,
-                            child: Image.network(
-                                favoriteArtistList[index].image,
-                                fit: BoxFit.cover),
-                          ),
-                        );
-                      }),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                      TextModifierService()
-                          .removeTextAfter(favoriteArtistList[index].name),
-                      style: Theme.of(context).textTheme.bodySmall),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ResponsiveBuilder(
+                        narrow: 78.0,
+                        medium: 115.0,
+                        large: 150.0,
+                        builder: (context, child, height) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(height / 2),
+                            child: SizedBox(
+                              height: height,
+                              width: height,
+                              child: Image.network(
+                                  favoriteArtistList[index].image,
+                                  fit: BoxFit.cover),
+                            ),
+                          );
+                        }),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    ResponsiveBuilder(
+                        narrow: 16.0,
+                        medium: 22.0,
+                        large: 22.0,
+                        builder: (context, child, size) {
+                          return Text(
+                            TextModifierService().removeTextAfter(
+                                favoriteArtistList[index].name),
+                            style: TextStyle(
+                              fontFamily: AppFonts.colombia.font,
+                              fontSize: size,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          );
+                        }),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                  ]),
             );
           }),
         );

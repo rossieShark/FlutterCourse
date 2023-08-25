@@ -91,12 +91,19 @@ class _CreateRecentlySearchedSection extends StatelessWidget {
       RecentlySearchedList(width: MediaQuery.of(context).size.width),
       Center(
         child: TextButton(
-            onPressed: () {
-              provider.removeAll();
-            },
-            child: Text('Clear all',
-                style: Theme.of(context).textTheme.bodyLarge)),
-      )
+          onPressed: () {
+            provider.removeAll();
+          },
+          child: Text(
+            'Clear all',
+            style: TextStyle(
+                color: AppColors.white.color,
+                fontSize: 20,
+                fontFamily: AppFonts.colombia.font,
+                fontWeight: FontWeight.w700),
+          ),
+        ),
+      ),
     ]);
   }
 }

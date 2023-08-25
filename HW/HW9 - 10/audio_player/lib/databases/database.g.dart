@@ -13,11 +13,9 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _artistNamesMeta =
       const VerificationMeta('artistNames');
   @override
@@ -269,7 +267,9 @@ class $FavoriteArtistsTable extends FavoriteArtists
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -293,8 +293,6 @@ class $FavoriteArtistsTable extends FavoriteArtists
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -312,7 +310,7 @@ class $FavoriteArtistsTable extends FavoriteArtists
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   FavoriteArtist map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -405,45 +403,35 @@ class FavoriteArtistsCompanion extends UpdateCompanion<FavoriteArtist> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> image;
-  final Value<int> rowid;
   const FavoriteArtistsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.image = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   FavoriteArtistsCompanion.insert({
-    required int id,
+    this.id = const Value.absent(),
     required String name,
     required String image,
-    this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        name = Value(name),
+  })  : name = Value(name),
         image = Value(image);
   static Insertable<FavoriteArtist> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? image,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (image != null) 'image': image,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   FavoriteArtistsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? name,
-      Value<String>? image,
-      Value<int>? rowid}) {
+      {Value<int>? id, Value<String>? name, Value<String>? image}) {
     return FavoriteArtistsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       image: image ?? this.image,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -459,9 +447,6 @@ class FavoriteArtistsCompanion extends UpdateCompanion<FavoriteArtist> {
     if (image.present) {
       map['image'] = Variable<String>(image.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
@@ -470,8 +455,7 @@ class FavoriteArtistsCompanion extends UpdateCompanion<FavoriteArtist> {
     return (StringBuffer('FavoriteArtistsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('image: $image, ')
-          ..write('rowid: $rowid')
+          ..write('image: $image')
           ..write(')'))
         .toString();
   }
@@ -487,11 +471,9 @@ class $BestAlbumsTable extends BestAlbums
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -777,11 +759,9 @@ class $DetailAlbumsTable extends DetailAlbums
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _albumidMeta =
       const VerificationMeta('albumid');
   @override
@@ -1143,11 +1123,9 @@ class $FavoriteAlbumsTable extends FavoriteAlbums
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -1389,11 +1367,9 @@ class $FavoriteSongsTable extends FavoriteSongs
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -1635,11 +1611,9 @@ class $RecentlySearchedSongsTable extends RecentlySearchedSongs
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -1874,6 +1848,253 @@ class RecentlySearchedSongsCompanion
   }
 }
 
+class $DetailInfoSongsTable extends DetailInfoSongs
+    with TableInfo<$DetailInfoSongsTable, DetailInfoSong> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DetailInfoSongsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _artistNamesMeta =
+      const VerificationMeta('artistNames');
+  @override
+  late final GeneratedColumn<String> artistNames = GeneratedColumn<String>(
+      'artist_names', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _imageUrlMeta =
+      const VerificationMeta('imageUrl');
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+      'image_url', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, title, artistNames, imageUrl];
+  @override
+  String get aliasedName => _alias ?? 'detail_info_songs';
+  @override
+  String get actualTableName => 'detail_info_songs';
+  @override
+  VerificationContext validateIntegrity(Insertable<DetailInfoSong> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('artist_names')) {
+      context.handle(
+          _artistNamesMeta,
+          artistNames.isAcceptableOrUnknown(
+              data['artist_names']!, _artistNamesMeta));
+    } else if (isInserting) {
+      context.missing(_artistNamesMeta);
+    }
+    if (data.containsKey('image_url')) {
+      context.handle(_imageUrlMeta,
+          imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta));
+    } else if (isInserting) {
+      context.missing(_imageUrlMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DetailInfoSong map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DetailInfoSong(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      artistNames: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}artist_names'])!,
+      imageUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image_url'])!,
+    );
+  }
+
+  @override
+  $DetailInfoSongsTable createAlias(String alias) {
+    return $DetailInfoSongsTable(attachedDatabase, alias);
+  }
+}
+
+class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
+  final int id;
+  final String title;
+  final String artistNames;
+  final String imageUrl;
+  const DetailInfoSong(
+      {required this.id,
+      required this.title,
+      required this.artistNames,
+      required this.imageUrl});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['artist_names'] = Variable<String>(artistNames);
+    map['image_url'] = Variable<String>(imageUrl);
+    return map;
+  }
+
+  DetailInfoSongsCompanion toCompanion(bool nullToAbsent) {
+    return DetailInfoSongsCompanion(
+      id: Value(id),
+      title: Value(title),
+      artistNames: Value(artistNames),
+      imageUrl: Value(imageUrl),
+    );
+  }
+
+  factory DetailInfoSong.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DetailInfoSong(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      artistNames: serializer.fromJson<String>(json['artistNames']),
+      imageUrl: serializer.fromJson<String>(json['imageUrl']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'artistNames': serializer.toJson<String>(artistNames),
+      'imageUrl': serializer.toJson<String>(imageUrl),
+    };
+  }
+
+  DetailInfoSong copyWith(
+          {int? id, String? title, String? artistNames, String? imageUrl}) =>
+      DetailInfoSong(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        artistNames: artistNames ?? this.artistNames,
+        imageUrl: imageUrl ?? this.imageUrl,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DetailInfoSong(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('artistNames: $artistNames, ')
+          ..write('imageUrl: $imageUrl')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, artistNames, imageUrl);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DetailInfoSong &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.artistNames == this.artistNames &&
+          other.imageUrl == this.imageUrl);
+}
+
+class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String> artistNames;
+  final Value<String> imageUrl;
+  const DetailInfoSongsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.artistNames = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+  });
+  DetailInfoSongsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required String artistNames,
+    required String imageUrl,
+  })  : title = Value(title),
+        artistNames = Value(artistNames),
+        imageUrl = Value(imageUrl);
+  static Insertable<DetailInfoSong> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? artistNames,
+    Expression<String>? imageUrl,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (artistNames != null) 'artist_names': artistNames,
+      if (imageUrl != null) 'image_url': imageUrl,
+    });
+  }
+
+  DetailInfoSongsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? title,
+      Value<String>? artistNames,
+      Value<String>? imageUrl}) {
+    return DetailInfoSongsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      artistNames: artistNames ?? this.artistNames,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (artistNames.present) {
+      map['artist_names'] = Variable<String>(artistNames.value);
+    }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DetailInfoSongsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('artistNames: $artistNames, ')
+          ..write('imageUrl: $imageUrl')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AudioDatabase extends GeneratedDatabase {
   _$AudioDatabase(QueryExecutor e) : super(e);
   late final $RecentlyPlayedSongsTable recentlyPlayedSongs =
@@ -1886,6 +2107,8 @@ abstract class _$AudioDatabase extends GeneratedDatabase {
   late final $FavoriteSongsTable favoriteSongs = $FavoriteSongsTable(this);
   late final $RecentlySearchedSongsTable recentlySearchedSongs =
       $RecentlySearchedSongsTable(this);
+  late final $DetailInfoSongsTable detailInfoSongs =
+      $DetailInfoSongsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1897,6 +2120,7 @@ abstract class _$AudioDatabase extends GeneratedDatabase {
         detailAlbums,
         favoriteAlbums,
         favoriteSongs,
-        recentlySearchedSongs
+        recentlySearchedSongs,
+        detailInfoSongs
       ];
 }

@@ -1,5 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/models/models.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,10 +27,13 @@ class SearchResultlist extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 width: width,
                 child: Center(
-                    child: Text(
-                  'No results',
-                  style: TextStyle(color: AppColors.white.color, fontSize: 25),
-                )))
+                  child: Text(
+                    'No results',
+                    style:
+                        TextStyle(color: AppColors.white.color, fontSize: 25),
+                  ),
+                ),
+              )
             : ResponsiveBuilder(
                 narrow: 70.0,
                 medium: 80.0,
@@ -44,13 +48,16 @@ class SearchResultlist extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(searchResult.length, (index) {
                         return GestureDetector(
-                            onTap: () {
-                              int id = searchResult[index].result.id;
+                          onTap: () {
+                            int id = searchResult[index].result.id;
 
-                              GoRouter.of(context).push(
-                                  Uri(path: '/detail_music/$id').toString());
+                            GoRouter.of(context).push(Uri(
+                                    path:
+                                        '${routeNameMap[RouteName.detailMusic]!}$id')
+                                .toString());
 
-                              recentlySearched.addToFavorites(SongModel(
+                            recentlySearched.addToFavorites(
+                              SongModel(
                                 id: id.toString(),
                                 artist_names:
                                     searchResult[index].result.artistNames ??
@@ -58,87 +65,91 @@ class SearchResultlist extends StatelessWidget {
                                 title: searchResult[index].result.title ?? '',
                                 header_image_url:
                                     searchResult[index].result.imageUrl ?? '',
-                              ));
+                              ),
+                            );
+                          },
+                          child: HoverableWidget(
+                            builder: (context, child, isHovered) {
+                              return AnimatedScale(
+                                scale: isHovered ? 1.04 : 1.0,
+                                duration: const Duration(milliseconds: 200),
+                                child: child,
+                              );
                             },
-                            child: HoverableWidget(
-                              builder: (context, child, isHovered) {
-                                return AnimatedScale(
-                                  scale: isHovered ? 1.04 : 1.0,
-                                  duration: const Duration(milliseconds: 200),
-                                  child: child,
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    padding, 0, padding, 0),
-                                child: SizedBox(
-                                    height: height,
-                                    width: width,
-                                    child: Row(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  padding, 0, padding, 0),
+                              child: SizedBox(
+                                height: height,
+                                width: width,
+                                child: Row(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0, 0, padding, 0),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(padding / 2),
+                                      child: SizedBox(
+                                        width: height - 10,
+                                        height: height - 10,
+                                        child: Image.network(
+                                            searchResult[index]
+                                                    .result
+                                                    .imageUrl ??
+                                                'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 0, padding, 0),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                padding / 2),
-                                            child: SizedBox(
-                                              width: height - 10,
-                                              height: height - 10,
-                                              child: Image.network(
-                                                  searchResult[index]
-                                                          .result
-                                                          .imageUrl ??
-                                                      'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
-                                                  fit: BoxFit.cover),
-                                            ),
+                                        SizedBox(
+                                          width: width -
+                                              (height - 10) -
+                                              padding * 7,
+                                          child: Text(
+                                            searchResult[index].result.title ??
+                                                '',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily:
+                                                    AppFonts.lusitana.font,
+                                                fontSize: height * 0.2,
+                                                fontWeight: FontWeight.w500),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: width -
-                                                  (height - 10) -
-                                                  padding * 7,
-                                              child: Text(
-                                                searchResult[index]
-                                                        .result
-                                                        .title ??
-                                                    '',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            Text(
-                                                TextModifierService()
-                                                    .removeTextAfter(
-                                                        searchResult[index]
-                                                            .result
-                                                            .artistNames!),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall),
-                                          ],
+                                        Text(
+                                          TextModifierService().removeTextAfter(
+                                              searchResult[index]
+                                                  .result
+                                                  .artistNames!),
+                                          style: TextStyle(
+                                              fontFamily:
+                                                  AppFonts.colombia.font,
+                                              fontSize: height * 0.25,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              padding, 0, 0, 0),
-                                          child: IconButtonWidget(
-                                              iconData: Icons.keyboard_control,
-                                              color: AppColors.white.color,
-                                              onPressed: () {}),
-                                        )
-                                      ],
-                                    )),
+                                      ]),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        padding, 0, 0, 0),
+                                    child: IconButtonWidget(
+                                        iconData: Icons.keyboard_control,
+                                        color: AppColors.white.color,
+                                        onPressed: () {}),
+                                  ),
+                                ]),
                               ),
-                            ));
+                            ),
+                          ),
+                        );
                       }),
                     ),
                   );

@@ -35,6 +35,9 @@ void setupDependencies() {
   GetIt.I.registerSingleton<RecentlySearchedProvider>(
     RecentlySearchedProvider(MyDatabaseSingleton.instance),
   );
+  // GetIt.I.registerSingleton<SongDetailRepository>(
+  //   SongDetailRepository(MyDatabaseSingleton.instance),
+  // );
   // Add more registrations as needed
 }
 

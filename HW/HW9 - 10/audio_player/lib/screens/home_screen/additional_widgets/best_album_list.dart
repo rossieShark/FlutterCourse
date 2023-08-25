@@ -1,4 +1,5 @@
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,6 @@ class BestAlbumsContent extends StatelessWidget {
 
   const BestAlbumsContent(
       {super.key, required this.bestAlbumList, required this.index});
-  final bool isHovered = false;
   @override
   Widget build(BuildContext context) {
     final int id = bestAlbumList[index].id;
@@ -78,8 +78,10 @@ class BestAlbumsContent extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        print('Navigating to album detail with id: $id and title: $title');
+
         GoRouter.of(context).push(Uri(
-          path: '/album_detail/$id',
+          path: '${routeNameMap[RouteName.albumDetail]!}$id',
           queryParameters: {'title': title}, // Add additional parameters here
         ).toString());
       },
@@ -93,41 +95,40 @@ class BestAlbumsContent extends StatelessWidget {
               child: child,
             );
           },
-          child: Stack(
-            children: [
-              ResponsiveBuilder(
-                  narrow: 150.0,
-                  medium: 300.0,
-                  large: 350.0,
-                  builder: (context, child, height) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        height: height,
-                        width: MediaQuery.of(context).size.width - 32,
-                        child: Image.network(
-                          bestAlbumList[index].image,
-                          fit: BoxFit.cover,
-                        ),
+          child: Stack(children: [
+            ResponsiveBuilder(
+                narrow: 150.0,
+                medium: 300.0,
+                large: 350.0,
+                builder: (context, child, height) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox(
+                      height: height,
+                      width: MediaQuery.of(context).size.width - 32,
+                      child: Image.network(
+                        bestAlbumList[index].image,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  }),
-              Positioned.fill(
-                child: HoverableWidget(builder: (context, child, isHovered) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: isHovered
-                          ? Colors.black.withOpacity(0.1)
-                          : Colors.black.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(20),
                     ),
                   );
                 }),
-              ),
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
+            Positioned.fill(
+              child: HoverableWidget(builder: (context, child, isHovered) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: isHovered
+                        ? Colors.black.withOpacity(0.1)
+                        : Colors.black.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                );
+              }),
+            ),
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +136,11 @@ class BestAlbumsContent extends StatelessWidget {
                       AutoSizeText(
                         TextModifierService()
                             .removeTextAfter(bestAlbumList[index].title),
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: TextStyle(
+                            color: AppColors.white.color,
+                            fontSize: 24,
+                            fontFamily: AppFonts.lusitana.font,
+                            fontWeight: FontWeight.w500),
                         textAlign: TextAlign.center,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -148,7 +153,11 @@ class BestAlbumsContent extends StatelessWidget {
                       Text(
                         TextModifierService()
                             .removeTextBefore(bestAlbumList[index].title),
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: TextStyle(
+                            fontFamily: AppFonts.colombia.font,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
@@ -156,14 +165,17 @@ class BestAlbumsContent extends StatelessWidget {
                       ),
                       Text(
                         bestAlbumList[index].releaseDate,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      )
-                    ],
-                  ),
-                ),
+                        style: TextStyle(
+                          color: AppColors.white.color,
+                          fontSize: 22,
+                          fontFamily: AppFonts.colombia.font,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ]),
               ),
-            ],
-          ),
+            ),
+          ]),
         ),
       ),
     );

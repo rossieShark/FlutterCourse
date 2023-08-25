@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -21,11 +22,6 @@ class MyFavoriteAlbum extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         )),
         leading: PlatformBuilder(
-            web: ResponsiveButton(
-              iconData: Icons.arrow_back_ios,
-              onPressed: null,
-              color: Colors.transparent,
-            ),
             iOS: ResponsiveButton(
                 iconData: Icons.arrow_back_ios,
                 onPressed: () {
@@ -73,7 +69,15 @@ class FavoriteSongsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return favoriteProvider.favoriteAlbum.isEmpty
-        ? const Center(child: Text('No Songs yet'))
+        ? Center(
+            child: Text(
+            'No Songs yet',
+            style: TextStyle(
+                color: AppColors.white.color,
+                fontSize: 20,
+                fontFamily: AppFonts.colombia.font,
+                fontWeight: FontWeight.w700),
+          ))
         : FavoriteAlbumListView(favoriteProvider: favoriteProvider);
   }
 }
@@ -100,7 +104,7 @@ class FavoriteAlbumListView extends StatelessWidget {
               String title = song.artist_names;
 
               GoRouter.of(context).push(Uri(
-                path: '/album_detail/$id',
+                path: '${routeNameMap[RouteName.albumDetail]!}$id',
                 queryParameters: {'title': title},
               ).toString());
             },
@@ -122,76 +126,85 @@ class FavoriteAlbumListView extends StatelessWidget {
                   large: 120.0,
                   builder: (context, child, height) {
                     return SizedBox(
-                        height: height,
-                        width: MediaQuery.of(context).size.width - 32,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(height) / 2,
-                                      child: SizedBox(
-                                        width: height,
-                                        height: height,
-                                        child: Image.network(
-                                            song.header_image_url,
-                                            fit: BoxFit.cover),
-                                      ),
+                      height: height,
+                      width: MediaQuery.of(context).size.width - 32,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(height) / 2,
+                                    child: SizedBox(
+                                      width: height,
+                                      height: height,
+                                      child: Image.network(
+                                          song.header_image_url,
+                                          fit: BoxFit.cover),
                                     ),
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 5, 0, 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      // mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              32 -
-                                              height -
-                                              100,
-                                          child: AutoSizeText(
-                                            TextModifierService()
-                                                .removeTextAfter(
-                                                    song.artist_names),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
-                                            maxLines: 4,
-                                            overflow: TextOverflow.ellipsis,
-                                            minFontSize: 6,
-                                            stepGranularity: 1,
-                                          ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 5, 0, 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                32 -
+                                                height -
+                                                100,
+                                        child: AutoSizeText(
+                                          TextModifierService().removeTextAfter(
+                                              song.artist_names),
+                                          style: TextStyle(
+                                              color: AppColors.white.color,
+                                              fontSize: 20,
+                                              fontFamily:
+                                                  AppFonts.colombia.font,
+                                              fontWeight: FontWeight.w700),
+                                          maxLines: 4,
+                                          overflow: TextOverflow.ellipsis,
+                                          minFontSize: 6,
+                                          stepGranularity: 1,
                                         ),
-                                        Text(song.title,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium)
-                                      ],
-                                    ),
+                                      ),
+                                      AutoSizeText(
+                                        TextModifierService()
+                                            .removeTextAfter(song.title),
+                                        style: TextStyle(
+                                          fontFamily: AppFonts.montserrat.font,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.white.color,
+                                          fontSize: 13,
+                                        ),
+                                        minFontSize: 6,
+                                        stepGranularity: 1,
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                child: IconButtonWidget(
-                                    iconData: Icons.keyboard_control,
-                                    color: AppColors.white.color,
-                                    onPressed: () {}),
-                              )
-                            ]));
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                              child: IconButtonWidget(
+                                  iconData: Icons.keyboard_control,
+                                  color: AppColors.white.color,
+                                  onPressed: () {}),
+                            ),
+                          ]),
+                    );
                   }),
             ),
           );

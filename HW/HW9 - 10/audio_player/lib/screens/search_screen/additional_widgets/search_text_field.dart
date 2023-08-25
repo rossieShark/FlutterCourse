@@ -32,7 +32,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
         contentPadding: const EdgeInsets.symmetric(vertical: 6.0),
         prefixIcon: const Icon(Icons.search, color: Colors.grey),
         hintText: widget.focusNode.hasFocus ? '' : 'Song, Artist name',
-        hintStyle: Theme.of(context).textTheme.bodySmall,
+        hintStyle: TextStyle(
+            fontFamily: AppFonts.colombia.font,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.white),
         labelStyle: TextStyle(color: AppColors.white.color),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -53,7 +57,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
               )
             : null,
       ),
-      style: Theme.of(context).textTheme.bodySmall,
+      style: TextStyle(
+          fontFamily: AppFonts.colombia.font,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Colors.white),
       onChanged: widget.onChanged,
     );
   }

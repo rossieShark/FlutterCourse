@@ -29,41 +29,39 @@ class _WebScreenState extends State<WebScreen> {
       body: Row(
         children: [
           Expanded(
-            child: CustomScrollView(
-              controller: widget.scrollController,
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  backgroundColor: AppColors.background.color,
-                  title: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SearchTextField(
-                      controller: widget.textFieldController,
-                      focusNode: widget.focusNode,
-                      isTappedTextField: _isTappedTextField,
-                      onPressed: () {
-                        setState(() {
-                          widget.textFieldController.clear();
-                          _isTappedTextField = false;
-                        });
-                      },
-                      onChanged: (query) {
-                        setState(() {
-                          _isTappedTextField = true;
-                        });
-                      },
-                    ),
+            child:
+                CustomScrollView(controller: widget.scrollController, slivers: [
+              SliverAppBar(
+                pinned: true,
+                backgroundColor: AppColors.background.color,
+                title: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SearchTextField(
+                    controller: widget.textFieldController,
+                    focusNode: widget.focusNode,
+                    isTappedTextField: _isTappedTextField,
+                    onPressed: () {
+                      setState(() {
+                        widget.textFieldController.clear();
+                        _isTappedTextField = false;
+                      });
+                    },
+                    onChanged: (query) {
+                      setState(() {
+                        _isTappedTextField = true;
+                      });
+                    },
                   ),
                 ),
-                _isTappedTextField
-                    ? SliverToBoxAdapter(
-                        child: SearchResultlist(
-                          width: MediaQuery.of(context).size.width / 2 - 30,
-                        ),
-                      )
-                    : _CreateGenresSection(),
-              ],
-            ),
+              ),
+              _isTappedTextField
+                  ? SliverToBoxAdapter(
+                      child: SearchResultlist(
+                        width: MediaQuery.of(context).size.width / 2 - 30,
+                      ),
+                    )
+                  : _CreateGenresSection(),
+            ]),
           ),
           VerticalDivider(
             width: 2,
@@ -84,15 +82,15 @@ class _CreateGenresSection extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              'Genres',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(16),
+        //   child: Center(
+        //     child: Text(
+        //       'Genres',
+        //       style: Theme.of(context).textTheme.titleSmall,
+        //     ),
+        //   ),
+        // ),
         CategoriesList(
           width: MediaQuery.of(context).size.width / 2 - 30,
         ),
@@ -109,39 +107,43 @@ class _CreateRecentlySearchedSection extends StatelessWidget {
       child: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Recently Searched',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     TextButton(
-                        onPressed: () {
-                          provider.removeAll();
-                        },
-                        child: Text('Clear all',
-                            style: Theme.of(context).textTheme.bodySmall)),
-                  ],
-                ),
-              ),
-              Divider(
-                color: AppColors.accent.color,
-                height: 1,
-                thickness: 1,
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: RecentlySearchedList(
-                    width: MediaQuery.of(context).size.width / 2),
-              ),
-            ],
-          ),
+                      onPressed: () {
+                        provider.removeAll();
+                      },
+                      child: Text(
+                        'Clear all',
+                        style: TextStyle(
+                            color: AppColors.accent.color,
+                            fontSize: 20,
+                            fontFamily: AppFonts.colombia.font,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ]),
+            ),
+            Divider(
+              color: AppColors.accent.color,
+              height: 1,
+              thickness: 1,
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: RecentlySearchedList(
+                  width: MediaQuery.of(context).size.width / 2),
+            ),
+          ]),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,11 @@ class MyFavoriteSongs extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background.color,
         leading: PlatformBuilder(
-            web: ResponsiveButton(
-              iconData: Icons.arrow_back_ios,
-              onPressed: null,
-              color: Colors.transparent,
-            ),
+            // web: ResponsiveButton(
+            //   iconData: Icons.arrow_back_ios,
+            //   onPressed: null,
+            //   color: Colors.transparent,
+            // ),
             iOS: ResponsiveButton(
                 iconData: Icons.arrow_back_ios,
                 onPressed: () {
@@ -67,7 +68,15 @@ class FavoriteSongsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return favoriteProvider.favoriteSong.isEmpty
-        ? const Center(child: Text('No Songs yet'))
+        ? Center(
+            child: Text(
+            'No Songs yet',
+            style: TextStyle(
+                color: AppColors.white.color,
+                fontSize: 20,
+                fontFamily: AppFonts.colombia.font,
+                fontWeight: FontWeight.w700),
+          ))
         : FavoriteSongListView(favoriteProvider: favoriteProvider);
   }
 }
@@ -94,8 +103,9 @@ class FavoriteSongListView extends StatelessWidget {
             onTap: () {
               String id = song.id;
 
-              GoRouter.of(context)
-                  .push(Uri(path: '/detail_music/$id').toString());
+              GoRouter.of(context).push(
+                  Uri(path: '${routeNameMap[RouteName.detailMusic]!}$id')
+                      .toString());
             },
             child: Dismissible(
               key: Key(song.id),
@@ -115,46 +125,63 @@ class FavoriteSongListView extends StatelessWidget {
                   large: 90.0,
                   builder: (context, child, height) {
                     return SizedBox(
-                        height: height,
-                        width: maxWidth - 32,
-                        child: Row(children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: SizedBox(
-                                width: height,
-                                height: height,
-                                child: Image.network(song.header_image_url,
-                                    fit: BoxFit.cover),
-                              ),
+                      height: height,
+                      width: maxWidth - 32,
+                      child: Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: SizedBox(
+                              width: height,
+                              height: height,
+                              child: Image.network(song.header_image_url,
+                                  fit: BoxFit.cover),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: maxWidth - height - padding * 7,
-                                child: Text(
-                                  song.title,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Text(song.artist_names,
-                                  style: Theme.of(context).textTheme.bodySmall),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                            child: IconButtonWidget(
-                                iconData: Icons.keyboard_control,
-                                color: AppColors.white.color,
-                                onPressed: () {}),
-                          )
-                        ]));
+                        ),
+                        ResponsiveBuilder(
+                            narrow: 13.0,
+                            medium: 18.0,
+                            large: 18.0,
+                            builder: (context, child, size) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: maxWidth - height - padding * 7,
+                                    child: Text(
+                                      song.title,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: AppFonts.lusitana.font,
+                                          fontSize: size,
+                                          fontWeight: FontWeight.w500),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Text(
+                                    song.artist_names,
+                                    style: TextStyle(
+                                        fontFamily: AppFonts.colombia.font,
+                                        fontSize: size,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              );
+                            }),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                          child: IconButtonWidget(
+                              iconData: Icons.keyboard_control,
+                              color: AppColors.white.color,
+                              onPressed: () {}),
+                        ),
+                      ]),
+                    );
                   }),
             ),
           );

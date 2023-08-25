@@ -18,21 +18,35 @@ class CreatTitleSection extends StatelessWidget {
             iconData: Icons.ios_share,
             color: AppColors.accent.color,
             onPressed: () {}),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-              child: Text(
-                TextModifierService().removeTextAfter(
-                  songInfo?.artistNames ?? 'NoName',
-                ),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            Text(songInfo?.title ?? '',
-                style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
+        ResponsiveBuilder(
+            narrow: 18.0,
+            medium: 25.0,
+            large: 25.0,
+            builder: (context, child, size) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                    child: Text(
+                      TextModifierService().removeTextAfter(
+                        songInfo?.artistNames ?? 'NoName',
+                      ),
+                      style: TextStyle(
+                          color: AppColors.white.color,
+                          fontSize: size,
+                          fontFamily: AppFonts.lusitana.font,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Text(songInfo?.title ?? '',
+                      style: TextStyle(
+                          fontFamily: AppFonts.colombia.font,
+                          fontSize: size * 0.8,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white)),
+                ],
+              );
+            }),
         _LikeButtonWidget(param: param, songInfo: songInfo)
       ],
     );

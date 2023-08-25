@@ -131,9 +131,9 @@ final router = GoRouter(
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (blocContext) =>
-                      DetailMusicPageBloc(SongDetailRepository()),
-                ),
+                    create: (blocContext) =>
+                        //DetailMusicPageBloc(GetIt.I<SongDetailRepository>()),
+                        DetailMusicPageBloc(SongDetailRepository())),
                 BlocProvider(
                   create: (context) => FavoriteBloc(
                     Provider.of<FavoriteProvider>(context, listen: false),

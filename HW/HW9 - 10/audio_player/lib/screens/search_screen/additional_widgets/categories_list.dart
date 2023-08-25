@@ -50,59 +50,57 @@ class _CategoriesListState extends State<CategoriesList> {
                     onTap: () {},
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                      child: HoverableWidget(
-                        builder: (context, child, isHovered) {
-                          return AnimatedScale(
-                            scale: isHovered ? 1.1 : 1.0,
-                            duration: const Duration(milliseconds: 200),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: SizedBox(
-                                    height: 400,
-                                    child: Image.network(
-                                      genres[0].images[1].url ?? '',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                      child:
+                          HoverableWidget(builder: (context, child, isHovered) {
+                        return AnimatedScale(
+                          scale: isHovered ? 1.1 : 1.0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Stack(children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: SizedBox(
+                                height: 400,
+                                child: Image.network(
+                                  genres[0].images[1].url ?? '',
+                                  fit: BoxFit.cover,
                                 ),
-                                Positioned.fill(
-                                  child: HoverableWidget(
-                                    builder: (context, child, isHovered) {
-                                      return Container(
-                                        decoration: BoxDecoration(
-                                          color: isHovered
-                                              ? Colors.black.withOpacity(0.1)
-                                              : Colors.black.withOpacity(0.6),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Text(
-                                        genres[index].name ?? '',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          );
-                        },
-                      ),
+                            Positioned.fill(
+                              child: HoverableWidget(
+                                builder: (context, child, isHovered) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: isHovered
+                                          ? Colors.black.withOpacity(0.1)
+                                          : Colors.black.withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Positioned.fill(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text(
+                                    genres[index].name ?? '',
+                                    style: TextStyle(
+                                        fontFamily: AppFonts.colombia.font,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                        );
+                      }),
                     ),
                   );
                 }).toList(),

@@ -1,4 +1,5 @@
 import 'package:audio_player/models/favorite_folder_model.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,31 +18,38 @@ class FavoriteSongsList extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               if (index == 0) {
-                context.push('/albums');
+                context.push(routeNameMap[RouteName.favoriteAlbums]!);
               } else {
-                context.push('/tracks');
+                context.push(routeNameMap[RouteName.favoriteTracks]!);
               }
             },
             child: SizedBox(
-                height: 70,
-                width: MediaQuery.of(context).size.width - 32,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: folders[index].image),
-                          ),
-                          Text(folders[index].title,
-                              style: Theme.of(context).textTheme.bodyMedium),
-                        ],
-                      ),
-                      folders[index].iconButton
-                    ])),
+              height: 70,
+              width: MediaQuery.of(context).size.width - 32,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: folders[index].image),
+                        ),
+                        Text(
+                          folders[index].title,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: AppFonts.lusitana.font,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    folders[index].iconButton
+                  ]),
+            ),
           );
         });
   }
@@ -60,11 +68,12 @@ List<FavoriteFolder> folders = [
         onPressed: () {},
       )),
   FavoriteFolder(
-      image: Icon(Icons.music_note, color: AppColors.white.color),
-      title: "Tracks",
-      iconButton: IconButtonWidget(
-        iconData: Icons.arrow_forward_ios,
-        color: AppColors.white.color,
-        onPressed: () {},
-      )),
+    image: Icon(Icons.music_note, color: AppColors.white.color),
+    title: "Tracks",
+    iconButton: IconButtonWidget(
+      iconData: Icons.arrow_forward_ios,
+      color: AppColors.white.color,
+      onPressed: () {},
+    ),
+  ),
 ];

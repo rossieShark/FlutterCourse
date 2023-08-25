@@ -2,6 +2,7 @@ import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_bloc.d
 import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_events.dart';
 import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_states.dart';
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/screens/tab_bar/go_router.dart';
 
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 
@@ -118,48 +119,66 @@ class RecentlyPlayedPageContent extends StatelessWidget {
         print('tapped');
         int id = chartItems[index].id;
 
-        GoRouter.of(context).push(Uri(path: '/detail_music/$id').toString());
+        GoRouter.of(context).push(
+            Uri(path: '${routeNameMap[RouteName.detailMusic]!}$id').toString());
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ResponsiveBuilder(
-                narrow: 190.0,
-                medium: 250.0,
-                large: 280.0,
-                builder: (context, child, height) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox(
-                      height: height,
-                      width: height,
-                      child: Image.network(chartItems[index].headerImageUrl,
-                          fit: BoxFit.cover),
-                    ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ResponsiveBuilder(
+              narrow: 190.0,
+              medium: 250.0,
+              large: 280.0,
+              builder: (context, child, height) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox(
+                    height: height,
+                    width: height,
+                    child: Image.network(chartItems[index].headerImageUrl,
+                        fit: BoxFit.cover),
+                  ),
+                );
+              }),
+          ResponsiveBuilder(
+              narrow: 16.0,
+              medium: 22.0,
+              large: 22.0,
+              builder: (context, child, size) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                  child: Text(
+                    chartItems[index].artistNames,
+                    style: TextStyle(
+                        fontFamily: AppFonts.colombia.font,
+                        fontSize: size,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
+                );
+              }),
+          const SizedBox(
+            height: 4,
+          ),
+          SizedBox(
+            width: getResponsiveSize(maxWidth, 100),
+            child: ResponsiveBuilder(
+                narrow: 12.0,
+                medium: 16.0,
+                large: 16.0,
+                builder: (context, child, size) {
+                  return Text(
+                    chartItems[index].title,
+                    style: TextStyle(
+                        fontFamily: AppFonts.montserrat.font,
+                        fontSize: size,
+                        fontWeight: FontWeight.w600,
+                        color: const Color.fromARGB(255, 123, 123, 123)),
+                    maxLines: 2,
                   );
                 }),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-              child: Text(
-                chartItems[index].artistNames,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            SizedBox(
-              width: getResponsiveSize(maxWidth, 100),
-              child: Text(
-                chartItems[index].title,
-                style: Theme.of(context).textTheme.displaySmall,
-                maxLines: 2,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
