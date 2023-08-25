@@ -113,9 +113,9 @@ class ImageScroll extends StatelessWidget {
       height: 240,
       child: InfiniteCarousel.builder(
         itemCount: images.length,
-        itemExtent: 160,
+        itemExtent: 140,
         center: true,
-        anchor: 0.0,
+        anchor: 0.23,
         velocityFactor: 0.2,
         onIndexChanged: (index) {},
         controller: InfiniteScrollController(),
