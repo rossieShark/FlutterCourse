@@ -1,7 +1,7 @@
-import 'package:audio_player/models/models.dart';
+import 'package:audio_player/databases/database.dart';
 
 class GenresState {
-  final List<Items> items;
+  final List<MusicGenre> items;
 
   GenresState(this.items);
 }

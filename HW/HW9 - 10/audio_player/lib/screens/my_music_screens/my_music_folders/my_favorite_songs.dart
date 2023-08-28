@@ -1,5 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/screens/tab_bar/go_router.dart';
+import 'package:audio_player/models/favorite_song_model.dart';
+import 'package:audio_player/screens/screens_export.dart';
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -119,71 +120,89 @@ class FavoriteSongListView extends StatelessWidget {
               onDismissed: (direction) {
                 favoriteProvider.removeFromFavorites(song);
               },
-              child: ResponsiveBuilder(
-                  narrow: 70.0,
-                  medium: 90.0,
-                  large: 90.0,
-                  builder: (context, child, height) {
-                    return SizedBox(
-                      height: height,
-                      width: maxWidth - 32,
-                      child: Row(children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: SizedBox(
-                              width: height,
-                              height: height,
-                              child: Image.network(song.header_image_url,
-                                  fit: BoxFit.cover),
-                            ),
+              child: _CreateFavouriteSongListContent(
+                  maxWidth: maxWidth, song: song, padding: padding),
+            ),
+          );
+        });
+  }
+}
+
+class _CreateFavouriteSongListContent extends StatelessWidget {
+  const _CreateFavouriteSongListContent({
+    required this.maxWidth,
+    required this.song,
+    required this.padding,
+  });
+
+  final double maxWidth;
+  final SongModel song;
+  final double padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveBuilder(
+        narrow: 70.0,
+        medium: 90.0,
+        large: 90.0,
+        builder: (context, child, height) {
+          return SizedBox(
+            height: height,
+            width: maxWidth - 32,
+            child: Row(children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    width: height,
+                    height: height,
+                    child:
+                        Image.network(song.header_image_url, fit: BoxFit.cover),
+                  ),
+                ),
+              ),
+              ResponsiveBuilder(
+                  narrow: 13.0,
+                  medium: 18.0,
+                  large: 18.0,
+                  builder: (context, child, size) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: maxWidth - height - padding * 7,
+                          child: Text(
+                            song.title,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: AppFonts.lusitana.font,
+                                fontSize: size,
+                                fontWeight: FontWeight.w500),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        ResponsiveBuilder(
-                            narrow: 13.0,
-                            medium: 18.0,
-                            large: 18.0,
-                            builder: (context, child, size) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: maxWidth - height - padding * 7,
-                                    child: Text(
-                                      song.title,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: AppFonts.lusitana.font,
-                                          fontSize: size,
-                                          fontWeight: FontWeight.w500),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Text(
-                                    song.artist_names,
-                                    style: TextStyle(
-                                        fontFamily: AppFonts.colombia.font,
-                                        fontSize: size,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              );
-                            }),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                          child: IconButtonWidget(
-                              iconData: Icons.keyboard_control,
-                              color: AppColors.white.color,
-                              onPressed: () {}),
+                        Text(
+                          song.artist_names,
+                          style: TextStyle(
+                              fontFamily: AppFonts.colombia.font,
+                              fontSize: size,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
                         ),
-                      ]),
+                      ],
                     );
                   }),
-            ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                child: IconButtonWidget(
+                    iconData: Icons.keyboard_control,
+                    color: AppColors.white.color,
+                    onPressed: () {}),
+              ),
+            ]),
           );
         });
   }

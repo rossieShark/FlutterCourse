@@ -10,42 +10,42 @@ void main() {
   setupDependencies();
   runApp(
     MultiBlocProvider(providers: [
-      BlocProvider<TabBarBloc>(create: (context) => TabBarBloc()),
+      BlocProvider<TabBarBloc>(create: (context) => GetIt.I()),
     ], child: const TabBarScreen()),
   );
 }
 
 void setupDependencies() {
+  GetIt.I.registerSingleton<TabBarBloc>(
+    TabBarBloc(),
+  );
+  GetIt.I.registerSingleton<AudioDatabase>(AudioDatabase());
+
   GetIt.I.registerSingleton<RecentlyPlayedRepository>(
-    RecentlyPlayedRepository(MyDatabaseSingleton.instance),
+    RecentlyPlayedRepository(GetIt.I<AudioDatabase>()),
   );
   GetIt.I.registerSingleton<FavoriteArtistRepository>(
-    FavoriteArtistRepository(MyDatabaseSingleton.instance),
+    FavoriteArtistRepository(GetIt.I<AudioDatabase>()),
   );
   GetIt.I.registerSingleton<BestAlbumRepository>(
-    BestAlbumRepository(MyDatabaseSingleton.instance),
+    BestAlbumRepository(GetIt.I<AudioDatabase>()),
   );
   GetIt.I.registerSingleton<AlbumDetailsRepository>(
-    AlbumDetailsRepository(MyDatabaseSingleton.instance),
+    AlbumDetailsRepository(GetIt.I<AudioDatabase>()),
+  );
+  GetIt.I.registerSingleton<GenresRepository>(
+    GenresRepository(GetIt.I<AudioDatabase>()),
   );
   GetIt.I.registerSingleton<FavoriteProvider>(
-    FavoriteProvider(MyDatabaseSingleton.instance),
+    FavoriteProvider(GetIt.I<AudioDatabase>()),
   );
-
   GetIt.I.registerSingleton<RecentlySearchedProvider>(
-    RecentlySearchedProvider(MyDatabaseSingleton.instance),
+    RecentlySearchedProvider(GetIt.I<AudioDatabase>()),
   );
-  // GetIt.I.registerSingleton<SongDetailRepository>(
-  //   SongDetailRepository(MyDatabaseSingleton.instance),
-  // );
-  // Add more registrations as needed
-}
-
-class MyDatabaseSingleton {
-  static AudioDatabase? _instance;
-
-  static AudioDatabase get instance {
-    _instance ??= AudioDatabase(); // Initialize if not already initialized
-    return _instance!;
-  }
+  GetIt.I.registerSingleton<SongDetailRepository>(
+    SongDetailRepository(GetIt.I<AudioDatabase>()),
+  );
+  GetIt.I.registerSingleton<FavoriteArtistBloc>(
+    FavoriteArtistBloc(GetIt.I<FavoriteArtistRepository>()),
+  );
 }

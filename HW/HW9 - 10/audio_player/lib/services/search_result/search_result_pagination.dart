@@ -1,5 +1,6 @@
 import 'package:audio_player/models/search_result/search_result_model.dart';
-import 'package:audio_player/services/search_result/search_result_repo.dart';
+
+import 'package:audio_player/services/search_result/search_result_service.dart';
 
 class SearchResultPaginationService {
   bool _isLoading = false;

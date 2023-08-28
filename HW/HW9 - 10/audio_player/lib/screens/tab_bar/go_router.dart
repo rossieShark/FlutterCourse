@@ -1,8 +1,8 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+
 import 'package:audio_player/screens/my_music_screens/my_music_folders/my_favorite_songs.dart';
 import 'package:audio_player/screens/screens_export.dart';
 import 'package:audio_player/screens/tab_bar/buttom_tab_bar.dart';
-import 'package:audio_player/services/services.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
@@ -45,12 +45,10 @@ final router = GoRouter(
                     create: (context) => AlbumBloc(AlbumRepository()),
                   ),
                   BlocProvider<FavoriteArtistBloc>(
-                    create: (context) =>
-                        FavoriteArtistBloc(GetIt.I<FavoriteArtistRepository>()),
+                    create: (context) => FavoriteArtistBloc(GetIt.I()),
                   ),
                   BlocProvider<RecentlyPlayedBloc>(
-                    create: (context) =>
-                        RecentlyPlayedBloc(GetIt.I<RecentlyPlayedRepository>()),
+                    create: (context) => RecentlyPlayedBloc(GetIt.I()),
                   ),
                 ],
                 child: const HomePage(),
@@ -67,7 +65,12 @@ final router = GoRouter(
                     create: (context) => SearchResultBloc(SearchRepository()),
                   ),
                   BlocProvider<GenresBloc>(
-                    create: (context) => GenresBloc(GenresRepository()),
+                    create: (context) => GenresBloc(GetIt.I()),
+                  ),
+                  BlocProvider(
+                    create: (context) => RecentlySearchedBloc(
+                      GetIt.I(),
+                    ),
                   ),
                 ],
                 child: const SearchPage(),
@@ -106,12 +109,11 @@ final router = GoRouter(
           child: MultiBlocProvider(
             providers: [
               BlocProvider<AlbumDetailBloc>(
-                create: (context) =>
-                    AlbumDetailBloc(GetIt.I<AlbumDetailsRepository>()),
+                create: (context) => AlbumDetailBloc(GetIt.I()),
               ),
               BlocProvider(
                 create: (context) => FavoriteBloc(
-                  Provider.of<FavoriteProvider>(context, listen: false),
+                  GetIt.I(),
                 ),
               ),
             ],
@@ -131,12 +133,13 @@ final router = GoRouter(
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
-                    create: (blocContext) =>
-                        //DetailMusicPageBloc(GetIt.I<SongDetailRepository>()),
-                        DetailMusicPageBloc(SongDetailRepository())),
+                  create: (blocContext) => DetailMusicPageBloc(
+                    GetIt.I(),
+                  ),
+                ),
                 BlocProvider(
                   create: (context) => FavoriteBloc(
-                    Provider.of<FavoriteProvider>(context, listen: false),
+                    GetIt.I(),
                   ),
                 ),
               ],
@@ -150,27 +153,3 @@ final router = GoRouter(
     ),
   ],
 );
-
-enum RouteName {
-  home,
-  myMusic,
-  search,
-  artist,
-  playlist,
-  favoriteTracks,
-  favoriteAlbums,
-  detailMusic,
-  albumDetail
-}
-
-Map<RouteName, String> routeNameMap = {
-  RouteName.home: '/',
-  RouteName.artist: '/artist',
-  RouteName.search: '/search',
-  RouteName.myMusic: '/my_music',
-  RouteName.playlist: '/playlist',
-  RouteName.favoriteTracks: '/tracks',
-  RouteName.favoriteAlbums: '/albums',
-  RouteName.detailMusic: '/detail_music/',
-  RouteName.albumDetail: '/album_detail/',
-};

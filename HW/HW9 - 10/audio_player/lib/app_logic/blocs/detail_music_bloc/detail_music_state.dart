@@ -1,7 +1,7 @@
-import 'package:audio_player/models/models.dart';
+import 'package:audio_player/databases/database.dart';
 
 class DetailMusicPageState {
-  final SongDetail? songDetail;
+  final DetailInfoSong? songDetail;
 
   DetailMusicPageState(this.songDetail);
 }

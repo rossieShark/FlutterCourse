@@ -18,3 +18,6 @@ export 'package:audio_player/app_logic/blocs/detail_music_bloc/detail_music_stat
 export 'package:audio_player/app_logic/blocs/search_screen_bloc/search_state.dart';
 export 'package:audio_player/app_logic/blocs/album_detail_bloc/album_detail_event.dart';
 export 'package:audio_player/app_logic/blocs/album_detail_bloc/album_detail_state.dart';
+export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_bloc.dart';
+export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_event.dart';
+export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_state.dart';

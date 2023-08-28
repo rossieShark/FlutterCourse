@@ -29,7 +29,7 @@ class RecentlySearchedProvider extends ChangeNotifier {
     await _database.clearAll();
   }
 
-  Future<void> loadFavorites() async {
+  Future<void> loadRecentlySearched() async {
     final recentlySearchedSongs = await _database.getRecentlySearchedSongs();
     final loadedRecentlySearchedSongs = recentlySearchedSongs
         .map(

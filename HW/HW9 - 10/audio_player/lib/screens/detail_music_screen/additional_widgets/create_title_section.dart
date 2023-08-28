@@ -1,10 +1,11 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
 class CreatTitleSection extends StatelessWidget {
-  final SongDetail? songInfo;
+  final DetailInfoSong? songInfo;
   final String param;
   const CreatTitleSection(
       {super.key, required this.songInfo, required this.param});
@@ -56,7 +57,7 @@ class CreatTitleSection extends StatelessWidget {
 class _LikeButtonWidget extends StatefulWidget {
   final String param;
 
-  final SongDetail? songInfo;
+  final DetailInfoSong? songInfo;
 
   const _LikeButtonWidget({required this.param, required this.songInfo});
 

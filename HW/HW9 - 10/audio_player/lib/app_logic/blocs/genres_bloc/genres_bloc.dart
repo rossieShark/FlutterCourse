@@ -1,6 +1,7 @@
 import 'package:audio_player/app_logic/blocs/genres_bloc/genres_event.dart';
 import 'package:audio_player/app_logic/blocs/genres_bloc/genres_state.dart';
-import 'package:audio_player/services/genres_service/genres_repo.dart';
+
+import 'package:audio_player/services/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

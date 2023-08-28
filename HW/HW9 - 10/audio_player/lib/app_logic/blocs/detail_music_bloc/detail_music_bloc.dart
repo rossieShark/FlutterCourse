@@ -14,7 +14,7 @@ class DetailMusicPageBloc
   void _fetchSongDetail(
       FetchSongDetailEvent event, Emitter<DetailMusicPageState> emit) async {
     try {
-      final songDetail = await repository.getSongInfo(event.id);
+      final songDetail = await repository.getDetailSongInfo(event.id);
       emit(DetailMusicPageState(songDetail));
     } catch (error) {
       print('Error fetching song detail: $error');

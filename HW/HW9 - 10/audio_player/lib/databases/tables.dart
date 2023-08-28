@@ -84,3 +84,12 @@ class DetailInfoSongs extends Table {
   @override
   Set<Column> get primaryKey => {id};
 }
+
+class MusicGenres extends Table {
+  TextColumn get id => text().customConstraint('NOT NULL')();
+  TextColumn get name => text()();
+  TextColumn get image => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}

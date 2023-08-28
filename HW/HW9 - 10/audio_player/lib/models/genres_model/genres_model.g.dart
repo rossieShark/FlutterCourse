@@ -29,6 +29,7 @@ Map<String, dynamic> _$$_ContentToJson(_$_Content instance) =>
 
 _$_Items _$$_ItemsFromJson(Map<String, dynamic> json) => _$_Items(
       name: json['name'] as String?,
+      id: json['id'] as String,
       images: (json['images'] as List<dynamic>)
           .map((e) => Images.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -36,6 +37,7 @@ _$_Items _$$_ItemsFromJson(Map<String, dynamic> json) => _$_Items(
 
 Map<String, dynamic> _$$_ItemsToJson(_$_Items instance) => <String, dynamic>{
       'name': instance.name,
+      'id': instance.id,
       'images': instance.images,
     };
 

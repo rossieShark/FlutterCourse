@@ -22,7 +22,10 @@ class Content with _$Content {
 
 @freezed
 class Items with _$Items {
-  factory Items({required String? name, required List<Images> images}) = _Items;
+  factory Items(
+      {required String? name,
+      required String id,
+      required List<Images> images}) = _Items;
 
   factory Items.fromJson(Map<String, Object?> json) => _$ItemsFromJson(json);
 }

@@ -1,5 +1,5 @@
 import 'package:audio_player/databases/database.dart';
-import 'package:audio_player/screens/tab_bar/go_router.dart';
+import 'package:audio_player/screens/screens_export.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';

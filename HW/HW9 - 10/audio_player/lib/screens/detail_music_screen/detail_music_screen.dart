@@ -1,5 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/models/models.dart';
+import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/screens/detail_music_screen/additional_widgets/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class _DetailMusicPageState extends State<DetailMusicPage> {
 }
 
 class _CreatMainContent extends StatelessWidget {
-  final SongDetail? songInfo;
+  final DetailInfoSong? songInfo;
   final String param;
   const _CreatMainContent({required this.songInfo, required this.param});
 

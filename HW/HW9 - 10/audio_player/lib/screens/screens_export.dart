@@ -6,3 +6,4 @@ export 'package:audio_player/screens/search_screen/search_screen.dart';
 export 'package:audio_player/screens/home_screen/home_screen.dart';
 export 'package:audio_player/screens/my_music_screens/my_music_screen.dart';
 export 'package:audio_player/screens/my_music_screens/my_music_folders/my_favorite_album.dart';
+export 'package:audio_player/screens/tab_bar/additional_widgets/navigation_routes.dart';

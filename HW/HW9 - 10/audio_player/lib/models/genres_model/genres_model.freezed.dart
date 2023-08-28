@@ -307,6 +307,7 @@ Items _$ItemsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Items {
   String? get name => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   List<Images> get images => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -319,7 +320,7 @@ abstract class $ItemsCopyWith<$Res> {
   factory $ItemsCopyWith(Items value, $Res Function(Items) then) =
       _$ItemsCopyWithImpl<$Res, Items>;
   @useResult
-  $Res call({String? name, List<Images> images});
+  $Res call({String? name, String id, List<Images> images});
 }
 
 /// @nodoc
@@ -336,6 +337,7 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
   @override
   $Res call({
     Object? name = freezed,
+    Object? id = null,
     Object? images = null,
   }) {
     return _then(_value.copyWith(
@@ -343,6 +345,10 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -357,7 +363,7 @@ abstract class _$$_ItemsCopyWith<$Res> implements $ItemsCopyWith<$Res> {
       __$$_ItemsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, List<Images> images});
+  $Res call({String? name, String id, List<Images> images});
 }
 
 /// @nodoc
@@ -370,6 +376,7 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res, _$_Items>
   @override
   $Res call({
     Object? name = freezed,
+    Object? id = null,
     Object? images = null,
   }) {
     return _then(_$_Items(
@@ -377,6 +384,10 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res, _$_Items>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       images: null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -388,7 +399,10 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res, _$_Items>
 /// @nodoc
 @JsonSerializable()
 class _$_Items implements _Items {
-  _$_Items({required this.name, required final List<Images> images})
+  _$_Items(
+      {required this.name,
+      required this.id,
+      required final List<Images> images})
       : _images = images;
 
   factory _$_Items.fromJson(Map<String, dynamic> json) =>
@@ -396,6 +410,8 @@ class _$_Items implements _Items {
 
   @override
   final String? name;
+  @override
+  final String id;
   final List<Images> _images;
   @override
   List<Images> get images {
@@ -406,7 +422,7 @@ class _$_Items implements _Items {
 
   @override
   String toString() {
-    return 'Items(name: $name, images: $images)';
+    return 'Items(name: $name, id: $id, images: $images)';
   }
 
   @override
@@ -415,13 +431,14 @@ class _$_Items implements _Items {
         (other.runtimeType == runtimeType &&
             other is _$_Items &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._images, _images));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, const DeepCollectionEquality().hash(_images));
+      runtimeType, name, id, const DeepCollectionEquality().hash(_images));
 
   @JsonKey(ignore: true)
   @override
@@ -440,12 +457,15 @@ class _$_Items implements _Items {
 abstract class _Items implements Items {
   factory _Items(
       {required final String? name,
+      required final String id,
       required final List<Images> images}) = _$_Items;
 
   factory _Items.fromJson(Map<String, dynamic> json) = _$_Items.fromJson;
 
   @override
   String? get name;
+  @override
+  String get id;
   @override
   List<Images> get images;
   @override

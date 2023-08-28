@@ -12,7 +12,8 @@ part 'database.g.dart';
   FavoriteAlbums,
   FavoriteSongs,
   RecentlySearchedSongs,
-  DetailInfoSongs
+  DetailInfoSongs,
+  MusicGenres
 ])
 class AudioDatabase extends _$AudioDatabase {
   AudioDatabase() : super(impl.connect());
@@ -75,7 +76,7 @@ class AudioDatabase extends _$AudioDatabase {
 
   Stream<DetailInfoSong?> watchDetailSongById(int id) {
     return (select(detailInfoSongs)..where((t) => t.id.equals(id)))
-        .watchSingle();
+        .watchSingleOrNull();
   }
 
   Future<void> insertDetailSong(DetailInfoSong detailInfoSong) =>
@@ -108,6 +109,14 @@ class AudioDatabase extends _$AudioDatabase {
       into(recentlySearchedSongs).insert(song, mode: InsertMode.replace);
 
   Future<void> clearAll() => delete(recentlySearchedSongs).go();
+//Genres
+  Future<List<MusicGenre>> get allGenres => select(musicGenres).get();
+
+  Future<void> addManyGenres(List<MusicGenre> items) async {
+    await batch((batch) {
+      batch.insertAll(musicGenres, items);
+    });
+  }
 
 //MIGRATION
 

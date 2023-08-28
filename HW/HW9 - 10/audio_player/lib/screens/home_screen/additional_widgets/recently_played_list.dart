@@ -2,7 +2,7 @@ import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_bloc.d
 import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_events.dart';
 import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_states.dart';
 import 'package:audio_player/databases/database.dart';
-import 'package:audio_player/screens/tab_bar/go_router.dart';
+import 'package:audio_player/screens/screens_export.dart';
 
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 

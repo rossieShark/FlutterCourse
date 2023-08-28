@@ -1,6 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/screens/home_screen/additional_widgets/index.dart';
-import 'package:audio_player/screens/tab_bar/go_router.dart';
+import 'package:audio_player/screens/screens_export.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -100,7 +100,7 @@ class _BuildRecentlyPlayedSection extends StatelessWidget {
           ),
         ),
         ResponsiveBuilder(
-            narrow: 265.0,
+            narrow: 266.0,
             medium: 340.0,
             large: 380.0,
             builder: (context, child, height) {

@@ -50,9 +50,17 @@ class _CreatSliderSectionState extends State<CreatSliderSection> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(_formattedDuration,
-                  style: Theme.of(context).textTheme.bodySmall),
+                  style: TextStyle(
+                      fontFamily: AppFonts.colombia.font,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
               Text(sliderFormatDuration(_audioDuration),
-                  style: Theme.of(context).textTheme.bodySmall),
+                  style: TextStyle(
+                      fontFamily: AppFonts.colombia.font,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
             ],
           ),
         ),

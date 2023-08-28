@@ -25,8 +25,8 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
     _fetchAlbumDetails();
     _scrollController.addListener(() {
       setState(() {
-        _canScrollUp = _scrollController.position.pixels > 0;
-        _canScrollDown = _scrollController.position.pixels <
+        _canScrollDown = _scrollController.position.pixels > 0;
+        _canScrollUp = _scrollController.position.pixels <
             _scrollController.position.maxScrollExtent;
       });
     });

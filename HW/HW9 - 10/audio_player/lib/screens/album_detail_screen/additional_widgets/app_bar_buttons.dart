@@ -1,7 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/models/models.dart';
-import 'package:audio_player/screens/tab_bar/go_router.dart';
 import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -66,12 +65,6 @@ class _CreateAppBarButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         PlatformBuilder(
-            web: ResponsiveButton(
-                iconData: Icons.search,
-                onPressed: () {
-                  context.go(routeNameMap[RouteName.search]!);
-                },
-                color: AppColors.white.color),
             iOS: ResponsiveButton(
                 iconData: Icons.arrow_back_ios,
                 onPressed: () {

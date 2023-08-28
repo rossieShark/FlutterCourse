@@ -25,7 +25,7 @@ class _TabBarScreenState extends State<TabBarScreen> {
       providers: [
         ChangeNotifierProvider<FavoriteProvider>(
           create: (context) {
-            final provider = GetIt.I<FavoriteProvider>();
+            final FavoriteProvider provider = GetIt.I();
             provider
                 .loadFavorites(); // Load favorites when the provider is created
             return provider;
@@ -33,14 +33,12 @@ class _TabBarScreenState extends State<TabBarScreen> {
         ),
         ChangeNotifierProvider<RecentlySearchedProvider>(
           create: (context) {
-            final provider = GetIt.I<RecentlySearchedProvider>();
+            final RecentlySearchedProvider provider = GetIt.I();
             provider
-                .loadFavorites(); // Load favorites when the provider is created
+                .loadRecentlySearched(); // Load favorites when the provider is created
             return provider;
           },
         ),
-
-        // Other providers...
       ],
       child: MaterialApp.router(
         routerConfig: router,
