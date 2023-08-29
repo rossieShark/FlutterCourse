@@ -1,7 +1,7 @@
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
-class SearchTextField extends StatefulWidget {
+class SearchTextField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final bool isTappedTextField;
@@ -18,20 +18,15 @@ class SearchTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchTextField> createState() => _SearchTextFieldState();
-}
-
-class _SearchTextFieldState extends State<SearchTextField> {
-  @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller,
+      controller: controller,
       cursorColor: AppColors.accent.color,
-      focusNode: widget.focusNode,
+      focusNode: focusNode,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 6.0),
         prefixIcon: const Icon(Icons.search, color: Colors.grey),
-        hintText: widget.focusNode.hasFocus ? '' : 'Song, Artist name',
+        hintText: focusNode.hasFocus ? '' : 'Song, Artist name',
         hintStyle: TextStyle(
             fontFamily: AppFonts.colombia.font,
             fontSize: 18,
@@ -41,7 +36,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide(
-            color: widget.focusNode.hasFocus
+            color: focusNode.hasFocus
                 ? AppColors.white.color
                 : AppColors.accent.color,
           ),
@@ -49,11 +44,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: BorderSide(color: AppColors.white.color)),
-        suffixIcon: widget.controller.text.isNotEmpty
+        suffixIcon: controller.text.isNotEmpty
             ? IconButtonWidget(
                 iconData: Icons.clear,
                 color: AppColors.accent.color,
-                onPressed: widget.onPressed,
+                onPressed: onPressed,
               )
             : null,
       ),
@@ -62,7 +57,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: Colors.white),
-      onChanged: widget.onChanged,
+      onChanged: onChanged,
     );
   }
 }

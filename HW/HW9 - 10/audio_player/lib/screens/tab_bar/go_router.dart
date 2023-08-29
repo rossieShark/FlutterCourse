@@ -42,13 +42,13 @@ final router = GoRouter(
               child: MultiBlocProvider(
                 providers: [
                   BlocProvider<AlbumBloc>(
-                    create: (context) => AlbumBloc(AlbumRepository()),
+                    create: (_) => GetIt.I.get(),
                   ),
                   BlocProvider<FavoriteArtistBloc>(
-                    create: (context) => FavoriteArtistBloc(GetIt.I()),
+                    create: (context) => GetIt.I.get(),
                   ),
                   BlocProvider<RecentlyPlayedBloc>(
-                    create: (context) => RecentlyPlayedBloc(GetIt.I()),
+                    create: (context) => GetIt.I.get(),
                   ),
                 ],
                 child: const HomePage(),
@@ -61,16 +61,14 @@ final router = GoRouter(
               key: state.pageKey,
               child: MultiBlocProvider(
                 providers: [
-                  BlocProvider(
-                    create: (context) => SearchResultBloc(SearchRepository()),
+                  BlocProvider<SearchResultBloc>(
+                    create: (context) => GetIt.I.get(),
                   ),
                   BlocProvider<GenresBloc>(
-                    create: (context) => GenresBloc(GetIt.I()),
+                    create: (context) => GetIt.I.get(),
                   ),
-                  BlocProvider(
-                    create: (context) => RecentlySearchedBloc(
-                      GetIt.I(),
-                    ),
+                  BlocProvider<RecentlySearchedBloc>(
+                    create: (context) => GetIt.I.get(),
                   ),
                 ],
                 child: const SearchPage(),
@@ -109,12 +107,10 @@ final router = GoRouter(
           child: MultiBlocProvider(
             providers: [
               BlocProvider<AlbumDetailBloc>(
-                create: (context) => AlbumDetailBloc(GetIt.I()),
+                create: (context) => GetIt.I.get(),
               ),
-              BlocProvider(
-                create: (context) => FavoriteBloc(
-                  GetIt.I(),
-                ),
+              BlocProvider<FavoriteBloc>(
+                create: (context) => GetIt.I.get(),
               ),
             ],
             child: AlbumDetailPage(
@@ -132,15 +128,11 @@ final router = GoRouter(
           return SlideUpTransition(
             child: MultiBlocProvider(
               providers: [
-                BlocProvider(
-                  create: (blocContext) => DetailMusicPageBloc(
-                    GetIt.I(),
-                  ),
+                BlocProvider<DetailMusicPageBloc>(
+                  create: (blocContext) => GetIt.I.get(),
                 ),
-                BlocProvider(
-                  create: (context) => FavoriteBloc(
-                    GetIt.I(),
-                  ),
+                BlocProvider<FavoriteBloc>(
+                  create: (context) => GetIt.I.get(),
                 ),
               ],
               child: DetailMusicPage(

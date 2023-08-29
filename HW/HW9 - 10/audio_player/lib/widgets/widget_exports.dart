@@ -6,3 +6,4 @@ export 'package:audio_player/widgets/size_text_modifiers.dart';
 export 'package:audio_player/widgets/page_animation.dart';
 export 'package:audio_player/widgets/responsive_widgets/responsive_widget.dart';
 export 'package:audio_player/widgets/responsive_widgets/hovered_widget.dart';
+export 'package:audio_player/widgets/get_it_dependencies/get_it_dependencies.dart';

@@ -25,7 +25,7 @@ class _TabBarScreenState extends State<TabBarScreen> {
       providers: [
         ChangeNotifierProvider<FavoriteProvider>(
           create: (context) {
-            final FavoriteProvider provider = GetIt.I();
+            final FavoriteProvider provider = GetIt.I.get();
             provider
                 .loadFavorites(); // Load favorites when the provider is created
             return provider;
@@ -33,7 +33,7 @@ class _TabBarScreenState extends State<TabBarScreen> {
         ),
         ChangeNotifierProvider<RecentlySearchedProvider>(
           create: (context) {
-            final RecentlySearchedProvider provider = GetIt.I();
+            final RecentlySearchedProvider provider = GetIt.I.get();
             provider
                 .loadRecentlySearched(); // Load favorites when the provider is created
             return provider;

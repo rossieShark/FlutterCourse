@@ -74,6 +74,7 @@ class _CreatMainContent extends StatelessWidget {
               songInfo?.imageUrl ??
                   'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
               fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
             ),
           ),
         ),
