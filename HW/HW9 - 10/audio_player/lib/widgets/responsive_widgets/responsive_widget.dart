@@ -6,16 +6,16 @@ class ScreenSizes {
   static const large = 1280;
 }
 
-double getResponsiveSize(double maxWidth, double width) {
-  if (maxWidth < ScreenSizes.medium) {
-    return width;
-  }
-  if (ScreenSizes.large > maxWidth && maxWidth >= ScreenSizes.medium) {
-    return width * 1.3;
-  } else {
-    return width * 1.3;
-  }
-}
+// double getResponsiveSize(double maxWidth, double width) {
+//   if (maxWidth < ScreenSizes.medium) {
+//     return width;
+//   }
+//   if (ScreenSizes.large > maxWidth && maxWidth >= ScreenSizes.medium) {
+//     return width * 1.3;
+//   } else {
+//     return width * 1.3;
+//   }
+// }
 
 class ResponsiveBuilder<T> extends StatelessWidget {
   final Widget Function(BuildContext, Widget?, T) builder;
@@ -51,25 +51,30 @@ class ResponsiveBuilder<T> extends StatelessWidget {
 }
 
 class ResponsiveWidget extends StatelessWidget {
-  final Widget Function(BuildContext) narrow;
-  final Widget Function(BuildContext) medium;
-  final Widget Function(BuildContext) large;
+  final Widget Function(BuildContext)? narrow;
+  final Widget Function(BuildContext)? medium;
+  final Widget Function(BuildContext)? large;
+  final Widget Function(BuildContext)? other;
   const ResponsiveWidget({
     super.key,
-    required this.narrow,
-    required this.medium,
-    required this.large,
+    this.narrow,
+    this.medium,
+    this.large,
+    this.other,
   });
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constr) {
-      if (constr.maxWidth <= ScreenSizes.medium) {
-        return narrow(context);
+      if (constr.maxWidth <= ScreenSizes.medium && narrow != null) {
+        return narrow!(context);
       }
-      if (constr.maxWidth <= ScreenSizes.large) {
-        return medium(context);
+      if (constr.maxWidth <= ScreenSizes.large && medium != null) {
+        return medium!(context);
       }
-      return large(context);
+      if (constr.maxWidth > ScreenSizes.large && large != null) {
+        return large!(context);
+      }
+      return other!(context);
     });
   }
 }

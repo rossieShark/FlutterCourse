@@ -17,35 +17,33 @@ class ButtomTabBarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TabBarBloc, int>(builder: (context, tabIndex) {
       return WillPopScope(
-          onWillPop: () async {
-            final result = await showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                      title: const Text("Are you sure you want to exit?"),
-                      actions: [
-                        CupertinoActionSheetAction(
-                            onPressed: () {
-                              context.pop(true);
-                            },
-                            child: const Text('Yes')),
-                        CupertinoActionSheetAction(
+        onWillPop: () async {
+          final result = await showDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                    title: const Text("Are you sure you want to exit?"),
+                    actions: [
+                      CupertinoActionSheetAction(
                           onPressed: () {
-                            context.pop(false);
+                            context.pop(true);
                           },
-                          child: const Text('No'),
-                        ),
-                      ]);
-                });
-            return result == true;
-          },
-          child: ResponsiveWidget(
-              narrow: (context) =>
-                  MobileVersion(tabIndex: tabIndex, child: child),
-              medium: (context) =>
-                  IPadVersion(tabIndex: tabIndex, child: child),
-              large: (context) =>
-                  IPadVersion(tabIndex: tabIndex, child: child)));
+                          child: const Text('Yes')),
+                      CupertinoActionSheetAction(
+                        onPressed: () {
+                          context.pop(false);
+                        },
+                        child: const Text('No'),
+                      ),
+                    ]);
+              });
+          return result == true;
+        },
+        child: ResponsiveWidget(
+          narrow: (context) => MobileVersion(tabIndex: tabIndex, child: child),
+          other: (context) => IPadVersion(tabIndex: tabIndex, child: child),
+        ),
+      );
     });
   }
 }

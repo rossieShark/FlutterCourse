@@ -160,24 +160,24 @@ class RecentlyPlayedPageContent extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          SizedBox(
-            width: getResponsiveSize(maxWidth, 100),
-            child: ResponsiveBuilder(
-                narrow: 12.0,
-                medium: 16.0,
-                large: 16.0,
-                builder: (context, child, size) {
-                  return Text(
+          ResponsiveBuilder(
+              narrow: 100.0,
+              medium: 130.0,
+              large: 130.0,
+              builder: (context, child, width) {
+                return SizedBox(
+                  width: width,
+                  child: Text(
                     chartItems[index].title,
                     style: TextStyle(
                         fontFamily: AppFonts.montserrat.font,
-                        fontSize: size,
+                        fontSize: width * 0.12,
                         fontWeight: FontWeight.w600,
                         color: const Color.fromARGB(255, 123, 123, 123)),
                     maxLines: 2,
-                  );
-                }),
-          ),
+                  ),
+                );
+              }),
         ]),
       ),
     );

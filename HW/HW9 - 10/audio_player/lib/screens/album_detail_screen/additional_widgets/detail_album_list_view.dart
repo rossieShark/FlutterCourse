@@ -29,69 +29,78 @@ class DetailAlbumListView extends StatelessWidget {
                 Uri(path: '${routeNameMap[RouteName.detailMusic]!}$id')
                     .toString());
           },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: getResponsiveSize(maxWidth, 40),
-              child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${index + 1}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: AppFonts.lusitana.font,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        ResponsiveBuilder(
-                            narrow: 15.0,
-                            medium: 22.0,
-                            large: 22.0,
-                            builder: (context, child, size) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    TextModifierService()
-                                        .removeTextAfter(songList[index].title),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: AppFonts.lusitana.font,
-                                        fontSize: size * 0.8,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    TextModifierService().removeTextAfter(
-                                        songList[index].artistNames),
-                                    style: TextStyle(
-                                        fontFamily: AppFonts.colombia.font,
-                                        fontSize: size,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              );
-                            }),
-                      ],
-                    ),
-                    IconButtonWidget(
-                      onPressed: () {},
-                      iconData: Icons.keyboard_control,
-                      color: Colors.white,
-                    ),
-                  ]),
-            ),
-          ),
+          child: ResponsiveBuilder(
+              narrow: 40.0,
+              medium: 52.0,
+              large: 52.0,
+              builder: (context, child, height) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    height: height,
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: AppFonts.lusitana.font,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              ResponsiveBuilder(
+                                  narrow: 15.0,
+                                  medium: 22.0,
+                                  large: 22.0,
+                                  builder: (context, child, size) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          TextModifierService().removeTextAfter(
+                                              songList[index].title),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily:
+                                                  AppFonts.lusitana.font,
+                                              fontSize: size * 0.8,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          TextModifierService().removeTextAfter(
+                                              songList[index].artistNames),
+                                          style: TextStyle(
+                                              fontFamily:
+                                                  AppFonts.colombia.font,
+                                              fontSize: size,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                            ],
+                          ),
+                          IconButtonWidget(
+                            onPressed: () {},
+                            iconData: Icons.keyboard_control,
+                            color: Colors.white,
+                          ),
+                        ]),
+                  ),
+                );
+              }),
         );
       }),
     );

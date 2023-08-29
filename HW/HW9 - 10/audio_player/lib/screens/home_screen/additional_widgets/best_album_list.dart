@@ -26,7 +26,7 @@ class BestAlbumList extends StatelessWidget {
           }),
         ),
       ),
-      medium: (context) => SizedBox(
+      other: (context) => SizedBox(
         width: MediaQuery.of(context).size.width,
         height: bestAlbumList!.length.toDouble() / crossAxisCount * 200,
         child: GridView.count(
@@ -43,23 +43,23 @@ class BestAlbumList extends StatelessWidget {
           }).toList(),
         ),
       ),
-      large: (context) => SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: bestAlbumList!.length.toDouble() / crossAxisCount * 200,
-        child: GridView.count(
-          padding: const EdgeInsets.all(20),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          crossAxisCount: crossAxisCount,
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          children: bestAlbumList!.asMap().entries.map((entry) {
-            final index = entry.key;
-            return BestAlbumsContent(
-                bestAlbumList: bestAlbumList!, index: index);
-          }).toList(),
-        ),
-      ),
+      // large: (context) => SizedBox(
+      //   width: MediaQuery.of(context).size.width,
+      //   height: bestAlbumList!.length.toDouble() / crossAxisCount * 200,
+      //   child: GridView.count(
+      //     padding: const EdgeInsets.all(20),
+      //     crossAxisSpacing: 16,
+      //     mainAxisSpacing: 16,
+      //     crossAxisCount: crossAxisCount,
+      //     scrollDirection: Axis.vertical,
+      //     physics: const NeverScrollableScrollPhysics(),
+      //     children: bestAlbumList!.asMap().entries.map((entry) {
+      //       final index = entry.key;
+      //       return BestAlbumsContent(
+      //           bestAlbumList: bestAlbumList!, index: index);
+      //     }).toList(),
+      //   ),
+      // ),
     );
   }
 }
