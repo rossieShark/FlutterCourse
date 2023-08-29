@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'curcles_painter.dart';
+import 'circles_painter.dart';
 
 class CircularColorfulIndicator extends StatefulWidget {
   const CircularColorfulIndicator({super.key});
