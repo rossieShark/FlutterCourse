@@ -1,37 +1,65 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class CustomFadingCircleIndicator extends StatefulWidget {
+class FadingCircleIndicator extends StatefulWidget {
   final double size;
-  const CustomFadingCircleIndicator({
+  const FadingCircleIndicator({
     Key? key,
-    this.size = 100.0,
+    this.size = 80.0,
   }) : super(key: key);
 
   @override
-  State<CustomFadingCircleIndicator> createState() =>
-      _CustomFadingCircleIndicatorState();
+  State<FadingCircleIndicator> createState() => _FadingCircleIndicatorState();
 }
 
-class _CustomFadingCircleIndicatorState
-    extends State<CustomFadingCircleIndicator>
+class _FadingCircleIndicatorState extends State<FadingCircleIndicator>
     with SingleTickerProviderStateMixin {
   // create quantity of elements
   static const _itemCount = 8;
-
   late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = (AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1200)))
+        vsync: this, duration: const Duration(milliseconds: 800)))
       ..repeat();
+    //_initColorAnimation();
   }
+
+  final List<Color> _dotColors = [
+    const Color.fromARGB(255, 172, 13, 2),
+    const Color.fromARGB(255, 224, 96, 11),
+    const Color.fromARGB(255, 217, 203, 10),
+    const Color.fromARGB(255, 43, 129, 0),
+    const Color.fromARGB(255, 4, 174, 189),
+    const Color.fromARGB(255, 9, 6, 194),
+    const Color.fromARGB(255, 128, 8, 118),
+    const Color.fromARGB(255, 176, 39, 121),
+  ];
   //AnimationController:
   //vsync - обеспечивает плавный и эффективный рендеринг анимации за счет синхронизации частоты кадров анимации с частотой обновления дисплея устройства.
   //vsync: this - SingleTickerProviderStateMixin
 // Duration - время анимации
+  // void _initColorAnimation() {
+  //   double endAnimation = 1.0 / _itemCount;
+
+  //   _colorAnimations = List.generate(
+  //     _itemCount,
+  //     (index) {
+  //       return ColorTween(
+  //         begin: _dotColors[index],
+  //         end: _dotColors[index],
+  //       ).animate(
+  //         CurvedAnimation(
+  //           parent: _controller,
+  //           curve: Interval(
+  //               index * endAnimation, index * endAnimation + endAnimation),
+  //         ),
+  //       );
+  //     },
+  //   ).toList();
+  // }
 
   @override
   void dispose() {
@@ -56,15 +84,27 @@ class _CustomFadingCircleIndicatorState
                     Matrix4.rotationZ(360 / _itemCount * i * math.pi / 180),
                 child: Align(
                   alignment: Alignment.center,
-                  child: FadeTransition(
-                    opacity: DelayTween(
-                      begin: 0.1,
+                  child: ScaleTransition(
+                    scale: DelayTween(
+                      begin: 0.4,
                       end: 1.0,
                       delay: i / _itemCount,
                     ).animate(_controller),
-                    child: SizedBox.fromSize(
-                      size: Size.square(widget.size * 0.15),
-                      child: _itemBuilder(i),
+                    child: FadeTransition(
+                      opacity: DelayTween(
+                        begin: 0.2,
+                        end: 1.0,
+                        delay: i / _itemCount,
+                      ).animate(_controller),
+                      child: SizedBox.fromSize(
+                        size: Size.square(widget.size * .15),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: _dotColors[i],
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -75,14 +115,8 @@ class _CustomFadingCircleIndicatorState
       ),
     );
   }
-
-  Widget _itemBuilder(int index) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 226, 131, 7),
-          shape: BoxShape.circle,
-        ),
-      );
 }
+
 class DelayTween extends Tween<double> {
   DelayTween({
     double? begin,

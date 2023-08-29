@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'my_painter.dart';
+import 'curcles_painter.dart';
 
-class CircularAnimation extends StatefulWidget {
+class CircularColorfulIndicator extends StatefulWidget {
+  const CircularColorfulIndicator({super.key});
+
   @override
-  _CircularAnimationState createState() => _CircularAnimationState();
+  CircularColorfulIndicatorState createState() =>
+      CircularColorfulIndicatorState();
 }
 
-class _CircularAnimationState extends State<CircularAnimation>
+class CircularColorfulIndicatorState extends State<CircularColorfulIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -16,7 +19,7 @@ class _CircularAnimationState extends State<CircularAnimation>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat();
   }
 
@@ -29,14 +32,14 @@ class _CircularAnimationState extends State<CircularAnimation>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Circular Animation')),
+      appBar: AppBar(title: const Text('Circular Animation')),
       body: Center(
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
             return CustomPaint(
-              painter: CircularPainter(_controller.value),
-              size: Size(200, 200),
+              painter: CirclesPainter(_controller.value),
+              size: const Size(200, 200),
             );
           },
         ),

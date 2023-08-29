@@ -1,9 +1,6 @@
-
+import 'package:custom_indicator/fading_circle_indicator.dart';
 import 'package:flutter/material.dart';
 
-import 'chasing.dart';
-import 'custom_indicator.dart';
-import 'fading_circle.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
- 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: JumpingDots(),
+      home: const FadingCircleIndicator(),
     );
   }
 }
