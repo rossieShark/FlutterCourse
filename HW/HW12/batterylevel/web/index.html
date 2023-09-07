@@ -22,6 +22,13 @@
   <!-- Load main.dart.js separately -->
   <script src="main.dart.js" type="application/javascript"></script>
   <!-- Include the battery handling JavaScript file -->
-  <script src="battery_handler.js"></script>
+  <script>
+    // JavaScript function to get battery level
+    function getBatteryLevel() {
+      return navigator.getBattery().then(function (battery) {
+        return battery.level * 100; // Battery level as a percentage
+      });
+    }
+  </script>
 </body>
 </html>
