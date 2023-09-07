@@ -1,12 +1,12 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/services/service.dart';
 import 'package:audio_player/services/services.dart';
 import 'package:get_it/get_it.dart';
 
 class SetGetItDependencies {
   void setupDatabaseDependencies() {
-    GetIt.I.registerLazySingleton<AudioDatabase>(AudioDatabase.new);
+    GetIt.I.registerLazySingleton<AudioAppDatabase>(AudioAppDatabase.new);
   }
 
   void setupProviderDependencies() {
@@ -26,7 +26,8 @@ class SetGetItDependencies {
       () => FavoriteArtistRepository(GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<BestAlbumRepository>(
-      () => BestAlbumRepository(GetIt.instance.get()),
+      () => BestAlbumRepository(
+          GetIt.instance.get(), AudioPlayerService.create()),
     );
     GetIt.instance.registerLazySingleton<AlbumDetailsRepository>(
       () => AlbumDetailsRepository(GetIt.instance.get()),

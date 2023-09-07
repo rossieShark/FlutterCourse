@@ -6,6 +6,7 @@ class RecentlyPlayedSongs extends Table {
   TextColumn get artistNames => text()();
   TextColumn get title => text()();
   TextColumn get headerImageUrl => text()();
+  TextColumn get type => text()();
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -24,7 +25,8 @@ class BestAlbums extends Table {
   IntColumn get id => integer().customConstraint('NOT NULL')();
   TextColumn get title => text()();
   TextColumn get image => text()();
-  TextColumn get releaseDate => text()();
+  TextColumn get artist => text()();
+  TextColumn get type => text()();
   IntColumn get detailAlbum => integer()();
   @override
   Set<Column> get primaryKey => {id};
@@ -35,10 +37,10 @@ class DetailAlbums extends Table {
   IntColumn get id => integer().customConstraint('NOT NULL')();
   IntColumn get albumid => integer()();
   TextColumn get artistNames => text()();
-  TextColumn get headerImageUrl => text()();
+  TextColumn get type => text()();
+
   TextColumn get title => text()();
-  TextColumn get songImage => text()();
-  TextColumn get releaseDate => text()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -49,6 +51,7 @@ class FavoriteSongs extends Table {
   TextColumn get title => text()();
   TextColumn get artist => text()();
   TextColumn get songImage => text()();
+  TextColumn get type => text()();
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -59,16 +62,17 @@ class FavoriteAlbums extends Table {
   TextColumn get title => text()();
   TextColumn get artist => text()();
   TextColumn get songImage => text()();
+  TextColumn get type => text()();
   @override
   Set<Column> get primaryKey => {id};
 }
 
 @DataClassName('RecentlySearchedSong')
 class RecentlySearchedSongs extends Table {
-  //IntColumn get id => integer().autoIncrement()();
   IntColumn get id => integer().customConstraint('NOT NULL')();
   TextColumn get title => text()();
   TextColumn get artist => text()();
+  TextColumn get type => text()();
   TextColumn get songImage => text()();
   @override
   Set<Column> get primaryKey => {id};
@@ -80,6 +84,8 @@ class DetailInfoSongs extends Table {
   TextColumn get title => text()();
   TextColumn get artistNames => text()();
   TextColumn get imageUrl => text()();
+  TextColumn get preview => text()();
+  TextColumn get type => text()();
 
   @override
   Set<Column> get primaryKey => {id};

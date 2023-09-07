@@ -7,22 +7,21 @@ part 'song_model.g.dart';
 
 @freezed
 class SongDetailsResponce with _$SongDetailsResponce {
-  factory SongDetailsResponce({
-    required SongDetail song,
-  }) = _SongDetailsResponce;
+  factory SongDetailsResponce(
+      {required List<Artist> contributors,
+      required String title,
+      required String preview,
+      required String type}) = _SongDetailsResponce;
   static const fromJsonFactory = _$SongDetailsResponceFromJson;
   factory SongDetailsResponce.fromJson(Map<String, Object?> json) =>
       _$SongDetailsResponceFromJson(json);
 }
 
 @freezed
-class SongDetail with _$SongDetail {
-  factory SongDetail({
-    @JsonKey(name: 'artist_names') required String? artistNames,
-    @JsonKey(name: 'header_image_url') required String? imageUrl,
-    required String? title,
-  }) = _SongDetail;
+class Artist with _$Artist {
+  factory Artist(
+      {required String name,
+      @JsonKey(name: 'picture_big') required String image}) = _Artist;
 
-  factory SongDetail.fromJson(Map<String, Object?> json) =>
-      _$SongDetailFromJson(json);
+  factory Artist.fromJson(Map<String, Object?> json) => _$ArtistFromJson(json);
 }

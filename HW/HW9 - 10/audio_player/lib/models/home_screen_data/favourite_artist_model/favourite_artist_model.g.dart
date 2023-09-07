@@ -9,7 +9,7 @@ part of 'favourite_artist_model.dart';
 _$_FavouriteArtistResponse _$$_FavouriteArtistResponseFromJson(
         Map<String, dynamic> json) =>
     _$_FavouriteArtistResponse(
-      chartItems: (json['chart_items'] as List<dynamic>)
+      data: (json['data'] as List<dynamic>)
           .map((e) => Artists.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17,26 +17,18 @@ _$_FavouriteArtistResponse _$$_FavouriteArtistResponseFromJson(
 Map<String, dynamic> _$$_FavouriteArtistResponseToJson(
         _$_FavouriteArtistResponse instance) =>
     <String, dynamic>{
-      'chart_items': instance.chartItems,
+      'data': instance.data,
     };
 
 _$_Artists _$$_ArtistsFromJson(Map<String, dynamic> json) => _$_Artists(
-      item: Item.fromJson(json['item'] as Map<String, dynamic>),
+      id: json['id'] as int,
+      name: json['name'] as String,
+      image: json['picture_big'] as String,
     );
 
 Map<String, dynamic> _$$_ArtistsToJson(_$_Artists instance) =>
     <String, dynamic>{
-      'item': instance.item,
-    };
-
-_$_Item _$$_ItemFromJson(Map<String, dynamic> json) => _$_Item(
-      name: json['name'] as String?,
-      imageUrl: json['image_url'] as String?,
-      id: json['id'] as int,
-    );
-
-Map<String, dynamic> _$$_ItemToJson(_$_Item instance) => <String, dynamic>{
-      'name': instance.name,
-      'image_url': instance.imageUrl,
       'id': instance.id,
+      'name': instance.name,
+      'picture_big': instance.image,
     };

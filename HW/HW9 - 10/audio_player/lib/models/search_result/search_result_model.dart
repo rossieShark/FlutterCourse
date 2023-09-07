@@ -8,7 +8,7 @@ part 'search_result_model.g.dart';
 @freezed
 class SearchResultResponce with _$SearchResultResponce {
   factory SearchResultResponce({
-    required List<Hits> hits,
+    required List<SearchData> data,
   }) = _SearchResultResponce;
   static const fromJsonFactory = _$SearchResultResponceFromJson;
   factory SearchResultResponce.fromJson(Map<String, Object?> json) =>
@@ -16,22 +16,25 @@ class SearchResultResponce with _$SearchResultResponce {
 }
 
 @freezed
-class Hits with _$Hits {
-  factory Hits({
-    required Result result,
-  }) = _Hits;
+class SearchData with _$SearchData {
+  factory SearchData({
+    required int id,
+    required String title,
+    required String type,
+    required SearchDataArtist artist,
+  }) = _SearchData;
 
-  factory Hits.fromJson(Map<String, Object?> json) => _$HitsFromJson(json);
+  factory SearchData.fromJson(Map<String, Object?> json) =>
+      _$SearchDataFromJson(json);
 }
 
 @freezed
-class Result with _$Result {
-  factory Result({
-    @JsonKey(name: 'artist_names') required String? artistNames,
-    @JsonKey(name: 'header_image_url') required String? imageUrl,
-    required String? title,
-    required int id,
-  }) = _Result;
+class SearchDataArtist with _$SearchDataArtist {
+  factory SearchDataArtist({
+    @JsonKey(name: 'picture_big') required String image,
+    required String name,
+  }) = _SearchDataArtist;
 
-  factory Result.fromJson(Map<String, Object?> json) => _$ResultFromJson(json);
+  factory SearchDataArtist.fromJson(Map<String, Object?> json) =>
+      _$SearchDataArtistFromJson(json);
 }

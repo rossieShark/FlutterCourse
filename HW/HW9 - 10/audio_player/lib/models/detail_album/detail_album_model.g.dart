@@ -9,41 +9,38 @@ part of 'detail_album_model.dart';
 _$_AlbumDetailsResponce _$$_AlbumDetailsResponceFromJson(
         Map<String, dynamic> json) =>
     _$_AlbumDetailsResponce(
-      albumAppearances: (json['album_appearances'] as List<dynamic>)
-          .map((e) => AlbumAppearances.fromJson(e as Map<String, dynamic>))
+      data: (json['data'] as List<dynamic>)
+          .map((e) => AlbumData.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$$_AlbumDetailsResponceToJson(
         _$_AlbumDetailsResponce instance) =>
     <String, dynamic>{
-      'album_appearances': instance.albumAppearances,
+      'data': instance.data,
     };
 
-_$_AlbumAppearances _$$_AlbumAppearancesFromJson(Map<String, dynamic> json) =>
-    _$_AlbumAppearances(
-      song: Song.fromJson(json['song'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$_AlbumAppearancesToJson(_$_AlbumAppearances instance) =>
-    <String, dynamic>{
-      'song': instance.song,
-    };
-
-_$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
-      artistNames: json['artist_names'] as String?,
-      title: json['title'] as String?,
-      headerImageUrl: json['header_image_url'] as String?,
-      songImage: json['song_art_image_url'] as String?,
-      releaseDate: json['release_date_for_display'] as String?,
+_$_AlbumData _$$_AlbumDataFromJson(Map<String, dynamic> json) => _$_AlbumData(
       id: json['id'] as int,
+      title: json['title'] as String,
+      type: json['type'] as String,
+      artist: AlbumDataArtist.fromJson(json['artist'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_SongToJson(_$_Song instance) => <String, dynamic>{
-      'artist_names': instance.artistNames,
-      'title': instance.title,
-      'header_image_url': instance.headerImageUrl,
-      'song_art_image_url': instance.songImage,
-      'release_date_for_display': instance.releaseDate,
+Map<String, dynamic> _$$_AlbumDataToJson(_$_AlbumData instance) =>
+    <String, dynamic>{
       'id': instance.id,
+      'title': instance.title,
+      'type': instance.type,
+      'artist': instance.artist,
+    };
+
+_$_AlbumDataArtist _$$_AlbumDataArtistFromJson(Map<String, dynamic> json) =>
+    _$_AlbumDataArtist(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$_AlbumDataArtistToJson(_$_AlbumDataArtist instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };

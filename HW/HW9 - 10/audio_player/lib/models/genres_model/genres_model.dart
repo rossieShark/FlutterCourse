@@ -4,37 +4,19 @@ part 'genres_model.g.dart';
 
 @freezed
 class GenresResponse with _$GenresResponse {
-  factory GenresResponse({
-    required Content content,
-  }) = _GenresResponse;
+  factory GenresResponse({required List<Data> data}) = _GenresResponse;
   static const fromJsonFactory = _$GenresResponseFromJson;
   factory GenresResponse.fromJson(Map<String, Object?> json) =>
       _$GenresResponseFromJson(json);
 }
 
 @freezed
-class Content with _$Content {
-  factory Content({required List<Items> items}) = _Content;
+class Data with _$Data {
+  factory Data(
+      {required int id,
+      required String name,
+      // ignore: invalid_annotation_target
+      @JsonKey(name: 'picture_big') required String image}) = _Data;
 
-  factory Content.fromJson(Map<String, Object?> json) =>
-      _$ContentFromJson(json);
-}
-
-@freezed
-class Items with _$Items {
-  factory Items(
-      {required String? name,
-      required String id,
-      required List<Images> images}) = _Items;
-
-  factory Items.fromJson(Map<String, Object?> json) => _$ItemsFromJson(json);
-}
-
-@freezed
-class Images with _$Images {
-  factory Images({
-    required String? url,
-  }) = _Images;
-
-  factory Images.fromJson(Map<String, Object?> json) => _$ImagesFromJson(json);
+  factory Data.fromJson(Map<String, Object?> json) => _$DataFromJson(json);
 }

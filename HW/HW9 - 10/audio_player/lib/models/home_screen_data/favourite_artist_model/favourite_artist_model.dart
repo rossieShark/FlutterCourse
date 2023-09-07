@@ -7,7 +7,7 @@ part 'favourite_artist_model.g.dart';
 @freezed
 class FavouriteArtistResponse with _$FavouriteArtistResponse {
   factory FavouriteArtistResponse({
-    @JsonKey(name: 'chart_items') required List<Artists> chartItems,
+    required List<Artists> data,
   }) = _FavouriteArtistResponse;
   static const fromJsonFactory = _$FavouriteArtistResponseFromJson;
   factory FavouriteArtistResponse.fromJson(Map<String, Object?> json) =>
@@ -16,18 +16,11 @@ class FavouriteArtistResponse with _$FavouriteArtistResponse {
 
 @freezed
 class Artists with _$Artists {
-  factory Artists({required Item item}) = _Artists;
+  factory Artists(
+      {required int id,
+      required String name,
+      @JsonKey(name: 'picture_big') required String image}) = _Artists;
 
   factory Artists.fromJson(Map<String, Object?> json) =>
       _$ArtistsFromJson(json);
-}
-
-@freezed
-class Item with _$Item {
-  factory Item(
-      {required String? name,
-      @JsonKey(name: 'image_url') required String? imageUrl,
-      required int id}) = _Item;
-
-  factory Item.fromJson(Map<String, Object?> json) => _$ItemFromJson(json);
 }

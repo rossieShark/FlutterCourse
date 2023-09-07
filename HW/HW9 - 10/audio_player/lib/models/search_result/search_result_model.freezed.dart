@@ -20,7 +20,7 @@ SearchResultResponce _$SearchResultResponceFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SearchResultResponce {
-  List<Hits> get hits => throw _privateConstructorUsedError;
+  List<SearchData> get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $SearchResultResponceCopyWith<$Res> {
           $Res Function(SearchResultResponce) then) =
       _$SearchResultResponceCopyWithImpl<$Res, SearchResultResponce>;
   @useResult
-  $Res call({List<Hits> hits});
+  $Res call({List<SearchData> data});
 }
 
 /// @nodoc
@@ -51,13 +51,13 @@ class _$SearchResultResponceCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hits = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      hits: null == hits
-          ? _value.hits
-          : hits // ignore: cast_nullable_to_non_nullable
-              as List<Hits>,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<SearchData>,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$_SearchResultResponceCopyWith<$Res>
       __$$_SearchResultResponceCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Hits> hits});
+  $Res call({List<SearchData> data});
 }
 
 /// @nodoc
@@ -84,13 +84,13 @@ class __$$_SearchResultResponceCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hits = null,
+    Object? data = null,
   }) {
     return _then(_$_SearchResultResponce(
-      hits: null == hits
-          ? _value._hits
-          : hits // ignore: cast_nullable_to_non_nullable
-              as List<Hits>,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<SearchData>,
     ));
   }
 }
@@ -98,22 +98,23 @@ class __$$_SearchResultResponceCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SearchResultResponce implements _SearchResultResponce {
-  _$_SearchResultResponce({required final List<Hits> hits}) : _hits = hits;
+  _$_SearchResultResponce({required final List<SearchData> data})
+      : _data = data;
 
   factory _$_SearchResultResponce.fromJson(Map<String, dynamic> json) =>
       _$$_SearchResultResponceFromJson(json);
 
-  final List<Hits> _hits;
+  final List<SearchData> _data;
   @override
-  List<Hits> get hits {
-    if (_hits is EqualUnmodifiableListView) return _hits;
+  List<SearchData> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_hits);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
   String toString() {
-    return 'SearchResultResponce(hits: $hits)';
+    return 'SearchResultResponce(data: $data)';
   }
 
   @override
@@ -121,13 +122,13 @@ class _$_SearchResultResponce implements _SearchResultResponce {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SearchResultResponce &&
-            const DeepCollectionEquality().equals(other._hits, _hits));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_hits));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
@@ -145,47 +146,52 @@ class _$_SearchResultResponce implements _SearchResultResponce {
 }
 
 abstract class _SearchResultResponce implements SearchResultResponce {
-  factory _SearchResultResponce({required final List<Hits> hits}) =
+  factory _SearchResultResponce({required final List<SearchData> data}) =
       _$_SearchResultResponce;
 
   factory _SearchResultResponce.fromJson(Map<String, dynamic> json) =
       _$_SearchResultResponce.fromJson;
 
   @override
-  List<Hits> get hits;
+  List<SearchData> get data;
   @override
   @JsonKey(ignore: true)
   _$$_SearchResultResponceCopyWith<_$_SearchResultResponce> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-Hits _$HitsFromJson(Map<String, dynamic> json) {
-  return _Hits.fromJson(json);
+SearchData _$SearchDataFromJson(Map<String, dynamic> json) {
+  return _SearchData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Hits {
-  Result get result => throw _privateConstructorUsedError;
+mixin _$SearchData {
+  int get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  SearchDataArtist get artist => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $HitsCopyWith<Hits> get copyWith => throw _privateConstructorUsedError;
+  $SearchDataCopyWith<SearchData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HitsCopyWith<$Res> {
-  factory $HitsCopyWith(Hits value, $Res Function(Hits) then) =
-      _$HitsCopyWithImpl<$Res, Hits>;
+abstract class $SearchDataCopyWith<$Res> {
+  factory $SearchDataCopyWith(
+          SearchData value, $Res Function(SearchData) then) =
+      _$SearchDataCopyWithImpl<$Res, SearchData>;
   @useResult
-  $Res call({Result result});
+  $Res call({int id, String title, String type, SearchDataArtist artist});
 
-  $ResultCopyWith<$Res> get result;
+  $SearchDataArtistCopyWith<$Res> get artist;
 }
 
 /// @nodoc
-class _$HitsCopyWithImpl<$Res, $Val extends Hits>
-    implements $HitsCopyWith<$Res> {
-  _$HitsCopyWithImpl(this._value, this._then);
+class _$SearchDataCopyWithImpl<$Res, $Val extends SearchData>
+    implements $SearchDataCopyWith<$Res> {
+  _$SearchDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -195,144 +201,199 @@ class _$HitsCopyWithImpl<$Res, $Val extends Hits>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? result = null,
+    Object? id = null,
+    Object? title = null,
+    Object? type = null,
+    Object? artist = null,
   }) {
     return _then(_value.copyWith(
-      result: null == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
-              as Result,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      artist: null == artist
+          ? _value.artist
+          : artist // ignore: cast_nullable_to_non_nullable
+              as SearchDataArtist,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ResultCopyWith<$Res> get result {
-    return $ResultCopyWith<$Res>(_value.result, (value) {
-      return _then(_value.copyWith(result: value) as $Val);
+  $SearchDataArtistCopyWith<$Res> get artist {
+    return $SearchDataArtistCopyWith<$Res>(_value.artist, (value) {
+      return _then(_value.copyWith(artist: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$_HitsCopyWith<$Res> implements $HitsCopyWith<$Res> {
-  factory _$$_HitsCopyWith(_$_Hits value, $Res Function(_$_Hits) then) =
-      __$$_HitsCopyWithImpl<$Res>;
+abstract class _$$_SearchDataCopyWith<$Res>
+    implements $SearchDataCopyWith<$Res> {
+  factory _$$_SearchDataCopyWith(
+          _$_SearchData value, $Res Function(_$_SearchData) then) =
+      __$$_SearchDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Result result});
+  $Res call({int id, String title, String type, SearchDataArtist artist});
 
   @override
-  $ResultCopyWith<$Res> get result;
+  $SearchDataArtistCopyWith<$Res> get artist;
 }
 
 /// @nodoc
-class __$$_HitsCopyWithImpl<$Res> extends _$HitsCopyWithImpl<$Res, _$_Hits>
-    implements _$$_HitsCopyWith<$Res> {
-  __$$_HitsCopyWithImpl(_$_Hits _value, $Res Function(_$_Hits) _then)
+class __$$_SearchDataCopyWithImpl<$Res>
+    extends _$SearchDataCopyWithImpl<$Res, _$_SearchData>
+    implements _$$_SearchDataCopyWith<$Res> {
+  __$$_SearchDataCopyWithImpl(
+      _$_SearchData _value, $Res Function(_$_SearchData) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? result = null,
+    Object? id = null,
+    Object? title = null,
+    Object? type = null,
+    Object? artist = null,
   }) {
-    return _then(_$_Hits(
-      result: null == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
-              as Result,
+    return _then(_$_SearchData(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      artist: null == artist
+          ? _value.artist
+          : artist // ignore: cast_nullable_to_non_nullable
+              as SearchDataArtist,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_Hits implements _Hits {
-  _$_Hits({required this.result});
+class _$_SearchData implements _SearchData {
+  _$_SearchData(
+      {required this.id,
+      required this.title,
+      required this.type,
+      required this.artist});
 
-  factory _$_Hits.fromJson(Map<String, dynamic> json) => _$$_HitsFromJson(json);
+  factory _$_SearchData.fromJson(Map<String, dynamic> json) =>
+      _$$_SearchDataFromJson(json);
 
   @override
-  final Result result;
+  final int id;
+  @override
+  final String title;
+  @override
+  final String type;
+  @override
+  final SearchDataArtist artist;
 
   @override
   String toString() {
-    return 'Hits(result: $result)';
+    return 'SearchData(id: $id, title: $title, type: $type, artist: $artist)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Hits &&
-            (identical(other.result, result) || other.result == result));
+            other is _$_SearchData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.artist, artist) || other.artist == artist));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, result);
+  int get hashCode => Object.hash(runtimeType, id, title, type, artist);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HitsCopyWith<_$_Hits> get copyWith =>
-      __$$_HitsCopyWithImpl<_$_Hits>(this, _$identity);
+  _$$_SearchDataCopyWith<_$_SearchData> get copyWith =>
+      __$$_SearchDataCopyWithImpl<_$_SearchData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HitsToJson(
+    return _$$_SearchDataToJson(
       this,
     );
   }
 }
 
-abstract class _Hits implements Hits {
-  factory _Hits({required final Result result}) = _$_Hits;
+abstract class _SearchData implements SearchData {
+  factory _SearchData(
+      {required final int id,
+      required final String title,
+      required final String type,
+      required final SearchDataArtist artist}) = _$_SearchData;
 
-  factory _Hits.fromJson(Map<String, dynamic> json) = _$_Hits.fromJson;
+  factory _SearchData.fromJson(Map<String, dynamic> json) =
+      _$_SearchData.fromJson;
 
   @override
-  Result get result;
+  int get id;
+  @override
+  String get title;
+  @override
+  String get type;
+  @override
+  SearchDataArtist get artist;
   @override
   @JsonKey(ignore: true)
-  _$$_HitsCopyWith<_$_Hits> get copyWith => throw _privateConstructorUsedError;
+  _$$_SearchDataCopyWith<_$_SearchData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
-Result _$ResultFromJson(Map<String, dynamic> json) {
-  return _Result.fromJson(json);
+SearchDataArtist _$SearchDataArtistFromJson(Map<String, dynamic> json) {
+  return _SearchDataArtist.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Result {
-  @JsonKey(name: 'artist_names')
-  String? get artistNames => throw _privateConstructorUsedError;
-  @JsonKey(name: 'header_image_url')
-  String? get imageUrl => throw _privateConstructorUsedError;
-  String? get title => throw _privateConstructorUsedError;
-  int get id => throw _privateConstructorUsedError;
+mixin _$SearchDataArtist {
+  @JsonKey(name: 'picture_big')
+  String get image => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ResultCopyWith<Result> get copyWith => throw _privateConstructorUsedError;
+  $SearchDataArtistCopyWith<SearchDataArtist> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ResultCopyWith<$Res> {
-  factory $ResultCopyWith(Result value, $Res Function(Result) then) =
-      _$ResultCopyWithImpl<$Res, Result>;
+abstract class $SearchDataArtistCopyWith<$Res> {
+  factory $SearchDataArtistCopyWith(
+          SearchDataArtist value, $Res Function(SearchDataArtist) then) =
+      _$SearchDataArtistCopyWithImpl<$Res, SearchDataArtist>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'artist_names') String? artistNames,
-      @JsonKey(name: 'header_image_url') String? imageUrl,
-      String? title,
-      int id});
+  $Res call({@JsonKey(name: 'picture_big') String image, String name});
 }
 
 /// @nodoc
-class _$ResultCopyWithImpl<$Res, $Val extends Result>
-    implements $ResultCopyWith<$Res> {
-  _$ResultCopyWithImpl(this._value, this._then);
+class _$SearchDataArtistCopyWithImpl<$Res, $Val extends SearchDataArtist>
+    implements $SearchDataArtistCopyWith<$Res> {
+  _$SearchDataArtistCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -342,162 +403,122 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artistNames = freezed,
-    Object? imageUrl = freezed,
-    Object? title = freezed,
-    Object? id = null,
+    Object? image = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
-      artistNames: freezed == artistNames
-          ? _value.artistNames
-          : artistNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
-  factory _$$_ResultCopyWith(_$_Result value, $Res Function(_$_Result) then) =
-      __$$_ResultCopyWithImpl<$Res>;
+abstract class _$$_SearchDataArtistCopyWith<$Res>
+    implements $SearchDataArtistCopyWith<$Res> {
+  factory _$$_SearchDataArtistCopyWith(
+          _$_SearchDataArtist value, $Res Function(_$_SearchDataArtist) then) =
+      __$$_SearchDataArtistCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'artist_names') String? artistNames,
-      @JsonKey(name: 'header_image_url') String? imageUrl,
-      String? title,
-      int id});
+  $Res call({@JsonKey(name: 'picture_big') String image, String name});
 }
 
 /// @nodoc
-class __$$_ResultCopyWithImpl<$Res>
-    extends _$ResultCopyWithImpl<$Res, _$_Result>
-    implements _$$_ResultCopyWith<$Res> {
-  __$$_ResultCopyWithImpl(_$_Result _value, $Res Function(_$_Result) _then)
+class __$$_SearchDataArtistCopyWithImpl<$Res>
+    extends _$SearchDataArtistCopyWithImpl<$Res, _$_SearchDataArtist>
+    implements _$$_SearchDataArtistCopyWith<$Res> {
+  __$$_SearchDataArtistCopyWithImpl(
+      _$_SearchDataArtist _value, $Res Function(_$_SearchDataArtist) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? artistNames = freezed,
-    Object? imageUrl = freezed,
-    Object? title = freezed,
-    Object? id = null,
+    Object? image = null,
+    Object? name = null,
   }) {
-    return _then(_$_Result(
-      artistNames: freezed == artistNames
-          ? _value.artistNames
-          : artistNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+    return _then(_$_SearchDataArtist(
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_Result implements _Result {
-  _$_Result(
-      {@JsonKey(name: 'artist_names') required this.artistNames,
-      @JsonKey(name: 'header_image_url') required this.imageUrl,
-      required this.title,
-      required this.id});
+class _$_SearchDataArtist implements _SearchDataArtist {
+  _$_SearchDataArtist(
+      {@JsonKey(name: 'picture_big') required this.image, required this.name});
 
-  factory _$_Result.fromJson(Map<String, dynamic> json) =>
-      _$$_ResultFromJson(json);
+  factory _$_SearchDataArtist.fromJson(Map<String, dynamic> json) =>
+      _$$_SearchDataArtistFromJson(json);
 
   @override
-  @JsonKey(name: 'artist_names')
-  final String? artistNames;
+  @JsonKey(name: 'picture_big')
+  final String image;
   @override
-  @JsonKey(name: 'header_image_url')
-  final String? imageUrl;
-  @override
-  final String? title;
-  @override
-  final int id;
+  final String name;
 
   @override
   String toString() {
-    return 'Result(artistNames: $artistNames, imageUrl: $imageUrl, title: $title, id: $id)';
+    return 'SearchDataArtist(image: $image, name: $name)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Result &&
-            (identical(other.artistNames, artistNames) ||
-                other.artistNames == artistNames) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.id, id) || other.id == id));
+            other is _$_SearchDataArtist &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, artistNames, imageUrl, title, id);
+  int get hashCode => Object.hash(runtimeType, image, name);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ResultCopyWith<_$_Result> get copyWith =>
-      __$$_ResultCopyWithImpl<_$_Result>(this, _$identity);
+  _$$_SearchDataArtistCopyWith<_$_SearchDataArtist> get copyWith =>
+      __$$_SearchDataArtistCopyWithImpl<_$_SearchDataArtist>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ResultToJson(
+    return _$$_SearchDataArtistToJson(
       this,
     );
   }
 }
 
-abstract class _Result implements Result {
-  factory _Result(
-      {@JsonKey(name: 'artist_names') required final String? artistNames,
-      @JsonKey(name: 'header_image_url') required final String? imageUrl,
-      required final String? title,
-      required final int id}) = _$_Result;
+abstract class _SearchDataArtist implements SearchDataArtist {
+  factory _SearchDataArtist(
+      {@JsonKey(name: 'picture_big') required final String image,
+      required final String name}) = _$_SearchDataArtist;
 
-  factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
+  factory _SearchDataArtist.fromJson(Map<String, dynamic> json) =
+      _$_SearchDataArtist.fromJson;
 
   @override
-  @JsonKey(name: 'artist_names')
-  String? get artistNames;
+  @JsonKey(name: 'picture_big')
+  String get image;
   @override
-  @JsonKey(name: 'header_image_url')
-  String? get imageUrl;
-  @override
-  String? get title;
-  @override
-  int get id;
+  String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_ResultCopyWith<_$_Result> get copyWith =>
+  _$$_SearchDataArtistCopyWith<_$_SearchDataArtist> get copyWith =>
       throw _privateConstructorUsedError;
 }

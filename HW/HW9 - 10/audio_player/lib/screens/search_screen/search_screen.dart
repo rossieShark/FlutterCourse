@@ -1,10 +1,6 @@
-import 'dart:async';
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/app_logic/blocs/search_screen_bloc/serch_event.dart';
-import 'package:audio_player/screens/search_screen/mobile_search_screen.dart';
-import 'package:audio_player/screens/search_screen/web_search_screen.dart';
-import 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
-
+import 'package:audio_player/screens/search_screen/search_export.dart';
+import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,10 +12,10 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   late final ScrollController _scrollController = ScrollController();
+  SearchResultBloc get searchBloc => BlocProvider.of<SearchResultBloc>(context);
   late final TextEditingController _textFieldController =
       TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  Timer? _debounceTimer;
 
   @override
   void initState() {
@@ -27,25 +23,19 @@ class _SearchPageState extends State<SearchPage> {
     _focusNode.addListener(() {
       setState(() {});
     });
-    _textFieldController.addListener(_onTextFieldChanged);
-    _scrollController.addListener(_scrollListener);
-  }
 
-  void _onTextFieldChanged() {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(seconds: 1), _loadMoreItems);
-  }
+    _textFieldController.addListener(() {
+      searchBloc
+          .add(SearchEvent.textChanged(newText: _textFieldController.text));
+    });
 
-  void _loadMoreItems() {
-    final albumBloc = BlocProvider.of<SearchResultBloc>(context);
-    albumBloc.add(FetchSearchResultEvent(_textFieldController.text));
-  }
-
-  void _scrollListener() {
-    if (_scrollController.offset >=
-        _scrollController.position.maxScrollExtent - 200) {
-      _loadMoreItems();
-    }
+    _scrollController.addListener(() {
+      if (_scrollController.offset >=
+          _scrollController.position.maxScrollExtent - 200) {
+        searchBloc
+            .add(SearchEvent.loadMoreItems(text: _textFieldController.text));
+      }
+    });
   }
 
   @override
@@ -53,24 +43,123 @@ class _SearchPageState extends State<SearchPage> {
     _scrollController.dispose();
     _textFieldController.dispose();
     _focusNode.dispose();
-    _debounceTimer?.cancel();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PlatformBuilder(
-        web: WebScreen(
-          textFieldController: _textFieldController,
-          scrollController: _scrollController,
-          focusNode: _focusNode,
+    return BlocBuilder<SearchResultBloc, SearchState>(
+        builder: (context, state) {
+      return Scaffold(
+        backgroundColor: AppColors.background.color,
+        body: Row(
+          children: [
+            Expanded(
+              child: CustomScrollView(controller: _scrollController, slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  backgroundColor: AppColors.background.color,
+                  title: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: _SearchTextField(
+                      controller: _textFieldController,
+                      focusNode: _focusNode,
+                      onPressed: () {
+                        setState(() {
+                          _textFieldController.clear();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                PlatformBuilder(
+                    web: state.map(
+                        empty: (_) => const CreateBlocEmptyState(),
+                        loading: (_) => const SliverToBoxAdapter(
+                            child: CustomFadingCircleIndicator()),
+                        noResults: (_) => const NoResultsWidget(),
+                        loaded: (loadEvent) => CreateSearchSection(
+                              scrollController: _scrollController,
+                              searchResult: loadEvent.data,
+                              textFieldController: _textFieldController,
+                            )),
+                    other: state.map(
+                        empty: (_) => const SliverToBoxAdapter(
+                              child: MobileRecentlySearchedSection(),
+                            ),
+                        loading: (_) => const SliverToBoxAdapter(
+                            child: CustomFadingCircleIndicator()),
+                        noResults: (_) => const NoResultsWidget(),
+                        loaded: (loadEvent) => SliverToBoxAdapter(
+                              child:
+                                  SearchListView(searchResult: loadEvent.data),
+                            )),
+                    builder: (context, child, widget) {
+                      return widget;
+                    })
+              ]),
+            ),
+          ],
         ),
-        other: SearchMobileScreen(
-            textFieldController: _textFieldController,
-            focusNode: _focusNode,
-            scrollController: _scrollController),
-        builder: (context, child, widget) {
-          return widget;
-        });
+      );
+    });
+  }
+}
+
+class _SearchTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final FocusNode focusNode;
+
+  final VoidCallback onPressed;
+
+  const _SearchTextField({
+    Key? key,
+    required this.controller,
+    required this.focusNode,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      cursorColor: AppColors.accent.color,
+      focusNode: focusNode,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 6.0),
+        prefixIcon: const Icon(Icons.search, color: Colors.grey),
+        hintText: focusNode.hasFocus ? '' : 'Song, Artist name',
+        hintStyle: TextStyle(
+            fontFamily: AppFonts.colombia.font,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.white),
+        labelStyle: TextStyle(color: AppColors.white.color),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide(
+            color: focusNode.hasFocus
+                ? AppColors.white.color
+                : AppColors.accent.color,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide(color: AppColors.white.color)),
+        suffixIcon: controller.text.isNotEmpty
+            ? IconButtonWidget(
+                iconData: Icons.clear,
+                color: AppColors.accent.color,
+                onPressed: onPressed,
+              )
+            : null,
+      ),
+      style: TextStyle(
+          fontFamily: AppFonts.colombia.font,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Colors.white),
+    );
   }
 }

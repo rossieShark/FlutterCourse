@@ -7,7 +7,7 @@ part 'recently_played_model.g.dart';
 @freezed
 class RecentlyPlayedResponse with _$RecentlyPlayedResponse {
   factory RecentlyPlayedResponse({
-    @JsonKey(name: 'chart_items') required List<RecentlyPlayedlist> charItems,
+    required Tracks tracks,
   }) = _RecentlyPlayedResponse;
   static const fromJsonFactory = _$RecentlyPlayedResponseFromJson;
   factory RecentlyPlayedResponse.fromJson(Map<String, Object?> json) =>
@@ -15,20 +15,29 @@ class RecentlyPlayedResponse with _$RecentlyPlayedResponse {
 }
 
 @freezed
-class RecentlyPlayedlist with _$RecentlyPlayedlist {
-  factory RecentlyPlayedlist({required Item item}) = _RecentlyPlayedlist;
+class Tracks with _$Tracks {
+  factory Tracks({required List<Data> data}) = _Tracks;
 
-  factory RecentlyPlayedlist.fromJson(Map<String, Object?> json) =>
-      _$RecentlyPlayedlistFromJson(json);
+  factory Tracks.fromJson(Map<String, Object?> json) => _$TracksFromJson(json);
 }
 
 @freezed
-class Item with _$Item {
-  factory Item(
-      {@JsonKey(name: 'artist_names') required String? artistNames,
-      required String? title,
-      @JsonKey(name: 'header_image_url') required String? imageUrl,
-      required int id}) = _Item;
+class Data with _$Data {
+  factory Data(
+      {required String title,
+      required Artist artist,
+      required int id,
+      required String type}) = _Data;
 
-  factory Item.fromJson(Map<String, Object?> json) => _$ItemFromJson(json);
+  factory Data.fromJson(Map<String, Object?> json) => _$DataFromJson(json);
+}
+
+@freezed
+class Artist with _$Artist {
+  factory Artist(
+      {required String name,
+      @JsonKey(name: 'picture_big') required String image,
+      required int id}) = _Artist;
+
+  factory Artist.fromJson(Map<String, Object?> json) => _$ArtistFromJson(json);
 }

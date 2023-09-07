@@ -21,8 +21,7 @@ RecentlyPlayedResponse _$RecentlyPlayedResponseFromJson(
 
 /// @nodoc
 mixin _$RecentlyPlayedResponse {
-  @JsonKey(name: 'chart_items')
-  List<RecentlyPlayedlist> get charItems => throw _privateConstructorUsedError;
+  Tracks get tracks => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +35,9 @@ abstract class $RecentlyPlayedResponseCopyWith<$Res> {
           $Res Function(RecentlyPlayedResponse) then) =
       _$RecentlyPlayedResponseCopyWithImpl<$Res, RecentlyPlayedResponse>;
   @useResult
-  $Res call({@JsonKey(name: 'chart_items') List<RecentlyPlayedlist> charItems});
+  $Res call({Tracks tracks});
+
+  $TracksCopyWith<$Res> get tracks;
 }
 
 /// @nodoc
@@ -53,14 +54,22 @@ class _$RecentlyPlayedResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? charItems = null,
+    Object? tracks = null,
   }) {
     return _then(_value.copyWith(
-      charItems: null == charItems
-          ? _value.charItems
-          : charItems // ignore: cast_nullable_to_non_nullable
-              as List<RecentlyPlayedlist>,
+      tracks: null == tracks
+          ? _value.tracks
+          : tracks // ignore: cast_nullable_to_non_nullable
+              as Tracks,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TracksCopyWith<$Res> get tracks {
+    return $TracksCopyWith<$Res>(_value.tracks, (value) {
+      return _then(_value.copyWith(tracks: value) as $Val);
+    });
   }
 }
 
@@ -72,7 +81,10 @@ abstract class _$$_RecentlyPlayedResponseCopyWith<$Res>
       __$$_RecentlyPlayedResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'chart_items') List<RecentlyPlayedlist> charItems});
+  $Res call({Tracks tracks});
+
+  @override
+  $TracksCopyWith<$Res> get tracks;
 }
 
 /// @nodoc
@@ -87,13 +99,13 @@ class __$$_RecentlyPlayedResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? charItems = null,
+    Object? tracks = null,
   }) {
     return _then(_$_RecentlyPlayedResponse(
-      charItems: null == charItems
-          ? _value._charItems
-          : charItems // ignore: cast_nullable_to_non_nullable
-              as List<RecentlyPlayedlist>,
+      tracks: null == tracks
+          ? _value.tracks
+          : tracks // ignore: cast_nullable_to_non_nullable
+              as Tracks,
     ));
   }
 }
@@ -101,26 +113,17 @@ class __$$_RecentlyPlayedResponseCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_RecentlyPlayedResponse implements _RecentlyPlayedResponse {
-  _$_RecentlyPlayedResponse(
-      {@JsonKey(name: 'chart_items')
-      required final List<RecentlyPlayedlist> charItems})
-      : _charItems = charItems;
+  _$_RecentlyPlayedResponse({required this.tracks});
 
   factory _$_RecentlyPlayedResponse.fromJson(Map<String, dynamic> json) =>
       _$$_RecentlyPlayedResponseFromJson(json);
 
-  final List<RecentlyPlayedlist> _charItems;
   @override
-  @JsonKey(name: 'chart_items')
-  List<RecentlyPlayedlist> get charItems {
-    if (_charItems is EqualUnmodifiableListView) return _charItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_charItems);
-  }
+  final Tracks tracks;
 
   @override
   String toString() {
-    return 'RecentlyPlayedResponse(charItems: $charItems)';
+    return 'RecentlyPlayedResponse(tracks: $tracks)';
   }
 
   @override
@@ -128,14 +131,12 @@ class _$_RecentlyPlayedResponse implements _RecentlyPlayedResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RecentlyPlayedResponse &&
-            const DeepCollectionEquality()
-                .equals(other._charItems, _charItems));
+            (identical(other.tracks, tracks) || other.tracks == tracks));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_charItems));
+  int get hashCode => Object.hash(runtimeType, tracks);
 
   @JsonKey(ignore: true)
   @override
@@ -153,52 +154,45 @@ class _$_RecentlyPlayedResponse implements _RecentlyPlayedResponse {
 }
 
 abstract class _RecentlyPlayedResponse implements RecentlyPlayedResponse {
-  factory _RecentlyPlayedResponse(
-          {@JsonKey(name: 'chart_items')
-          required final List<RecentlyPlayedlist> charItems}) =
+  factory _RecentlyPlayedResponse({required final Tracks tracks}) =
       _$_RecentlyPlayedResponse;
 
   factory _RecentlyPlayedResponse.fromJson(Map<String, dynamic> json) =
       _$_RecentlyPlayedResponse.fromJson;
 
   @override
-  @JsonKey(name: 'chart_items')
-  List<RecentlyPlayedlist> get charItems;
+  Tracks get tracks;
   @override
   @JsonKey(ignore: true)
   _$$_RecentlyPlayedResponseCopyWith<_$_RecentlyPlayedResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-RecentlyPlayedlist _$RecentlyPlayedlistFromJson(Map<String, dynamic> json) {
-  return _RecentlyPlayedlist.fromJson(json);
+Tracks _$TracksFromJson(Map<String, dynamic> json) {
+  return _Tracks.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RecentlyPlayedlist {
-  Item get item => throw _privateConstructorUsedError;
+mixin _$Tracks {
+  List<Data> get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RecentlyPlayedlistCopyWith<RecentlyPlayedlist> get copyWith =>
-      throw _privateConstructorUsedError;
+  $TracksCopyWith<Tracks> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RecentlyPlayedlistCopyWith<$Res> {
-  factory $RecentlyPlayedlistCopyWith(
-          RecentlyPlayedlist value, $Res Function(RecentlyPlayedlist) then) =
-      _$RecentlyPlayedlistCopyWithImpl<$Res, RecentlyPlayedlist>;
+abstract class $TracksCopyWith<$Res> {
+  factory $TracksCopyWith(Tracks value, $Res Function(Tracks) then) =
+      _$TracksCopyWithImpl<$Res, Tracks>;
   @useResult
-  $Res call({Item item});
-
-  $ItemCopyWith<$Res> get item;
+  $Res call({List<Data> data});
 }
 
 /// @nodoc
-class _$RecentlyPlayedlistCopyWithImpl<$Res, $Val extends RecentlyPlayedlist>
-    implements $RecentlyPlayedlistCopyWith<$Res> {
-  _$RecentlyPlayedlistCopyWithImpl(this._value, this._then);
+class _$TracksCopyWithImpl<$Res, $Val extends Tracks>
+    implements $TracksCopyWith<$Res> {
+  _$TracksCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -208,315 +202,471 @@ class _$RecentlyPlayedlistCopyWithImpl<$Res, $Val extends RecentlyPlayedlist>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      item: null == item
-          ? _value.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as Item,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
     ) as $Val);
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ItemCopyWith<$Res> get item {
-    return $ItemCopyWith<$Res>(_value.item, (value) {
-      return _then(_value.copyWith(item: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
-abstract class _$$_RecentlyPlayedlistCopyWith<$Res>
-    implements $RecentlyPlayedlistCopyWith<$Res> {
-  factory _$$_RecentlyPlayedlistCopyWith(_$_RecentlyPlayedlist value,
-          $Res Function(_$_RecentlyPlayedlist) then) =
-      __$$_RecentlyPlayedlistCopyWithImpl<$Res>;
+abstract class _$$_TracksCopyWith<$Res> implements $TracksCopyWith<$Res> {
+  factory _$$_TracksCopyWith(_$_Tracks value, $Res Function(_$_Tracks) then) =
+      __$$_TracksCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Item item});
-
-  @override
-  $ItemCopyWith<$Res> get item;
+  $Res call({List<Data> data});
 }
 
 /// @nodoc
-class __$$_RecentlyPlayedlistCopyWithImpl<$Res>
-    extends _$RecentlyPlayedlistCopyWithImpl<$Res, _$_RecentlyPlayedlist>
-    implements _$$_RecentlyPlayedlistCopyWith<$Res> {
-  __$$_RecentlyPlayedlistCopyWithImpl(
-      _$_RecentlyPlayedlist _value, $Res Function(_$_RecentlyPlayedlist) _then)
+class __$$_TracksCopyWithImpl<$Res>
+    extends _$TracksCopyWithImpl<$Res, _$_Tracks>
+    implements _$$_TracksCopyWith<$Res> {
+  __$$_TracksCopyWithImpl(_$_Tracks _value, $Res Function(_$_Tracks) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = null,
+    Object? data = null,
   }) {
-    return _then(_$_RecentlyPlayedlist(
-      item: null == item
-          ? _value.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as Item,
+    return _then(_$_Tracks(
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Data>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_RecentlyPlayedlist implements _RecentlyPlayedlist {
-  _$_RecentlyPlayedlist({required this.item});
+class _$_Tracks implements _Tracks {
+  _$_Tracks({required final List<Data> data}) : _data = data;
 
-  factory _$_RecentlyPlayedlist.fromJson(Map<String, dynamic> json) =>
-      _$$_RecentlyPlayedlistFromJson(json);
+  factory _$_Tracks.fromJson(Map<String, dynamic> json) =>
+      _$$_TracksFromJson(json);
 
+  final List<Data> _data;
   @override
-  final Item item;
+  List<Data> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
 
   @override
   String toString() {
-    return 'RecentlyPlayedlist(item: $item)';
+    return 'Tracks(data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RecentlyPlayedlist &&
-            (identical(other.item, item) || other.item == item));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, item);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_RecentlyPlayedlistCopyWith<_$_RecentlyPlayedlist> get copyWith =>
-      __$$_RecentlyPlayedlistCopyWithImpl<_$_RecentlyPlayedlist>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_RecentlyPlayedlistToJson(
-      this,
-    );
-  }
-}
-
-abstract class _RecentlyPlayedlist implements RecentlyPlayedlist {
-  factory _RecentlyPlayedlist({required final Item item}) =
-      _$_RecentlyPlayedlist;
-
-  factory _RecentlyPlayedlist.fromJson(Map<String, dynamic> json) =
-      _$_RecentlyPlayedlist.fromJson;
-
-  @override
-  Item get item;
-  @override
-  @JsonKey(ignore: true)
-  _$$_RecentlyPlayedlistCopyWith<_$_RecentlyPlayedlist> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Item _$ItemFromJson(Map<String, dynamic> json) {
-  return _Item.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Item {
-  @JsonKey(name: 'artist_names')
-  String? get artistNames => throw _privateConstructorUsedError;
-  String? get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'header_image_url')
-  String? get imageUrl => throw _privateConstructorUsedError;
-  int get id => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ItemCopyWith<$Res> {
-  factory $ItemCopyWith(Item value, $Res Function(Item) then) =
-      _$ItemCopyWithImpl<$Res, Item>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'artist_names') String? artistNames,
-      String? title,
-      @JsonKey(name: 'header_image_url') String? imageUrl,
-      int id});
-}
-
-/// @nodoc
-class _$ItemCopyWithImpl<$Res, $Val extends Item>
-    implements $ItemCopyWith<$Res> {
-  _$ItemCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? artistNames = freezed,
-    Object? title = freezed,
-    Object? imageUrl = freezed,
-    Object? id = null,
-  }) {
-    return _then(_value.copyWith(
-      artistNames: freezed == artistNames
-          ? _value.artistNames
-          : artistNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
-  factory _$$_ItemCopyWith(_$_Item value, $Res Function(_$_Item) then) =
-      __$$_ItemCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'artist_names') String? artistNames,
-      String? title,
-      @JsonKey(name: 'header_image_url') String? imageUrl,
-      int id});
-}
-
-/// @nodoc
-class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res, _$_Item>
-    implements _$$_ItemCopyWith<$Res> {
-  __$$_ItemCopyWithImpl(_$_Item _value, $Res Function(_$_Item) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? artistNames = freezed,
-    Object? title = freezed,
-    Object? imageUrl = freezed,
-    Object? id = null,
-  }) {
-    return _then(_$_Item(
-      artistNames: freezed == artistNames
-          ? _value.artistNames
-          : artistNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Item implements _Item {
-  _$_Item(
-      {@JsonKey(name: 'artist_names') required this.artistNames,
-      required this.title,
-      @JsonKey(name: 'header_image_url') required this.imageUrl,
-      required this.id});
-
-  factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
-
-  @override
-  @JsonKey(name: 'artist_names')
-  final String? artistNames;
-  @override
-  final String? title;
-  @override
-  @JsonKey(name: 'header_image_url')
-  final String? imageUrl;
-  @override
-  final int id;
-
-  @override
-  String toString() {
-    return 'Item(artistNames: $artistNames, title: $title, imageUrl: $imageUrl, id: $id)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Item &&
-            (identical(other.artistNames, artistNames) ||
-                other.artistNames == artistNames) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.id, id) || other.id == id));
+            other is _$_Tracks &&
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, artistNames, title, imageUrl, id);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ItemCopyWith<_$_Item> get copyWith =>
-      __$$_ItemCopyWithImpl<_$_Item>(this, _$identity);
+  _$$_TracksCopyWith<_$_Tracks> get copyWith =>
+      __$$_TracksCopyWithImpl<_$_Tracks>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ItemToJson(
+    return _$$_TracksToJson(
       this,
     );
   }
 }
 
-abstract class _Item implements Item {
-  factory _Item(
-      {@JsonKey(name: 'artist_names') required final String? artistNames,
-      required final String? title,
-      @JsonKey(name: 'header_image_url') required final String? imageUrl,
-      required final int id}) = _$_Item;
+abstract class _Tracks implements Tracks {
+  factory _Tracks({required final List<Data> data}) = _$_Tracks;
 
-  factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
+  factory _Tracks.fromJson(Map<String, dynamic> json) = _$_Tracks.fromJson;
 
   @override
-  @JsonKey(name: 'artist_names')
-  String? get artistNames;
+  List<Data> get data;
   @override
-  String? get title;
+  @JsonKey(ignore: true)
+  _$$_TracksCopyWith<_$_Tracks> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Data _$DataFromJson(Map<String, dynamic> json) {
+  return _Data.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Data {
+  String get title => throw _privateConstructorUsedError;
+  Artist get artist => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DataCopyWith<Data> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DataCopyWith<$Res> {
+  factory $DataCopyWith(Data value, $Res Function(Data) then) =
+      _$DataCopyWithImpl<$Res, Data>;
+  @useResult
+  $Res call({String title, Artist artist, int id, String type});
+
+  $ArtistCopyWith<$Res> get artist;
+}
+
+/// @nodoc
+class _$DataCopyWithImpl<$Res, $Val extends Data>
+    implements $DataCopyWith<$Res> {
+  _$DataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
   @override
-  @JsonKey(name: 'header_image_url')
-  String? get imageUrl;
+  $Res call({
+    Object? title = null,
+    Object? artist = null,
+    Object? id = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      artist: null == artist
+          ? _value.artist
+          : artist // ignore: cast_nullable_to_non_nullable
+              as Artist,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ArtistCopyWith<$Res> get artist {
+    return $ArtistCopyWith<$Res>(_value.artist, (value) {
+      return _then(_value.copyWith(artist: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
+  factory _$$_DataCopyWith(_$_Data value, $Res Function(_$_Data) then) =
+      __$$_DataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String title, Artist artist, int id, String type});
+
+  @override
+  $ArtistCopyWith<$Res> get artist;
+}
+
+/// @nodoc
+class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
+    implements _$$_DataCopyWith<$Res> {
+  __$$_DataCopyWithImpl(_$_Data _value, $Res Function(_$_Data) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? title = null,
+    Object? artist = null,
+    Object? id = null,
+    Object? type = null,
+  }) {
+    return _then(_$_Data(
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      artist: null == artist
+          ? _value.artist
+          : artist // ignore: cast_nullable_to_non_nullable
+              as Artist,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Data implements _Data {
+  _$_Data(
+      {required this.title,
+      required this.artist,
+      required this.id,
+      required this.type});
+
+  factory _$_Data.fromJson(Map<String, dynamic> json) => _$$_DataFromJson(json);
+
+  @override
+  final String title;
+  @override
+  final Artist artist;
+  @override
+  final int id;
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'Data(title: $title, artist: $artist, id: $id, type: $type)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Data &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.artist, artist) || other.artist == artist) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, title, artist, id, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DataCopyWith<_$_Data> get copyWith =>
+      __$$_DataCopyWithImpl<_$_Data>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_DataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Data implements Data {
+  factory _Data(
+      {required final String title,
+      required final Artist artist,
+      required final int id,
+      required final String type}) = _$_Data;
+
+  factory _Data.fromJson(Map<String, dynamic> json) = _$_Data.fromJson;
+
+  @override
+  String get title;
+  @override
+  Artist get artist;
+  @override
+  int get id;
+  @override
+  String get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$_DataCopyWith<_$_Data> get copyWith => throw _privateConstructorUsedError;
+}
+
+Artist _$ArtistFromJson(Map<String, dynamic> json) {
+  return _Artist.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Artist {
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'picture_big')
+  String get image => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtistCopyWith<Artist> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtistCopyWith<$Res> {
+  factory $ArtistCopyWith(Artist value, $Res Function(Artist) then) =
+      _$ArtistCopyWithImpl<$Res, Artist>;
+  @useResult
+  $Res call({String name, @JsonKey(name: 'picture_big') String image, int id});
+}
+
+/// @nodoc
+class _$ArtistCopyWithImpl<$Res, $Val extends Artist>
+    implements $ArtistCopyWith<$Res> {
+  _$ArtistCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? image = null,
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ArtistCopyWith<$Res> implements $ArtistCopyWith<$Res> {
+  factory _$$_ArtistCopyWith(_$_Artist value, $Res Function(_$_Artist) then) =
+      __$$_ArtistCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, @JsonKey(name: 'picture_big') String image, int id});
+}
+
+/// @nodoc
+class __$$_ArtistCopyWithImpl<$Res>
+    extends _$ArtistCopyWithImpl<$Res, _$_Artist>
+    implements _$$_ArtistCopyWith<$Res> {
+  __$$_ArtistCopyWithImpl(_$_Artist _value, $Res Function(_$_Artist) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? image = null,
+    Object? id = null,
+  }) {
+    return _then(_$_Artist(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Artist implements _Artist {
+  _$_Artist(
+      {required this.name,
+      @JsonKey(name: 'picture_big') required this.image,
+      required this.id});
+
+  factory _$_Artist.fromJson(Map<String, dynamic> json) =>
+      _$$_ArtistFromJson(json);
+
+  @override
+  final String name;
+  @override
+  @JsonKey(name: 'picture_big')
+  final String image;
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'Artist(name: $name, image: $image, id: $id)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Artist &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, image, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ArtistCopyWith<_$_Artist> get copyWith =>
+      __$$_ArtistCopyWithImpl<_$_Artist>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ArtistToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Artist implements Artist {
+  factory _Artist(
+      {required final String name,
+      @JsonKey(name: 'picture_big') required final String image,
+      required final int id}) = _$_Artist;
+
+  factory _Artist.fromJson(Map<String, dynamic> json) = _$_Artist.fromJson;
+
+  @override
+  String get name;
+  @override
+  @JsonKey(name: 'picture_big')
+  String get image;
   @override
   int get id;
   @override
   @JsonKey(ignore: true)
-  _$$_ItemCopyWith<_$_Item> get copyWith => throw _privateConstructorUsedError;
+  _$$_ArtistCopyWith<_$_Artist> get copyWith =>
+      throw _privateConstructorUsedError;
 }

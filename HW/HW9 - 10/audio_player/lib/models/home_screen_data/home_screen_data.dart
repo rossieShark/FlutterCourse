@@ -7,7 +7,7 @@ part 'home_screen_data.g.dart';
 @freezed
 class BestAlbumsResponse with _$BestAlbumsResponse {
   factory BestAlbumsResponse({
-    @JsonKey(name: 'chart_items') required List<BestAlbumsList> chartItems,
+    required List<BestAlbumsList> data,
   }) = _BestAlbumsResponse;
   static const fromJsonFactory = _$BestAlbumsResponseFromJson;
   factory BestAlbumsResponse.fromJson(Map<String, Object?> json) =>
@@ -16,19 +16,22 @@ class BestAlbumsResponse with _$BestAlbumsResponse {
 
 @freezed
 class BestAlbumsList with _$BestAlbumsList {
-  factory BestAlbumsList({required Item item}) = _BestAlbumsList;
+  factory BestAlbumsList({
+    required AlbumArtist artist,
+    required int id,
+    @JsonKey(name: 'cover_xl') required String coverImage,
+    required String title,
+    required String type,
+  }) = _BestAlbumsList;
 
   factory BestAlbumsList.fromJson(Map<String, Object?> json) =>
       _$BestAlbumsListFromJson(json);
 }
 
 @freezed
-class Item with _$Item {
-  factory Item(
-      {@JsonKey(name: 'cover_art_url') required String? coverImage,
-      @JsonKey(name: 'release_date_for_display') required String? releaseDate,
-      @JsonKey(name: 'full_title') required String? fullTitle,
-      required int id}) = _Item;
+class AlbumArtist with _$AlbumArtist {
+  factory AlbumArtist({required String name, required int id}) = _AlbumArtist;
 
-  factory Item.fromJson(Map<String, Object?> json) => _$ItemFromJson(json);
+  factory AlbumArtist.fromJson(Map<String, Object?> json) =>
+      _$AlbumArtistFromJson(json);
 }

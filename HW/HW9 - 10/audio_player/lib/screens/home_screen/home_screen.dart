@@ -1,6 +1,7 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/screens/home_screen/additional_widgets/index.dart';
-import 'package:audio_player/screens/screens_export.dart';
+import 'package:audio_player/screens/home_screen/home_screen_index.dart';
+
+import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,6 +47,7 @@ class _BuildMainSection extends StatefulWidget {
 
 class _BuildMainSectionState extends State<_BuildMainSection> {
   final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +67,7 @@ class _BuildMainSectionState extends State<_BuildMainSection> {
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
 
@@ -100,17 +103,19 @@ class _BuildRecentlyPlayedSection extends StatelessWidget {
           ),
         ),
         ResponsiveBuilder(
-            narrow: 266.0,
-            medium: 340.0,
-            large: 380.0,
-            builder: (context, child, height) {
-              return SizedBox(
-                height: height,
-                child: const Padding(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-                    child: RecentlyPlayedList()),
-              );
-            }),
+          narrow: 266.0,
+          medium: 285.0,
+          large: 300.0,
+          builder: (context, child, height) {
+            return SizedBox(
+              height: height,
+              child: child,
+            );
+          },
+          child: const Padding(
+              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: RecentlyPlayedList()),
+        )
       ],
     );
   }
@@ -119,26 +124,25 @@ class _BuildRecentlyPlayedSection extends StatelessWidget {
 class _BuildFavoriteArtistSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Text('Your favorite Artists',
-              style: Theme.of(context).textTheme.titleMedium),
-        ),
-        ResponsiveBuilder(
-            narrow: 105.0,
-            medium: 150.0,
-            large: 185.0,
-            builder: (context, child, height) {
-              return SizedBox(
-                height: height,
-                child: const FavoriteArtistList(),
-              );
-            }),
-      ],
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: Text('Your favorite Artists',
+            style: Theme.of(context).textTheme.titleMedium),
+      ),
+      ResponsiveBuilder(
+        narrow: 107.0,
+        medium: 141.0,
+        large: 160.0,
+        builder: (context, child, height) {
+          return SizedBox(
+            height: height,
+            child: child,
+          );
+        },
+        child: const FavoriteArtistList(),
+      )
+    ]);
   }
 }
 

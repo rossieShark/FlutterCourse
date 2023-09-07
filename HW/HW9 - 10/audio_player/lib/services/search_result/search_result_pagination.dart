@@ -9,10 +9,11 @@ class SearchResultPaginationService {
       SearchResultRepository();
 
   final int _perPage = 10;
-  int _page = 1;
+  int _index = 0;
+  int _limit = 10;
   String _q = '';
 
-  List<Hits> items = [];
+  List<SearchData> items = [];
   bool get isLoading => _isLoading;
 
   Future<void> loadMoreItems(String q) async {
@@ -21,17 +22,21 @@ class SearchResultPaginationService {
       return;
     }
     if (_q != q) {
-      _page = 1;
+      _index = 0;
+      _limit = _perPage;
       items.clear();
     }
     _q = q;
     _isLoading = true;
 
     final newPortion =
-        await _searchResultRepository.getSearchResults(_perPage, _page, _q);
+        await _searchResultRepository.getSearchResults(_index, _limit, _q);
 
     items.addAll(newPortion);
+
     _isLoading = false;
-    _page += 1;
+    _index += _perPage;
+
+    _limit += _perPage;
   }
 }

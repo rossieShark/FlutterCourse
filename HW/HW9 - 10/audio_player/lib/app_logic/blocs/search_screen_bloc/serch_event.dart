@@ -1,7 +1,17 @@
-abstract class SearchResultEvent {}
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'serch_event.freezed.dart';
+part 'serch_event.g.dart';
 
-class FetchSearchResultEvent extends SearchResultEvent {
-  final String q;
+@freezed
+class SearchEvent with _$SearchEvent {
+  const factory SearchEvent.textChanged({required String newText}) =
+      TextChangedSearchEvent;
 
-  FetchSearchResultEvent(this.q);
+  const factory SearchEvent.loadSearchResults({required String newText}) =
+      LoadSearchEvent;
+  const factory SearchEvent.loadMoreItems({required String text}) =
+      LoadMoreItemsSearchEvent;
+
+  factory SearchEvent.fromJson(Map<String, Object?> json) =>
+      _$SearchEventFromJson(json);
 }

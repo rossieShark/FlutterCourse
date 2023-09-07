@@ -4,23 +4,29 @@ import 'package:audio_player/models/models.dart';
 import 'package:flutter/material.dart';
 
 class RecentlySearchedProvider extends ChangeNotifier {
-  final AudioDatabase _database;
+  final AudioAppDatabase _database;
   final List<SongModel> _recentlySearchedList = [];
   RecentlySearchedProvider(this._database);
-  List<SongModel> get favoriteSong => _recentlySearchedList;
+  List<SongModel> get recentlySearchedList => _recentlySearchedList;
 
   Future<void> addToFavorites(SongModel detailSong) async {
     _recentlySearchedList.add(detailSong);
     notifyListeners();
     await _database.insertRecentlySearched(
       RecentlySearchedSong(
+        type: detailSong.type,
         id: int.parse(detailSong.id),
-        // id: int.parse(detailSong.id),
         title: detailSong.title,
-        artist: detailSong.artist_names,
-        songImage: detailSong.header_image_url,
+        artist: detailSong.artistNames,
+        songImage: detailSong.image,
       ),
     );
+  }
+
+  Future<void> removeFromFavorites(SongModel detailSong) async {
+    _recentlySearchedList.removeWhere((item) => item.id == detailSong.id);
+    notifyListeners();
+    await _database.deleteFavoriteSong(int.parse(detailSong.id));
   }
 
   Future<void> removeAll() async {
@@ -34,10 +40,11 @@ class RecentlySearchedProvider extends ChangeNotifier {
     final loadedRecentlySearchedSongs = recentlySearchedSongs
         .map(
           (favoriteSong) => SongModel(
+            type: favoriteSong.type,
             id: favoriteSong.id.toString(),
             title: favoriteSong.title,
-            artist_names: favoriteSong.artist,
-            header_image_url: favoriteSong.songImage,
+            artistNames: favoriteSong.artist,
+            image: favoriteSong.songImage,
           ),
         )
         .toList();

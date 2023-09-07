@@ -3,19 +3,9 @@ import 'package:flutter/material.dart';
 class ScreenSizes {
   static const narrow = 480;
   static const medium = 600;
+  static const mediumExtra = 900;
   static const large = 1280;
 }
-
-// double getResponsiveSize(double maxWidth, double width) {
-//   if (maxWidth < ScreenSizes.medium) {
-//     return width;
-//   }
-//   if (ScreenSizes.large > maxWidth && maxWidth >= ScreenSizes.medium) {
-//     return width * 1.3;
-//   } else {
-//     return width * 1.3;
-//   }
-// }
 
 class ResponsiveBuilder<T> extends StatelessWidget {
   final Widget Function(BuildContext, Widget?, T) builder;
@@ -53,12 +43,14 @@ class ResponsiveBuilder<T> extends StatelessWidget {
 class ResponsiveWidget extends StatelessWidget {
   final Widget Function(BuildContext)? narrow;
   final Widget Function(BuildContext)? medium;
+  final Widget Function(BuildContext)? mediumExtra;
   final Widget Function(BuildContext)? large;
   final Widget Function(BuildContext)? other;
   const ResponsiveWidget({
     super.key,
     this.narrow,
     this.medium,
+    this.mediumExtra,
     this.large,
     this.other,
   });
@@ -68,8 +60,15 @@ class ResponsiveWidget extends StatelessWidget {
       if (constr.maxWidth <= ScreenSizes.medium && narrow != null) {
         return narrow!(context);
       }
-      if (constr.maxWidth <= ScreenSizes.large && medium != null) {
+      if (ScreenSizes.medium < constr.maxWidth &&
+          constr.maxWidth <= ScreenSizes.mediumExtra &&
+          medium != null) {
         return medium!(context);
+      }
+      if (ScreenSizes.mediumExtra < constr.maxWidth &&
+          constr.maxWidth <= ScreenSizes.large &&
+          mediumExtra != null) {
+        return mediumExtra!(context);
       }
       if (constr.maxWidth > ScreenSizes.large && large != null) {
         return large!(context);

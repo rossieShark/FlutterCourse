@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'detail_album_model.freezed.dart';
 part 'detail_album_model.g.dart';
@@ -7,8 +5,7 @@ part 'detail_album_model.g.dart';
 @freezed
 class AlbumDetailsResponse with _$AlbumDetailsResponse {
   factory AlbumDetailsResponse({
-    @JsonKey(name: 'album_appearances')
-    required List<AlbumAppearances> albumAppearances,
+    required List<AlbumData> data,
   }) = _AlbumDetailsResponce;
   static const fromJsonFactory = _$AlbumDetailsResponseFromJson;
   factory AlbumDetailsResponse.fromJson(Map<String, Object?> json) =>
@@ -16,22 +13,21 @@ class AlbumDetailsResponse with _$AlbumDetailsResponse {
 }
 
 @freezed
-class AlbumAppearances with _$AlbumAppearances {
-  factory AlbumAppearances({required Song song}) = _AlbumAppearances;
+class AlbumData with _$AlbumData {
+  factory AlbumData(
+      {required int id,
+      required String title,
+      required String type,
+      required AlbumDataArtist artist}) = _AlbumData;
 
-  factory AlbumAppearances.fromJson(Map<String, Object?> json) =>
-      _$AlbumAppearancesFromJson(json);
+  factory AlbumData.fromJson(Map<String, Object?> json) =>
+      _$AlbumDataFromJson(json);
 }
 
 @freezed
-class Song with _$Song {
-  factory Song(
-      {@JsonKey(name: 'artist_names') required String? artistNames,
-      required String? title,
-      @JsonKey(name: 'header_image_url') required String? headerImageUrl,
-      @JsonKey(name: 'song_art_image_url') required String? songImage,
-      @JsonKey(name: 'release_date_for_display') required String? releaseDate,
-      required int id}) = _Song;
+class AlbumDataArtist with _$AlbumDataArtist {
+  factory AlbumDataArtist({required String name}) = _AlbumDataArtist;
 
-  factory Song.fromJson(Map<String, Object?> json) => _$SongFromJson(json);
+  factory AlbumDataArtist.fromJson(Map<String, Object?> json) =>
+      _$AlbumDataArtistFromJson(json);
 }

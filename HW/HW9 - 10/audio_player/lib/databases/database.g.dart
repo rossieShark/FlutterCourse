@@ -33,9 +33,14 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
   late final GeneratedColumn<String> headerImageUrl = GeneratedColumn<String>(
       'header_image_url', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, artistNames, title, headerImageUrl];
+      [id, artistNames, title, headerImageUrl, type];
   @override
   String get aliasedName => _alias ?? 'recently_played_songs';
   @override
@@ -70,6 +75,12 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
     } else if (isInserting) {
       context.missing(_headerImageUrlMeta);
     }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
     return context;
   }
 
@@ -87,6 +98,8 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       headerImageUrl: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}header_image_url'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -102,11 +115,13 @@ class RecentlyPlayedSong extends DataClass
   final String artistNames;
   final String title;
   final String headerImageUrl;
+  final String type;
   const RecentlyPlayedSong(
       {required this.id,
       required this.artistNames,
       required this.title,
-      required this.headerImageUrl});
+      required this.headerImageUrl,
+      required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -114,6 +129,7 @@ class RecentlyPlayedSong extends DataClass
     map['artist_names'] = Variable<String>(artistNames);
     map['title'] = Variable<String>(title);
     map['header_image_url'] = Variable<String>(headerImageUrl);
+    map['type'] = Variable<String>(type);
     return map;
   }
 
@@ -123,6 +139,7 @@ class RecentlyPlayedSong extends DataClass
       artistNames: Value(artistNames),
       title: Value(title),
       headerImageUrl: Value(headerImageUrl),
+      type: Value(type),
     );
   }
 
@@ -134,6 +151,7 @@ class RecentlyPlayedSong extends DataClass
       artistNames: serializer.fromJson<String>(json['artistNames']),
       title: serializer.fromJson<String>(json['title']),
       headerImageUrl: serializer.fromJson<String>(json['headerImageUrl']),
+      type: serializer.fromJson<String>(json['type']),
     );
   }
   @override
@@ -144,6 +162,7 @@ class RecentlyPlayedSong extends DataClass
       'artistNames': serializer.toJson<String>(artistNames),
       'title': serializer.toJson<String>(title),
       'headerImageUrl': serializer.toJson<String>(headerImageUrl),
+      'type': serializer.toJson<String>(type),
     };
   }
 
@@ -151,12 +170,14 @@ class RecentlyPlayedSong extends DataClass
           {int? id,
           String? artistNames,
           String? title,
-          String? headerImageUrl}) =>
+          String? headerImageUrl,
+          String? type}) =>
       RecentlyPlayedSong(
         id: id ?? this.id,
         artistNames: artistNames ?? this.artistNames,
         title: title ?? this.title,
         headerImageUrl: headerImageUrl ?? this.headerImageUrl,
+        type: type ?? this.type,
       );
   @override
   String toString() {
@@ -164,13 +185,14 @@ class RecentlyPlayedSong extends DataClass
           ..write('id: $id, ')
           ..write('artistNames: $artistNames, ')
           ..write('title: $title, ')
-          ..write('headerImageUrl: $headerImageUrl')
+          ..write('headerImageUrl: $headerImageUrl, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, artistNames, title, headerImageUrl);
+  int get hashCode => Object.hash(id, artistNames, title, headerImageUrl, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -178,7 +200,8 @@ class RecentlyPlayedSong extends DataClass
           other.id == this.id &&
           other.artistNames == this.artistNames &&
           other.title == this.title &&
-          other.headerImageUrl == this.headerImageUrl);
+          other.headerImageUrl == this.headerImageUrl &&
+          other.type == this.type);
 }
 
 class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
@@ -186,31 +209,37 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
   final Value<String> artistNames;
   final Value<String> title;
   final Value<String> headerImageUrl;
+  final Value<String> type;
   const RecentlyPlayedSongsCompanion({
     this.id = const Value.absent(),
     this.artistNames = const Value.absent(),
     this.title = const Value.absent(),
     this.headerImageUrl = const Value.absent(),
+    this.type = const Value.absent(),
   });
   RecentlyPlayedSongsCompanion.insert({
     this.id = const Value.absent(),
     required String artistNames,
     required String title,
     required String headerImageUrl,
+    required String type,
   })  : artistNames = Value(artistNames),
         title = Value(title),
-        headerImageUrl = Value(headerImageUrl);
+        headerImageUrl = Value(headerImageUrl),
+        type = Value(type);
   static Insertable<RecentlyPlayedSong> custom({
     Expression<int>? id,
     Expression<String>? artistNames,
     Expression<String>? title,
     Expression<String>? headerImageUrl,
+    Expression<String>? type,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (artistNames != null) 'artist_names': artistNames,
       if (title != null) 'title': title,
       if (headerImageUrl != null) 'header_image_url': headerImageUrl,
+      if (type != null) 'type': type,
     });
   }
 
@@ -218,12 +247,14 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
       {Value<int>? id,
       Value<String>? artistNames,
       Value<String>? title,
-      Value<String>? headerImageUrl}) {
+      Value<String>? headerImageUrl,
+      Value<String>? type}) {
     return RecentlyPlayedSongsCompanion(
       id: id ?? this.id,
       artistNames: artistNames ?? this.artistNames,
       title: title ?? this.title,
       headerImageUrl: headerImageUrl ?? this.headerImageUrl,
+      type: type ?? this.type,
     );
   }
 
@@ -242,6 +273,9 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
     if (headerImageUrl.present) {
       map['header_image_url'] = Variable<String>(headerImageUrl.value);
     }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
     return map;
   }
 
@@ -251,7 +285,8 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
           ..write('id: $id, ')
           ..write('artistNames: $artistNames, ')
           ..write('title: $title, ')
-          ..write('headerImageUrl: $headerImageUrl')
+          ..write('headerImageUrl: $headerImageUrl, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
@@ -484,11 +519,15 @@ class $BestAlbumsTable extends BestAlbums
   late final GeneratedColumn<String> image = GeneratedColumn<String>(
       'image', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _releaseDateMeta =
-      const VerificationMeta('releaseDate');
+  static const VerificationMeta _artistMeta = const VerificationMeta('artist');
   @override
-  late final GeneratedColumn<String> releaseDate = GeneratedColumn<String>(
-      'release_date', aliasedName, false,
+  late final GeneratedColumn<String> artist = GeneratedColumn<String>(
+      'artist', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _detailAlbumMeta =
       const VerificationMeta('detailAlbum');
@@ -498,7 +537,7 @@ class $BestAlbumsTable extends BestAlbums
       type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, image, releaseDate, detailAlbum];
+      [id, title, image, artist, type, detailAlbum];
   @override
   String get aliasedName => _alias ?? 'best_albums';
   @override
@@ -523,13 +562,17 @@ class $BestAlbumsTable extends BestAlbums
     } else if (isInserting) {
       context.missing(_imageMeta);
     }
-    if (data.containsKey('release_date')) {
-      context.handle(
-          _releaseDateMeta,
-          releaseDate.isAcceptableOrUnknown(
-              data['release_date']!, _releaseDateMeta));
+    if (data.containsKey('artist')) {
+      context.handle(_artistMeta,
+          artist.isAcceptableOrUnknown(data['artist']!, _artistMeta));
     } else if (isInserting) {
-      context.missing(_releaseDateMeta);
+      context.missing(_artistMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
     }
     if (data.containsKey('detail_album')) {
       context.handle(
@@ -554,8 +597,10 @@ class $BestAlbumsTable extends BestAlbums
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       image: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}image'])!,
-      releaseDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}release_date'])!,
+      artist: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}artist'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
       detailAlbum: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}detail_album'])!,
     );
@@ -571,13 +616,15 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
   final int id;
   final String title;
   final String image;
-  final String releaseDate;
+  final String artist;
+  final String type;
   final int detailAlbum;
   const BestAlbum(
       {required this.id,
       required this.title,
       required this.image,
-      required this.releaseDate,
+      required this.artist,
+      required this.type,
       required this.detailAlbum});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -585,7 +632,8 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
     map['image'] = Variable<String>(image);
-    map['release_date'] = Variable<String>(releaseDate);
+    map['artist'] = Variable<String>(artist);
+    map['type'] = Variable<String>(type);
     map['detail_album'] = Variable<int>(detailAlbum);
     return map;
   }
@@ -595,7 +643,8 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
       id: Value(id),
       title: Value(title),
       image: Value(image),
-      releaseDate: Value(releaseDate),
+      artist: Value(artist),
+      type: Value(type),
       detailAlbum: Value(detailAlbum),
     );
   }
@@ -607,7 +656,8 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       image: serializer.fromJson<String>(json['image']),
-      releaseDate: serializer.fromJson<String>(json['releaseDate']),
+      artist: serializer.fromJson<String>(json['artist']),
+      type: serializer.fromJson<String>(json['type']),
       detailAlbum: serializer.fromJson<int>(json['detailAlbum']),
     );
   }
@@ -618,7 +668,8 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'image': serializer.toJson<String>(image),
-      'releaseDate': serializer.toJson<String>(releaseDate),
+      'artist': serializer.toJson<String>(artist),
+      'type': serializer.toJson<String>(type),
       'detailAlbum': serializer.toJson<int>(detailAlbum),
     };
   }
@@ -627,13 +678,15 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
           {int? id,
           String? title,
           String? image,
-          String? releaseDate,
+          String? artist,
+          String? type,
           int? detailAlbum}) =>
       BestAlbum(
         id: id ?? this.id,
         title: title ?? this.title,
         image: image ?? this.image,
-        releaseDate: releaseDate ?? this.releaseDate,
+        artist: artist ?? this.artist,
+        type: type ?? this.type,
         detailAlbum: detailAlbum ?? this.detailAlbum,
       );
   @override
@@ -642,14 +695,15 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('image: $image, ')
-          ..write('releaseDate: $releaseDate, ')
+          ..write('artist: $artist, ')
+          ..write('type: $type, ')
           ..write('detailAlbum: $detailAlbum')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, image, releaseDate, detailAlbum);
+  int get hashCode => Object.hash(id, title, image, artist, type, detailAlbum);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -657,7 +711,8 @@ class BestAlbum extends DataClass implements Insertable<BestAlbum> {
           other.id == this.id &&
           other.title == this.title &&
           other.image == this.image &&
-          other.releaseDate == this.releaseDate &&
+          other.artist == this.artist &&
+          other.type == this.type &&
           other.detailAlbum == this.detailAlbum);
 }
 
@@ -665,37 +720,43 @@ class BestAlbumsCompanion extends UpdateCompanion<BestAlbum> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> image;
-  final Value<String> releaseDate;
+  final Value<String> artist;
+  final Value<String> type;
   final Value<int> detailAlbum;
   const BestAlbumsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.image = const Value.absent(),
-    this.releaseDate = const Value.absent(),
+    this.artist = const Value.absent(),
+    this.type = const Value.absent(),
     this.detailAlbum = const Value.absent(),
   });
   BestAlbumsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String image,
-    required String releaseDate,
+    required String artist,
+    required String type,
     required int detailAlbum,
   })  : title = Value(title),
         image = Value(image),
-        releaseDate = Value(releaseDate),
+        artist = Value(artist),
+        type = Value(type),
         detailAlbum = Value(detailAlbum);
   static Insertable<BestAlbum> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? image,
-    Expression<String>? releaseDate,
+    Expression<String>? artist,
+    Expression<String>? type,
     Expression<int>? detailAlbum,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (image != null) 'image': image,
-      if (releaseDate != null) 'release_date': releaseDate,
+      if (artist != null) 'artist': artist,
+      if (type != null) 'type': type,
       if (detailAlbum != null) 'detail_album': detailAlbum,
     });
   }
@@ -704,13 +765,15 @@ class BestAlbumsCompanion extends UpdateCompanion<BestAlbum> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? image,
-      Value<String>? releaseDate,
+      Value<String>? artist,
+      Value<String>? type,
       Value<int>? detailAlbum}) {
     return BestAlbumsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       image: image ?? this.image,
-      releaseDate: releaseDate ?? this.releaseDate,
+      artist: artist ?? this.artist,
+      type: type ?? this.type,
       detailAlbum: detailAlbum ?? this.detailAlbum,
     );
   }
@@ -727,8 +790,11 @@ class BestAlbumsCompanion extends UpdateCompanion<BestAlbum> {
     if (image.present) {
       map['image'] = Variable<String>(image.value);
     }
-    if (releaseDate.present) {
-      map['release_date'] = Variable<String>(releaseDate.value);
+    if (artist.present) {
+      map['artist'] = Variable<String>(artist.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
     }
     if (detailAlbum.present) {
       map['detail_album'] = Variable<int>(detailAlbum.value);
@@ -742,7 +808,8 @@ class BestAlbumsCompanion extends UpdateCompanion<BestAlbum> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('image: $image, ')
-          ..write('releaseDate: $releaseDate, ')
+          ..write('artist: $artist, ')
+          ..write('type: $type, ')
           ..write('detailAlbum: $detailAlbum')
           ..write(')'))
         .toString();
@@ -774,32 +841,18 @@ class $DetailAlbumsTable extends DetailAlbums
   late final GeneratedColumn<String> artistNames = GeneratedColumn<String>(
       'artist_names', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _headerImageUrlMeta =
-      const VerificationMeta('headerImageUrl');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<String> headerImageUrl = GeneratedColumn<String>(
-      'header_image_url', aliasedName, false,
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _songImageMeta =
-      const VerificationMeta('songImage');
   @override
-  late final GeneratedColumn<String> songImage = GeneratedColumn<String>(
-      'song_image', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _releaseDateMeta =
-      const VerificationMeta('releaseDate');
-  @override
-  late final GeneratedColumn<String> releaseDate = GeneratedColumn<String>(
-      'release_date', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, albumid, artistNames, headerImageUrl, title, songImage, releaseDate];
+  List<GeneratedColumn> get $columns => [id, albumid, artistNames, type, title];
   @override
   String get aliasedName => _alias ?? 'detail_albums';
   @override
@@ -826,33 +879,17 @@ class $DetailAlbumsTable extends DetailAlbums
     } else if (isInserting) {
       context.missing(_artistNamesMeta);
     }
-    if (data.containsKey('header_image_url')) {
+    if (data.containsKey('type')) {
       context.handle(
-          _headerImageUrlMeta,
-          headerImageUrl.isAcceptableOrUnknown(
-              data['header_image_url']!, _headerImageUrlMeta));
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
-      context.missing(_headerImageUrlMeta);
+      context.missing(_typeMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
-    }
-    if (data.containsKey('song_image')) {
-      context.handle(_songImageMeta,
-          songImage.isAcceptableOrUnknown(data['song_image']!, _songImageMeta));
-    } else if (isInserting) {
-      context.missing(_songImageMeta);
-    }
-    if (data.containsKey('release_date')) {
-      context.handle(
-          _releaseDateMeta,
-          releaseDate.isAcceptableOrUnknown(
-              data['release_date']!, _releaseDateMeta));
-    } else if (isInserting) {
-      context.missing(_releaseDateMeta);
     }
     return context;
   }
@@ -869,14 +906,10 @@ class $DetailAlbumsTable extends DetailAlbums
           .read(DriftSqlType.int, data['${effectivePrefix}albumid'])!,
       artistNames: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}artist_names'])!,
-      headerImageUrl: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}header_image_url'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      songImage: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}song_image'])!,
-      releaseDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}release_date'])!,
     );
   }
 
@@ -890,28 +923,22 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
   final int id;
   final int albumid;
   final String artistNames;
-  final String headerImageUrl;
+  final String type;
   final String title;
-  final String songImage;
-  final String releaseDate;
   const DetailAlbum(
       {required this.id,
       required this.albumid,
       required this.artistNames,
-      required this.headerImageUrl,
-      required this.title,
-      required this.songImage,
-      required this.releaseDate});
+      required this.type,
+      required this.title});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['albumid'] = Variable<int>(albumid);
     map['artist_names'] = Variable<String>(artistNames);
-    map['header_image_url'] = Variable<String>(headerImageUrl);
+    map['type'] = Variable<String>(type);
     map['title'] = Variable<String>(title);
-    map['song_image'] = Variable<String>(songImage);
-    map['release_date'] = Variable<String>(releaseDate);
     return map;
   }
 
@@ -920,10 +947,8 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
       id: Value(id),
       albumid: Value(albumid),
       artistNames: Value(artistNames),
-      headerImageUrl: Value(headerImageUrl),
+      type: Value(type),
       title: Value(title),
-      songImage: Value(songImage),
-      releaseDate: Value(releaseDate),
     );
   }
 
@@ -934,10 +959,8 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
       id: serializer.fromJson<int>(json['id']),
       albumid: serializer.fromJson<int>(json['albumid']),
       artistNames: serializer.fromJson<String>(json['artistNames']),
-      headerImageUrl: serializer.fromJson<String>(json['headerImageUrl']),
+      type: serializer.fromJson<String>(json['type']),
       title: serializer.fromJson<String>(json['title']),
-      songImage: serializer.fromJson<String>(json['songImage']),
-      releaseDate: serializer.fromJson<String>(json['releaseDate']),
     );
   }
   @override
@@ -947,10 +970,8 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
       'id': serializer.toJson<int>(id),
       'albumid': serializer.toJson<int>(albumid),
       'artistNames': serializer.toJson<String>(artistNames),
-      'headerImageUrl': serializer.toJson<String>(headerImageUrl),
+      'type': serializer.toJson<String>(type),
       'title': serializer.toJson<String>(title),
-      'songImage': serializer.toJson<String>(songImage),
-      'releaseDate': serializer.toJson<String>(releaseDate),
     };
   }
 
@@ -958,18 +979,14 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
           {int? id,
           int? albumid,
           String? artistNames,
-          String? headerImageUrl,
-          String? title,
-          String? songImage,
-          String? releaseDate}) =>
+          String? type,
+          String? title}) =>
       DetailAlbum(
         id: id ?? this.id,
         albumid: albumid ?? this.albumid,
         artistNames: artistNames ?? this.artistNames,
-        headerImageUrl: headerImageUrl ?? this.headerImageUrl,
+        type: type ?? this.type,
         title: title ?? this.title,
-        songImage: songImage ?? this.songImage,
-        releaseDate: releaseDate ?? this.releaseDate,
       );
   @override
   String toString() {
@@ -977,17 +994,14 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
           ..write('id: $id, ')
           ..write('albumid: $albumid, ')
           ..write('artistNames: $artistNames, ')
-          ..write('headerImageUrl: $headerImageUrl, ')
-          ..write('title: $title, ')
-          ..write('songImage: $songImage, ')
-          ..write('releaseDate: $releaseDate')
+          ..write('type: $type, ')
+          ..write('title: $title')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, albumid, artistNames, headerImageUrl, title, songImage, releaseDate);
+  int get hashCode => Object.hash(id, albumid, artistNames, type, title);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -995,60 +1009,46 @@ class DetailAlbum extends DataClass implements Insertable<DetailAlbum> {
           other.id == this.id &&
           other.albumid == this.albumid &&
           other.artistNames == this.artistNames &&
-          other.headerImageUrl == this.headerImageUrl &&
-          other.title == this.title &&
-          other.songImage == this.songImage &&
-          other.releaseDate == this.releaseDate);
+          other.type == this.type &&
+          other.title == this.title);
 }
 
 class DetailAlbumsCompanion extends UpdateCompanion<DetailAlbum> {
   final Value<int> id;
   final Value<int> albumid;
   final Value<String> artistNames;
-  final Value<String> headerImageUrl;
+  final Value<String> type;
   final Value<String> title;
-  final Value<String> songImage;
-  final Value<String> releaseDate;
   const DetailAlbumsCompanion({
     this.id = const Value.absent(),
     this.albumid = const Value.absent(),
     this.artistNames = const Value.absent(),
-    this.headerImageUrl = const Value.absent(),
+    this.type = const Value.absent(),
     this.title = const Value.absent(),
-    this.songImage = const Value.absent(),
-    this.releaseDate = const Value.absent(),
   });
   DetailAlbumsCompanion.insert({
     this.id = const Value.absent(),
     required int albumid,
     required String artistNames,
-    required String headerImageUrl,
+    required String type,
     required String title,
-    required String songImage,
-    required String releaseDate,
   })  : albumid = Value(albumid),
         artistNames = Value(artistNames),
-        headerImageUrl = Value(headerImageUrl),
-        title = Value(title),
-        songImage = Value(songImage),
-        releaseDate = Value(releaseDate);
+        type = Value(type),
+        title = Value(title);
   static Insertable<DetailAlbum> custom({
     Expression<int>? id,
     Expression<int>? albumid,
     Expression<String>? artistNames,
-    Expression<String>? headerImageUrl,
+    Expression<String>? type,
     Expression<String>? title,
-    Expression<String>? songImage,
-    Expression<String>? releaseDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (albumid != null) 'albumid': albumid,
       if (artistNames != null) 'artist_names': artistNames,
-      if (headerImageUrl != null) 'header_image_url': headerImageUrl,
+      if (type != null) 'type': type,
       if (title != null) 'title': title,
-      if (songImage != null) 'song_image': songImage,
-      if (releaseDate != null) 'release_date': releaseDate,
     });
   }
 
@@ -1056,18 +1056,14 @@ class DetailAlbumsCompanion extends UpdateCompanion<DetailAlbum> {
       {Value<int>? id,
       Value<int>? albumid,
       Value<String>? artistNames,
-      Value<String>? headerImageUrl,
-      Value<String>? title,
-      Value<String>? songImage,
-      Value<String>? releaseDate}) {
+      Value<String>? type,
+      Value<String>? title}) {
     return DetailAlbumsCompanion(
       id: id ?? this.id,
       albumid: albumid ?? this.albumid,
       artistNames: artistNames ?? this.artistNames,
-      headerImageUrl: headerImageUrl ?? this.headerImageUrl,
+      type: type ?? this.type,
       title: title ?? this.title,
-      songImage: songImage ?? this.songImage,
-      releaseDate: releaseDate ?? this.releaseDate,
     );
   }
 
@@ -1083,17 +1079,11 @@ class DetailAlbumsCompanion extends UpdateCompanion<DetailAlbum> {
     if (artistNames.present) {
       map['artist_names'] = Variable<String>(artistNames.value);
     }
-    if (headerImageUrl.present) {
-      map['header_image_url'] = Variable<String>(headerImageUrl.value);
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
-    }
-    if (songImage.present) {
-      map['song_image'] = Variable<String>(songImage.value);
-    }
-    if (releaseDate.present) {
-      map['release_date'] = Variable<String>(releaseDate.value);
     }
     return map;
   }
@@ -1104,10 +1094,8 @@ class DetailAlbumsCompanion extends UpdateCompanion<DetailAlbum> {
           ..write('id: $id, ')
           ..write('albumid: $albumid, ')
           ..write('artistNames: $artistNames, ')
-          ..write('headerImageUrl: $headerImageUrl, ')
-          ..write('title: $title, ')
-          ..write('songImage: $songImage, ')
-          ..write('releaseDate: $releaseDate')
+          ..write('type: $type, ')
+          ..write('title: $title')
           ..write(')'))
         .toString();
   }
@@ -1142,8 +1130,13 @@ class $FavoriteAlbumsTable extends FavoriteAlbums
   late final GeneratedColumn<String> songImage = GeneratedColumn<String>(
       'song_image', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  List<GeneratedColumn> get $columns => [id, title, artist, songImage];
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, title, artist, songImage, type];
   @override
   String get aliasedName => _alias ?? 'favorite_albums';
   @override
@@ -1174,6 +1167,12 @@ class $FavoriteAlbumsTable extends FavoriteAlbums
     } else if (isInserting) {
       context.missing(_songImageMeta);
     }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
     return context;
   }
 
@@ -1191,6 +1190,8 @@ class $FavoriteAlbumsTable extends FavoriteAlbums
           .read(DriftSqlType.string, data['${effectivePrefix}artist'])!,
       songImage: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}song_image'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -1205,11 +1206,13 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
   final String title;
   final String artist;
   final String songImage;
+  final String type;
   const FavoriteAlbum(
       {required this.id,
       required this.title,
       required this.artist,
-      required this.songImage});
+      required this.songImage,
+      required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1217,6 +1220,7 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
     map['title'] = Variable<String>(title);
     map['artist'] = Variable<String>(artist);
     map['song_image'] = Variable<String>(songImage);
+    map['type'] = Variable<String>(type);
     return map;
   }
 
@@ -1226,6 +1230,7 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
       title: Value(title),
       artist: Value(artist),
       songImage: Value(songImage),
+      type: Value(type),
     );
   }
 
@@ -1237,6 +1242,7 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
       title: serializer.fromJson<String>(json['title']),
       artist: serializer.fromJson<String>(json['artist']),
       songImage: serializer.fromJson<String>(json['songImage']),
+      type: serializer.fromJson<String>(json['type']),
     );
   }
   @override
@@ -1247,16 +1253,22 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
       'title': serializer.toJson<String>(title),
       'artist': serializer.toJson<String>(artist),
       'songImage': serializer.toJson<String>(songImage),
+      'type': serializer.toJson<String>(type),
     };
   }
 
   FavoriteAlbum copyWith(
-          {int? id, String? title, String? artist, String? songImage}) =>
+          {int? id,
+          String? title,
+          String? artist,
+          String? songImage,
+          String? type}) =>
       FavoriteAlbum(
         id: id ?? this.id,
         title: title ?? this.title,
         artist: artist ?? this.artist,
         songImage: songImage ?? this.songImage,
+        type: type ?? this.type,
       );
   @override
   String toString() {
@@ -1264,13 +1276,14 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
-          ..write('songImage: $songImage')
+          ..write('songImage: $songImage, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, artist, songImage);
+  int get hashCode => Object.hash(id, title, artist, songImage, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1278,7 +1291,8 @@ class FavoriteAlbum extends DataClass implements Insertable<FavoriteAlbum> {
           other.id == this.id &&
           other.title == this.title &&
           other.artist == this.artist &&
-          other.songImage == this.songImage);
+          other.songImage == this.songImage &&
+          other.type == this.type);
 }
 
 class FavoriteAlbumsCompanion extends UpdateCompanion<FavoriteAlbum> {
@@ -1286,31 +1300,37 @@ class FavoriteAlbumsCompanion extends UpdateCompanion<FavoriteAlbum> {
   final Value<String> title;
   final Value<String> artist;
   final Value<String> songImage;
+  final Value<String> type;
   const FavoriteAlbumsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.artist = const Value.absent(),
     this.songImage = const Value.absent(),
+    this.type = const Value.absent(),
   });
   FavoriteAlbumsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String artist,
     required String songImage,
+    required String type,
   })  : title = Value(title),
         artist = Value(artist),
-        songImage = Value(songImage);
+        songImage = Value(songImage),
+        type = Value(type);
   static Insertable<FavoriteAlbum> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? artist,
     Expression<String>? songImage,
+    Expression<String>? type,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (artist != null) 'artist': artist,
       if (songImage != null) 'song_image': songImage,
+      if (type != null) 'type': type,
     });
   }
 
@@ -1318,12 +1338,14 @@ class FavoriteAlbumsCompanion extends UpdateCompanion<FavoriteAlbum> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? artist,
-      Value<String>? songImage}) {
+      Value<String>? songImage,
+      Value<String>? type}) {
     return FavoriteAlbumsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       artist: artist ?? this.artist,
       songImage: songImage ?? this.songImage,
+      type: type ?? this.type,
     );
   }
 
@@ -1342,6 +1364,9 @@ class FavoriteAlbumsCompanion extends UpdateCompanion<FavoriteAlbum> {
     if (songImage.present) {
       map['song_image'] = Variable<String>(songImage.value);
     }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
     return map;
   }
 
@@ -1351,7 +1376,8 @@ class FavoriteAlbumsCompanion extends UpdateCompanion<FavoriteAlbum> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
-          ..write('songImage: $songImage')
+          ..write('songImage: $songImage, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
@@ -1386,8 +1412,13 @@ class $FavoriteSongsTable extends FavoriteSongs
   late final GeneratedColumn<String> songImage = GeneratedColumn<String>(
       'song_image', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  List<GeneratedColumn> get $columns => [id, title, artist, songImage];
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, title, artist, songImage, type];
   @override
   String get aliasedName => _alias ?? 'favorite_songs';
   @override
@@ -1418,6 +1449,12 @@ class $FavoriteSongsTable extends FavoriteSongs
     } else if (isInserting) {
       context.missing(_songImageMeta);
     }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
     return context;
   }
 
@@ -1435,6 +1472,8 @@ class $FavoriteSongsTable extends FavoriteSongs
           .read(DriftSqlType.string, data['${effectivePrefix}artist'])!,
       songImage: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}song_image'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -1449,11 +1488,13 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
   final String title;
   final String artist;
   final String songImage;
+  final String type;
   const FavoriteSong(
       {required this.id,
       required this.title,
       required this.artist,
-      required this.songImage});
+      required this.songImage,
+      required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1461,6 +1502,7 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
     map['title'] = Variable<String>(title);
     map['artist'] = Variable<String>(artist);
     map['song_image'] = Variable<String>(songImage);
+    map['type'] = Variable<String>(type);
     return map;
   }
 
@@ -1470,6 +1512,7 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
       title: Value(title),
       artist: Value(artist),
       songImage: Value(songImage),
+      type: Value(type),
     );
   }
 
@@ -1481,6 +1524,7 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
       title: serializer.fromJson<String>(json['title']),
       artist: serializer.fromJson<String>(json['artist']),
       songImage: serializer.fromJson<String>(json['songImage']),
+      type: serializer.fromJson<String>(json['type']),
     );
   }
   @override
@@ -1491,16 +1535,22 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
       'title': serializer.toJson<String>(title),
       'artist': serializer.toJson<String>(artist),
       'songImage': serializer.toJson<String>(songImage),
+      'type': serializer.toJson<String>(type),
     };
   }
 
   FavoriteSong copyWith(
-          {int? id, String? title, String? artist, String? songImage}) =>
+          {int? id,
+          String? title,
+          String? artist,
+          String? songImage,
+          String? type}) =>
       FavoriteSong(
         id: id ?? this.id,
         title: title ?? this.title,
         artist: artist ?? this.artist,
         songImage: songImage ?? this.songImage,
+        type: type ?? this.type,
       );
   @override
   String toString() {
@@ -1508,13 +1558,14 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
-          ..write('songImage: $songImage')
+          ..write('songImage: $songImage, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, artist, songImage);
+  int get hashCode => Object.hash(id, title, artist, songImage, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1522,7 +1573,8 @@ class FavoriteSong extends DataClass implements Insertable<FavoriteSong> {
           other.id == this.id &&
           other.title == this.title &&
           other.artist == this.artist &&
-          other.songImage == this.songImage);
+          other.songImage == this.songImage &&
+          other.type == this.type);
 }
 
 class FavoriteSongsCompanion extends UpdateCompanion<FavoriteSong> {
@@ -1530,31 +1582,37 @@ class FavoriteSongsCompanion extends UpdateCompanion<FavoriteSong> {
   final Value<String> title;
   final Value<String> artist;
   final Value<String> songImage;
+  final Value<String> type;
   const FavoriteSongsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.artist = const Value.absent(),
     this.songImage = const Value.absent(),
+    this.type = const Value.absent(),
   });
   FavoriteSongsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String artist,
     required String songImage,
+    required String type,
   })  : title = Value(title),
         artist = Value(artist),
-        songImage = Value(songImage);
+        songImage = Value(songImage),
+        type = Value(type);
   static Insertable<FavoriteSong> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? artist,
     Expression<String>? songImage,
+    Expression<String>? type,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (artist != null) 'artist': artist,
       if (songImage != null) 'song_image': songImage,
+      if (type != null) 'type': type,
     });
   }
 
@@ -1562,12 +1620,14 @@ class FavoriteSongsCompanion extends UpdateCompanion<FavoriteSong> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? artist,
-      Value<String>? songImage}) {
+      Value<String>? songImage,
+      Value<String>? type}) {
     return FavoriteSongsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       artist: artist ?? this.artist,
       songImage: songImage ?? this.songImage,
+      type: type ?? this.type,
     );
   }
 
@@ -1586,6 +1646,9 @@ class FavoriteSongsCompanion extends UpdateCompanion<FavoriteSong> {
     if (songImage.present) {
       map['song_image'] = Variable<String>(songImage.value);
     }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
     return map;
   }
 
@@ -1595,7 +1658,8 @@ class FavoriteSongsCompanion extends UpdateCompanion<FavoriteSong> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
-          ..write('songImage: $songImage')
+          ..write('songImage: $songImage, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
@@ -1624,6 +1688,11 @@ class $RecentlySearchedSongsTable extends RecentlySearchedSongs
   late final GeneratedColumn<String> artist = GeneratedColumn<String>(
       'artist', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _songImageMeta =
       const VerificationMeta('songImage');
   @override
@@ -1631,7 +1700,7 @@ class $RecentlySearchedSongsTable extends RecentlySearchedSongs
       'song_image', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, title, artist, songImage];
+  List<GeneratedColumn> get $columns => [id, title, artist, type, songImage];
   @override
   String get aliasedName => _alias ?? 'recently_searched_songs';
   @override
@@ -1657,6 +1726,12 @@ class $RecentlySearchedSongsTable extends RecentlySearchedSongs
     } else if (isInserting) {
       context.missing(_artistMeta);
     }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
     if (data.containsKey('song_image')) {
       context.handle(_songImageMeta,
           songImage.isAcceptableOrUnknown(data['song_image']!, _songImageMeta));
@@ -1678,6 +1753,8 @@ class $RecentlySearchedSongsTable extends RecentlySearchedSongs
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       artist: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}artist'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
       songImage: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}song_image'])!,
     );
@@ -1694,11 +1771,13 @@ class RecentlySearchedSong extends DataClass
   final int id;
   final String title;
   final String artist;
+  final String type;
   final String songImage;
   const RecentlySearchedSong(
       {required this.id,
       required this.title,
       required this.artist,
+      required this.type,
       required this.songImage});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1706,6 +1785,7 @@ class RecentlySearchedSong extends DataClass
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
     map['artist'] = Variable<String>(artist);
+    map['type'] = Variable<String>(type);
     map['song_image'] = Variable<String>(songImage);
     return map;
   }
@@ -1715,6 +1795,7 @@ class RecentlySearchedSong extends DataClass
       id: Value(id),
       title: Value(title),
       artist: Value(artist),
+      type: Value(type),
       songImage: Value(songImage),
     );
   }
@@ -1726,6 +1807,7 @@ class RecentlySearchedSong extends DataClass
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       artist: serializer.fromJson<String>(json['artist']),
+      type: serializer.fromJson<String>(json['type']),
       songImage: serializer.fromJson<String>(json['songImage']),
     );
   }
@@ -1736,16 +1818,22 @@ class RecentlySearchedSong extends DataClass
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'artist': serializer.toJson<String>(artist),
+      'type': serializer.toJson<String>(type),
       'songImage': serializer.toJson<String>(songImage),
     };
   }
 
   RecentlySearchedSong copyWith(
-          {int? id, String? title, String? artist, String? songImage}) =>
+          {int? id,
+          String? title,
+          String? artist,
+          String? type,
+          String? songImage}) =>
       RecentlySearchedSong(
         id: id ?? this.id,
         title: title ?? this.title,
         artist: artist ?? this.artist,
+        type: type ?? this.type,
         songImage: songImage ?? this.songImage,
       );
   @override
@@ -1754,13 +1842,14 @@ class RecentlySearchedSong extends DataClass
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
+          ..write('type: $type, ')
           ..write('songImage: $songImage')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, artist, songImage);
+  int get hashCode => Object.hash(id, title, artist, type, songImage);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1768,6 +1857,7 @@ class RecentlySearchedSong extends DataClass
           other.id == this.id &&
           other.title == this.title &&
           other.artist == this.artist &&
+          other.type == this.type &&
           other.songImage == this.songImage);
 }
 
@@ -1776,31 +1866,37 @@ class RecentlySearchedSongsCompanion
   final Value<int> id;
   final Value<String> title;
   final Value<String> artist;
+  final Value<String> type;
   final Value<String> songImage;
   const RecentlySearchedSongsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.artist = const Value.absent(),
+    this.type = const Value.absent(),
     this.songImage = const Value.absent(),
   });
   RecentlySearchedSongsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String artist,
+    required String type,
     required String songImage,
   })  : title = Value(title),
         artist = Value(artist),
+        type = Value(type),
         songImage = Value(songImage);
   static Insertable<RecentlySearchedSong> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? artist,
+    Expression<String>? type,
     Expression<String>? songImage,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (artist != null) 'artist': artist,
+      if (type != null) 'type': type,
       if (songImage != null) 'song_image': songImage,
     });
   }
@@ -1809,11 +1905,13 @@ class RecentlySearchedSongsCompanion
       {Value<int>? id,
       Value<String>? title,
       Value<String>? artist,
+      Value<String>? type,
       Value<String>? songImage}) {
     return RecentlySearchedSongsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       artist: artist ?? this.artist,
+      type: type ?? this.type,
       songImage: songImage ?? this.songImage,
     );
   }
@@ -1830,6 +1928,9 @@ class RecentlySearchedSongsCompanion
     if (artist.present) {
       map['artist'] = Variable<String>(artist.value);
     }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
     if (songImage.present) {
       map['song_image'] = Variable<String>(songImage.value);
     }
@@ -1842,6 +1943,7 @@ class RecentlySearchedSongsCompanion
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artist: $artist, ')
+          ..write('type: $type, ')
           ..write('songImage: $songImage')
           ..write(')'))
         .toString();
@@ -1878,8 +1980,20 @@ class $DetailInfoSongsTable extends DetailInfoSongs
   late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
       'image_url', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _previewMeta =
+      const VerificationMeta('preview');
   @override
-  List<GeneratedColumn> get $columns => [id, title, artistNames, imageUrl];
+  late final GeneratedColumn<String> preview = GeneratedColumn<String>(
+      'preview', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, title, artistNames, imageUrl, preview, type];
   @override
   String get aliasedName => _alias ?? 'detail_info_songs';
   @override
@@ -1912,6 +2026,18 @@ class $DetailInfoSongsTable extends DetailInfoSongs
     } else if (isInserting) {
       context.missing(_imageUrlMeta);
     }
+    if (data.containsKey('preview')) {
+      context.handle(_previewMeta,
+          preview.isAcceptableOrUnknown(data['preview']!, _previewMeta));
+    } else if (isInserting) {
+      context.missing(_previewMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
     return context;
   }
 
@@ -1929,6 +2055,10 @@ class $DetailInfoSongsTable extends DetailInfoSongs
           .read(DriftSqlType.string, data['${effectivePrefix}artist_names'])!,
       imageUrl: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}image_url'])!,
+      preview: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}preview'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -1943,11 +2073,15 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
   final String title;
   final String artistNames;
   final String imageUrl;
+  final String preview;
+  final String type;
   const DetailInfoSong(
       {required this.id,
       required this.title,
       required this.artistNames,
-      required this.imageUrl});
+      required this.imageUrl,
+      required this.preview,
+      required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1955,6 +2089,8 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
     map['title'] = Variable<String>(title);
     map['artist_names'] = Variable<String>(artistNames);
     map['image_url'] = Variable<String>(imageUrl);
+    map['preview'] = Variable<String>(preview);
+    map['type'] = Variable<String>(type);
     return map;
   }
 
@@ -1964,6 +2100,8 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
       title: Value(title),
       artistNames: Value(artistNames),
       imageUrl: Value(imageUrl),
+      preview: Value(preview),
+      type: Value(type),
     );
   }
 
@@ -1975,6 +2113,8 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
       title: serializer.fromJson<String>(json['title']),
       artistNames: serializer.fromJson<String>(json['artistNames']),
       imageUrl: serializer.fromJson<String>(json['imageUrl']),
+      preview: serializer.fromJson<String>(json['preview']),
+      type: serializer.fromJson<String>(json['type']),
     );
   }
   @override
@@ -1985,16 +2125,25 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
       'title': serializer.toJson<String>(title),
       'artistNames': serializer.toJson<String>(artistNames),
       'imageUrl': serializer.toJson<String>(imageUrl),
+      'preview': serializer.toJson<String>(preview),
+      'type': serializer.toJson<String>(type),
     };
   }
 
   DetailInfoSong copyWith(
-          {int? id, String? title, String? artistNames, String? imageUrl}) =>
+          {int? id,
+          String? title,
+          String? artistNames,
+          String? imageUrl,
+          String? preview,
+          String? type}) =>
       DetailInfoSong(
         id: id ?? this.id,
         title: title ?? this.title,
         artistNames: artistNames ?? this.artistNames,
         imageUrl: imageUrl ?? this.imageUrl,
+        preview: preview ?? this.preview,
+        type: type ?? this.type,
       );
   @override
   String toString() {
@@ -2002,13 +2151,16 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artistNames: $artistNames, ')
-          ..write('imageUrl: $imageUrl')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('preview: $preview, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, artistNames, imageUrl);
+  int get hashCode =>
+      Object.hash(id, title, artistNames, imageUrl, preview, type);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2016,7 +2168,9 @@ class DetailInfoSong extends DataClass implements Insertable<DetailInfoSong> {
           other.id == this.id &&
           other.title == this.title &&
           other.artistNames == this.artistNames &&
-          other.imageUrl == this.imageUrl);
+          other.imageUrl == this.imageUrl &&
+          other.preview == this.preview &&
+          other.type == this.type);
 }
 
 class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
@@ -2024,31 +2178,43 @@ class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
   final Value<String> title;
   final Value<String> artistNames;
   final Value<String> imageUrl;
+  final Value<String> preview;
+  final Value<String> type;
   const DetailInfoSongsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.artistNames = const Value.absent(),
     this.imageUrl = const Value.absent(),
+    this.preview = const Value.absent(),
+    this.type = const Value.absent(),
   });
   DetailInfoSongsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String artistNames,
     required String imageUrl,
+    required String preview,
+    required String type,
   })  : title = Value(title),
         artistNames = Value(artistNames),
-        imageUrl = Value(imageUrl);
+        imageUrl = Value(imageUrl),
+        preview = Value(preview),
+        type = Value(type);
   static Insertable<DetailInfoSong> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? artistNames,
     Expression<String>? imageUrl,
+    Expression<String>? preview,
+    Expression<String>? type,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (artistNames != null) 'artist_names': artistNames,
       if (imageUrl != null) 'image_url': imageUrl,
+      if (preview != null) 'preview': preview,
+      if (type != null) 'type': type,
     });
   }
 
@@ -2056,12 +2222,16 @@ class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? artistNames,
-      Value<String>? imageUrl}) {
+      Value<String>? imageUrl,
+      Value<String>? preview,
+      Value<String>? type}) {
     return DetailInfoSongsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       artistNames: artistNames ?? this.artistNames,
       imageUrl: imageUrl ?? this.imageUrl,
+      preview: preview ?? this.preview,
+      type: type ?? this.type,
     );
   }
 
@@ -2080,6 +2250,12 @@ class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
     if (imageUrl.present) {
       map['image_url'] = Variable<String>(imageUrl.value);
     }
+    if (preview.present) {
+      map['preview'] = Variable<String>(preview.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
     return map;
   }
 
@@ -2089,7 +2265,9 @@ class DetailInfoSongsCompanion extends UpdateCompanion<DetailInfoSong> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('artistNames: $artistNames, ')
-          ..write('imageUrl: $imageUrl')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('preview: $preview, ')
+          ..write('type: $type')
           ..write(')'))
         .toString();
   }
@@ -2313,8 +2491,8 @@ class MusicGenresCompanion extends UpdateCompanion<MusicGenre> {
   }
 }
 
-abstract class _$AudioDatabase extends GeneratedDatabase {
-  _$AudioDatabase(QueryExecutor e) : super(e);
+abstract class _$AudioAppDatabase extends GeneratedDatabase {
+  _$AudioAppDatabase(QueryExecutor e) : super(e);
   late final $RecentlyPlayedSongsTable recentlyPlayedSongs =
       $RecentlyPlayedSongsTable(this);
   late final $FavoriteArtistsTable favoriteArtists =

@@ -19,11 +19,8 @@ class $JsonSerializableConverter extends JsonConverter {
   FutureOr<Response<ResultType>> convertResponse<ResultType, Item>(
       Response response) async {
     if (response.bodyString.isEmpty) {
-      // In rare cases, when let's say 204 (no content) is returned -
-      // we cannot decode the missing json with the result type specified
       return Response(response.base, null, error: response.error);
     }
-
     final jsonRes = await super.convertResponse(response);
     return jsonRes.copyWith<ResultType>(
         body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);

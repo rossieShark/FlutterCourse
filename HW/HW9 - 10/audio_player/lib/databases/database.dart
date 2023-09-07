@@ -15,8 +15,8 @@ part 'database.g.dart';
   DetailInfoSongs,
   MusicGenres
 ])
-class AudioDatabase extends _$AudioDatabase {
-  AudioDatabase() : super(impl.connect());
+class AudioAppDatabase extends _$AudioAppDatabase {
+  AudioAppDatabase() : super(impl.connect());
 
   @override
   int get schemaVersion => 2;
@@ -118,6 +118,14 @@ class AudioDatabase extends _$AudioDatabase {
     });
   }
 
+  Future<void> deleteEverything() {
+    return transaction(() async {
+      for (final table in allTables) {
+        await delete(table).go();
+      }
+    });
+  }
+
 //MIGRATION
 
   @override
@@ -125,8 +133,16 @@ class AudioDatabase extends _$AudioDatabase {
     return MigrationStrategy(onCreate: (Migrator m) async {
       await m.createAll();
     }, onUpgrade: (Migrator m, int from, int to) async {
-      if (from < 3) {}
-      if (from < 3) {}
+      if (from < 2) {
+        await m.addColumn(bestAlbums, bestAlbums.artist);
+        await m.addColumn(recentlyPlayedSongs, recentlyPlayedSongs.type);
+      }
+      if (from < 3) {
+        await m.addColumn(bestAlbums, bestAlbums.type);
+      }
+      if (from < 3) {
+        await m.addColumn(detailInfoSongs, detailInfoSongs.preview);
+      }
     });
   }
 }

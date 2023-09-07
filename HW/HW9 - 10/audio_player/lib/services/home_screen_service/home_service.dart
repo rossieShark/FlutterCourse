@@ -1,47 +1,25 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/models/home_screen_data/favourite_artist_model/favourite_artist_model.dart';
-import 'package:audio_player/models/models.dart';
+import 'package:audio_player/models/home_screen_data/home_screen_data.dart';
+
 import 'package:audio_player/models/recently_played_model/recently_played_model.dart';
-
-import 'package:audio_player/services/services.dart';
-import 'package:chopper/chopper.dart';
-
-part 'home_service.chopper.dart';
-
-@ChopperApi(baseUrl: "https://genius-song-lyrics1.p.rapidapi.com")
-abstract class RecentlyPlayedService extends ChopperService {
-  static RecentlyPlayedService create() => _$RecentlyPlayedService(
-        ChopperClient(
-            interceptors: [HeaderInterceptor()],
-            converter: $JsonSerializableConverter()),
-      );
-  @Get(path: '/chart/songs/')
-  Future<Response<RecentlyPlayedResponse>> getRecentlyPlayedTracks();
-
-  @Get(path: 'chart/artists/?time_period=week&per_page=15&page=2')
-  Future<Response<FavouriteArtistResponse>> getFavorite();
-
-  @Get(path: '/chart/albums/')
-  Future<Response<BestAlbumsResponse>> getBestAlbums(
-      @Query('per_page') int perPage, @Query() int page);
-}
+import 'package:audio_player/services/service.dart';
 
 class RecentlyPlayedRepository {
-  final AudioDatabase _database;
-  final RecentlyPlayedService recentlyPlayedService =
-      RecentlyPlayedService.create();
+  final AudioAppDatabase _database;
+  final AudioPlayerService recentlyPlayedService = AudioPlayerService.create();
 
   RecentlyPlayedRepository(this._database);
 
-  Future<List<RecentlyPlayedSong>> cacheTracks(
-      List<RecentlyPlayedlist> tracks) async {
-    final songsToInsert = tracks.map((chartItem) {
+  Future<List<RecentlyPlayedSong>> cacheTracks(List<Data> tracks) async {
+    final songsToInsert = tracks.map((track) {
       return RecentlyPlayedSong(
-        artistNames: chartItem.item.artistNames ?? '',
-        title: chartItem.item.title ?? '',
-        headerImageUrl: chartItem.item.imageUrl ?? '',
-        id: chartItem.item.id,
+        type: track.type,
+        artistNames: track.artist.name,
+        title: track.title,
+        headerImageUrl: track.artist.image,
+        id: track.id,
       );
     }).toList();
 
@@ -62,25 +40,23 @@ class RecentlyPlayedRepository {
     }
 
     final apiTracks = await recentlyPlayedService.getRecentlyPlayedTracks();
-    final apiTracksResponse =
-        apiTracks.body?.charItems as List<RecentlyPlayedlist>;
+    final apiTracksResponse = apiTracks.body?.tracks.data as List<Data>;
 
     return cacheTracks(apiTracksResponse);
   }
 }
 
 class FavoriteArtistRepository {
-  final AudioDatabase _database;
-  final RecentlyPlayedService recentlyPlayedService =
-      RecentlyPlayedService.create();
+  final AudioAppDatabase _database;
+  final AudioPlayerService recentlyPlayedService = AudioPlayerService.create();
   FavoriteArtistRepository(this._database);
 
   Future<List<FavoriteArtist>> cacheTracks(List<Artists> tracks) async {
-    final songsToInsert = tracks.map((chartItem) {
+    final songsToInsert = tracks.map((artist) {
       return FavoriteArtist(
-        name: chartItem.item.name ?? '',
-        id: chartItem.item.id,
-        image: chartItem.item.imageUrl ?? '',
+        name: artist.name,
+        id: artist.id,
+        image: artist.image,
       );
     }).toList();
 
@@ -100,29 +76,29 @@ class FavoriteArtistRepository {
       return dbTracks;
     }
 
-    final apiArtists = await recentlyPlayedService.getFavorite();
+    final apiArtists = await recentlyPlayedService.getFavoriteArtists();
 
-    final apiArtistsResponse = apiArtists.body?.chartItems as List<Artists>;
+    final apiArtistsResponse = apiArtists.body?.data as List<Artists>;
 
     return cacheTracks(apiArtistsResponse);
   }
 }
 
 class BestAlbumRepository {
-  final AudioDatabase _database;
-  final RecentlyPlayedService recentlyPlayedService =
-      RecentlyPlayedService.create();
-  BestAlbumRepository(this._database);
+  final AudioAppDatabase _database;
+  final AudioPlayerService _recentlyPlayedService;
 
-  Future<List<BestAlbum>> cacheTracks(List<BestAlbumsList> tracks) async {
-    final albumsToInsert = tracks.map((chartItem) {
+  BestAlbumRepository(this._database, this._recentlyPlayedService);
+
+  Future<List<BestAlbum>> cacheAlbums(List<BestAlbumsList> albums) async {
+    final albumsToInsert = albums.map((album) {
       return BestAlbum(
-        title: chartItem.item.fullTitle ?? '',
-        id: chartItem.item.id,
-        image: chartItem.item.coverImage ?? '',
-        releaseDate: chartItem.item.releaseDate ?? '',
-        detailAlbum: chartItem.item.id,
-      );
+          type: album.type,
+          title: album.title,
+          id: album.id,
+          image: album.coverImage,
+          detailAlbum: album.id,
+          artist: album.artist.name);
     }).toList();
 
     await _database.addManyAlbums(albumsToInsert);
@@ -130,34 +106,37 @@ class BestAlbumRepository {
     return albumsToInsert;
   }
 
-  Future<List<BestAlbum>> getTracksFromDb() async {
+  Future<List<BestAlbum>> getAlbumsFromDb() async {
     return await _database.allBestAlbums;
   }
 
-  Future<List<BestAlbum>> getBestAlbums(int perPage, int page) async {
-    final dbTracks = await _database.allBestAlbums;
-    print('dbTracks: ${dbTracks.length}');
-    if (dbTracks.length < perPage * page) {
-      return fetchAndCacheBestAlbums(perPage, page);
+  Future<List<BestAlbum>> getBestAlbums(int index, int limit) async {
+    final dbAlbums = await _database.allBestAlbums;
+
+    if (dbAlbums.length < limit) {
+      return fetchAndCacheBestAlbums(index, limit);
     }
 
-    final startIndex = (page - 1) * perPage;
-    print('startIndex: $startIndex');
-    final endIndex = startIndex + perPage;
-    print('endIndex: $endIndex');
-    if (endIndex > dbTracks.length) {
-      return fetchAndCacheBestAlbums(perPage, page);
+    final startIndex = index;
+    final endIndex = limit;
+
+    if (endIndex > dbAlbums.length) {
+      return fetchAndCacheBestAlbums(index, limit);
     }
 
-    return dbTracks.sublist(startIndex, endIndex);
+    return dbAlbums.sublist(startIndex, endIndex);
   }
 
-  Future<List<BestAlbum>> fetchAndCacheBestAlbums(int perPage, int page) async {
-    final apiAlbums = await recentlyPlayedService.getBestAlbums(perPage, page);
+  Future<List<BestAlbum>> fetchAndCacheBestAlbums(int index, int limit) async {
+    try {
+      final apiAlbumsResponse =
+          await _recentlyPlayedService.getBestAlbums(index, limit);
 
-    final apiAlbumsResponse =
-        apiAlbums.body?.chartItems as List<BestAlbumsList>;
+      final apiAlbums = apiAlbumsResponse.body?.data as List<BestAlbumsList>;
 
-    return cacheTracks(apiAlbumsResponse);
+      return cacheAlbums(apiAlbums);
+    } catch (e) {
+      return [];
+    }
   }
 }

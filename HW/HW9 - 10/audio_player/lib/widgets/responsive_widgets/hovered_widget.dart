@@ -18,6 +18,7 @@ class _HoverableWidgetState extends State<HoverableWidget> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
+      cursor: _isHovered ? SystemMouseCursors.click : SystemMouseCursors.alias,
       onEnter: (event) {
         setState(() {
           _isHovered = true;

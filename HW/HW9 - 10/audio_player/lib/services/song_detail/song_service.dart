@@ -1,48 +1,56 @@
 import 'package:audio_player/databases/database.dart';
-import 'package:audio_player/models/models.dart';
-import 'package:audio_player/services/services.dart';
-import 'package:chopper/chopper.dart';
-
-part 'song_service.chopper.dart';
-
-@ChopperApi(baseUrl: "https://genius-song-lyrics1.p.rapidapi.com")
-abstract class SongDetailsService extends ChopperService {
-  static SongDetailsService create() => _$SongDetailsService(
-        ChopperClient(
-            interceptors: [HeaderInterceptor()],
-            converter: $JsonSerializableConverter()),
-      );
-
-  @Get(path: 'song/details/')
-  Future<Response<SongDetailsResponce>> getSongInfo(@Query() String id);
-}
+import 'package:audio_player/services/service.dart';
 
 class SongDetailRepository {
-  final AudioDatabase _database;
-  final SongDetailsService _songDetailsService = SongDetailsService.create();
+  final AudioAppDatabase _database;
+  final AudioPlayerService _songDetailsService = AudioPlayerService.create();
 
   SongDetailRepository(this._database);
 
   Future<DetailInfoSong?> getDetailSongInfo(String id) async {
-    final int songId = int.parse(id);
+    try {
+      final int songId = int.parse(id);
 
-    // Try to get detail song from the database
-    final detailSong = await _database.watchDetailSongById(songId).first;
+      // Try to get detailed song info from the database
+      final detailSong = await _database.watchDetailSongById(songId).first;
 
-    // If detailSong is not found in the database, fetch from API and save to the database
-    if (detailSong == null) {
-      final apiDetailSong = await _songDetailsService.getSongInfo(id);
-      final albumAppearances = apiDetailSong.body?.song;
-      final detailSongToInsert = DetailInfoSong(
-        id: int.parse(id),
-        artistNames: albumAppearances?.artistNames ?? '',
-        title: albumAppearances?.title ?? '',
-        imageUrl: albumAppearances?.imageUrl ?? '',
-      );
-      await _database.insertDetailSong(detailSongToInsert);
-      return detailSongToInsert;
+      // If detailSong is not found in the database, fetch it from the API and save it to the database
+      if (detailSong == null) {
+        try {
+          final apiResponse = await _songDetailsService.getDetailSongs(id);
+
+          if (apiResponse.isSuccessful) {
+            final albumAppearances = apiResponse.body;
+            final detailSongToInsert = DetailInfoSong(
+              type: albumAppearances?.type ?? 'track',
+              id: int.parse(id),
+              preview: albumAppearances?.preview ?? '',
+              artistNames: albumAppearances?.contributors[0].name ?? '',
+              title: albumAppearances?.title ?? '',
+              imageUrl: albumAppearances?.contributors[0].image ?? '',
+            );
+
+            // Insert the detail song into the database
+            await _database.insertDetailSong(detailSongToInsert);
+
+            return detailSongToInsert;
+          } else {
+            // Handle API request failure here
+            print('API request failed: ${apiResponse.error}');
+            return null;
+          }
+        } catch (apiException) {
+          // Handle exceptions related to the API request here
+          print('API request error: $apiException');
+          return null;
+        }
+      }
+
+      return detailSong; // Return from the database or the newly inserted data
+    } catch (e) {
+      // Handle exceptions related to parsing or database access here
+      print('Error: $e');
+      return null;
     }
-
-    return detailSong; // Return from the database or the newly inserted data
   }
 }

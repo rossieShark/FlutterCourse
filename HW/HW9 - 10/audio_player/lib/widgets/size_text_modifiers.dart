@@ -32,20 +32,32 @@ class TextModifierService {
       return originalText;
     }
   }
+
+  String capitalizeFirstLetter(String input) {
+    if (input.isEmpty) return input;
+
+    final lowerCased = input.toLowerCase();
+    final firstLetter = lowerCased[0].toUpperCase();
+    final restOfWord = lowerCased.substring(1);
+
+    return '$firstLetter$restOfWord';
+  }
 }
 
-String sliderFormatDuration(Duration duration) {
-  String twoDigits(int n) => n.toString().padLeft(2, '0');
-  String minutes = twoDigits(duration.inMinutes.remainder(60));
-  String seconds = twoDigits(duration.inSeconds.remainder(60));
-  return '$minutes:$seconds';
-}
+class SliderFormatter {
+  String sliderFormatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
+  }
 
-String sliderValueFormatDuration(double sliderValue) {
-  Duration duration = Duration(milliseconds: sliderValue.toInt());
-  int minutes = duration.inMinutes.remainder(60);
-  int seconds = duration.inSeconds.remainder(60);
-  String formattedDuration =
-      '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-  return formattedDuration;
+  String sliderValueFormatDuration(double sliderValue) {
+    Duration duration = Duration(milliseconds: sliderValue.toInt());
+    int minutes = duration.inMinutes.remainder(60);
+    int seconds = duration.inSeconds.remainder(60);
+    String formattedDuration =
+        '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    return formattedDuration;
+  }
 }

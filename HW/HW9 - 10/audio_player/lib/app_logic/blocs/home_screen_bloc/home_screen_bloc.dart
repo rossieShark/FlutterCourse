@@ -1,9 +1,6 @@
-import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_events.dart';
-import 'package:audio_player/app_logic/blocs/home_screen_bloc/home_screen_states.dart';
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
-
 import 'package:audio_player/services/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // BLoC
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {

@@ -1,46 +1,53 @@
-import 'package:audio_player/app_logic/blocs/search_screen_bloc/search_state.dart';
-import 'package:audio_player/app_logic/blocs/search_screen_bloc/serch_event.dart';
-import 'package:audio_player/models/search_result/search_result_model.dart';
-import 'package:audio_player/services/search_result/search_result_pagination.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/models/models.dart';
+import 'package:audio_player/services/services.dart';
 
-class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
+class SearchResultBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository repository;
 
-  SearchResultBloc(this.repository) : super(SearchResultState([])) {
-    on<FetchSearchResultEvent>(_fetchAlbumDetail);
+  Timer? _loadResultsTimer;
+  SearchResultBloc(this.repository) : super(const SearchState.empty()) {
+    on<TextChangedSearchEvent>(_onSearchTextChanged);
+    on<LoadSearchEvent>(_onLoadSearchResults);
+    on<LoadMoreItemsSearchEvent>(_onSearchLoadMoreItems);
   }
 
-  void _fetchAlbumDetail(
-      FetchSearchResultEvent event, Emitter<SearchResultState> emit) async {
-    try {
-      final albumDetails = await repository.getAlbums(event.q);
-      emit(SearchResultState(albumDetails));
-      // print('Fetched album detail: $albumDetails');
+  Future<void> _onSearchTextChanged(
+      TextChangedSearchEvent event, Emitter<SearchState> emit) async {
+    _loadResultsTimer?.cancel();
+    _loadResultsTimer = Timer(const Duration(seconds: 1), () {
+      add(SearchEvent.loadSearchResults(newText: event.newText));
+    });
+  }
 
-      print('Emitted album detail state');
-    } catch (error) {
-      print('Error fetching album detail: $error');
+  Future<void> _onLoadSearchResults(
+      LoadSearchEvent event, Emitter<SearchState> emit) async {
+    if (event.newText.isEmpty) {
+      emit(const SearchState.empty());
+      return;
     }
+    emit(const SearchState.loading());
+    final albumDetails = await repository.getAlbums(event.newText);
+    if (albumDetails.isEmpty) {
+      emit(const SearchState.noResults());
+      return;
+    }
+    emit(SearchState.loaded(data: albumDetails));
   }
 
-  // Stream<SearchResultState> mapEventToState(SearchResultEvent event) async* {
-  //   if (event is FetchSearchResultEvent) {
-  //     try {
-  //       final searchResultList = await repository.getAlbums(event.q);
-  //       yield SearchResultState(searchResultList);
-  //     } catch (error) {
-  //       print('Error fetching song detail: $error');
-  //     }
-  //   }
-  // }
+  Future<void> _onSearchLoadMoreItems(
+      LoadMoreItemsSearchEvent event, Emitter<SearchState> emit) async {
+    final albumDetails = await repository.getAlbums(event.text);
+    emit(SearchState.loaded(data: albumDetails));
+  }
 }
 
 class SearchRepository {
   final SearchResultPaginationService _service =
       SearchResultPaginationService();
 
-  Future<List<Hits>> getAlbums(String q) async {
+  Future<List<SearchData>> getAlbums(String q) async {
     await _service.loadMoreItems(q);
     return _service.items;
   }

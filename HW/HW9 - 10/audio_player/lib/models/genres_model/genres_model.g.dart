@@ -8,43 +8,24 @@ part of 'genres_model.dart';
 
 _$_GenresResponse _$$_GenresResponseFromJson(Map<String, dynamic> json) =>
     _$_GenresResponse(
-      content: Content.fromJson(json['content'] as Map<String, dynamic>),
+      data: (json['data'] as List<dynamic>)
+          .map((e) => Data.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_GenresResponseToJson(_$_GenresResponse instance) =>
     <String, dynamic>{
-      'content': instance.content,
+      'data': instance.data,
     };
 
-_$_Content _$$_ContentFromJson(Map<String, dynamic> json) => _$_Content(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => Items.fromJson(e as Map<String, dynamic>))
-          .toList(),
+_$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      image: json['picture_big'] as String,
     );
 
-Map<String, dynamic> _$$_ContentToJson(_$_Content instance) =>
-    <String, dynamic>{
-      'items': instance.items,
-    };
-
-_$_Items _$$_ItemsFromJson(Map<String, dynamic> json) => _$_Items(
-      name: json['name'] as String?,
-      id: json['id'] as String,
-      images: (json['images'] as List<dynamic>)
-          .map((e) => Images.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$_ItemsToJson(_$_Items instance) => <String, dynamic>{
-      'name': instance.name,
+Map<String, dynamic> _$$_DataToJson(_$_Data instance) => <String, dynamic>{
       'id': instance.id,
-      'images': instance.images,
-    };
-
-_$_Images _$$_ImagesFromJson(Map<String, dynamic> json) => _$_Images(
-      url: json['url'] as String?,
-    );
-
-Map<String, dynamic> _$$_ImagesToJson(_$_Images instance) => <String, dynamic>{
-      'url': instance.url,
+      'name': instance.name,
+      'picture_big': instance.image,
     };

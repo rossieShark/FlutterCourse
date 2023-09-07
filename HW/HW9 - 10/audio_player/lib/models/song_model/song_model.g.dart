@@ -9,25 +9,29 @@ part of 'song_model.dart';
 _$_SongDetailsResponce _$$_SongDetailsResponceFromJson(
         Map<String, dynamic> json) =>
     _$_SongDetailsResponce(
-      song: SongDetail.fromJson(json['song'] as Map<String, dynamic>),
+      contributors: (json['contributors'] as List<dynamic>)
+          .map((e) => Artist.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      title: json['title'] as String,
+      preview: json['preview'] as String,
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$$_SongDetailsResponceToJson(
         _$_SongDetailsResponce instance) =>
     <String, dynamic>{
-      'song': instance.song,
+      'contributors': instance.contributors,
+      'title': instance.title,
+      'preview': instance.preview,
+      'type': instance.type,
     };
 
-_$_SongDetail _$$_SongDetailFromJson(Map<String, dynamic> json) =>
-    _$_SongDetail(
-      artistNames: json['artist_names'] as String?,
-      imageUrl: json['header_image_url'] as String?,
-      title: json['title'] as String?,
+_$_Artist _$$_ArtistFromJson(Map<String, dynamic> json) => _$_Artist(
+      name: json['name'] as String,
+      image: json['picture_big'] as String,
     );
 
-Map<String, dynamic> _$$_SongDetailToJson(_$_SongDetail instance) =>
-    <String, dynamic>{
-      'artist_names': instance.artistNames,
-      'header_image_url': instance.imageUrl,
-      'title': instance.title,
+Map<String, dynamic> _$$_ArtistToJson(_$_Artist instance) => <String, dynamic>{
+      'name': instance.name,
+      'picture_big': instance.image,
     };

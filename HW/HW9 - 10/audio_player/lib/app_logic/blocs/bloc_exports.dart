@@ -21,3 +21,8 @@ export 'package:audio_player/app_logic/blocs/album_detail_bloc/album_detail_stat
 export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_bloc.dart';
 export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_event.dart';
 export 'package:audio_player/app_logic/blocs/recently_searched_bloc/recently_searched_state.dart';
+export 'package:audio_player/app_logic/blocs/search_screen_bloc/serch_event.dart';
+export 'package:audio_player/app_logic/blocs/genres_bloc/genres_event.dart';
+export 'package:audio_player/app_logic/blocs/genres_bloc/genres_state.dart';
+export 'package:audio_player/screens/search_screen/bloc_loaded_state/search_result_list.dart';
+export 'package:audio_player/app_logic/providers/web_detail_music_provider.dart';

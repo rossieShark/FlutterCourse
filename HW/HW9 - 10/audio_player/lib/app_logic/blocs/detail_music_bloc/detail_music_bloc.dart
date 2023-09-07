@@ -1,7 +1,5 @@
-import 'package:audio_player/app_logic/blocs/detail_music_bloc/detail_music_event.dart';
-import 'package:audio_player/app_logic/blocs/detail_music_bloc/detail_music_state.dart';
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/services/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailMusicPageBloc
     extends Bloc<DetailMusicPageEvent, DetailMusicPageState> {
