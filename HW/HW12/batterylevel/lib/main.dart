@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:batterylevel/platform/platfirm_widget.dart';
+import 'package:batterylevel/platform/platform_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
