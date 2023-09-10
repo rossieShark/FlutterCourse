@@ -16,6 +16,8 @@ class SignUpPage extends StatefulWidget {
 class _SignInPageState extends State<SignUpPage> {
   late TextEditingController _signUpTextController;
   late TextEditingController _passwordTextController;
+  late FocusNode _passwordFocusNode;
+  late FocusNode _emailFocusNode;
 
   @override
   void initState() {
@@ -25,6 +27,14 @@ class _SignInPageState extends State<SignUpPage> {
     });
     _passwordTextController = TextEditingController();
     _passwordTextController.addListener(() {
+      setState(() {});
+    });
+    _passwordFocusNode = FocusNode();
+    _passwordFocusNode.addListener(() {
+      setState(() {});
+    });
+    _emailFocusNode = FocusNode();
+    _emailFocusNode.addListener(() {
       setState(() {});
     });
 
@@ -50,6 +60,8 @@ class _SignInPageState extends State<SignUpPage> {
     _signUpTextController.dispose();
     _passwordTextController.dispose();
     super.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
   }
 
   @override
@@ -72,6 +84,7 @@ class _SignInPageState extends State<SignUpPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: CustomTextField(
+                          focusNode: _emailFocusNode,
                           controller: _signUpTextController,
                           hintText: 'Enter email',
                         ),
@@ -79,6 +92,7 @@ class _SignInPageState extends State<SignUpPage> {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                           child: CustomTextField(
+                            focusNode: _passwordFocusNode,
                             controller: _passwordTextController,
                             hintText: 'Enter passsword',
                           )),

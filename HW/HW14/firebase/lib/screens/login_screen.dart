@@ -17,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _loginTextController;
   late TextEditingController _passwordTextController;
   late TextEditingController _resetPasswordTextController;
+  late FocusNode _passwordFocusNode;
+  late FocusNode _emailFocusNode;
 
   @override
   void initState() {
@@ -30,6 +32,14 @@ class _LoginPageState extends State<LoginPage> {
     });
     _resetPasswordTextController = TextEditingController();
     _resetPasswordTextController.addListener(() {
+      setState(() {});
+    });
+    _passwordFocusNode = FocusNode();
+    _passwordFocusNode.addListener(() {
+      setState(() {});
+    });
+    _emailFocusNode = FocusNode();
+    _emailFocusNode.addListener(() {
       setState(() {});
     });
     super.initState();
@@ -53,6 +63,8 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _loginTextController.dispose();
     _passwordTextController.dispose();
+    _passwordFocusNode.dispose();
+    _emailFocusNode.dispose();
     super.dispose();
   }
 
@@ -76,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: CustomTextField(
+                          focusNode: _emailFocusNode,
                           controller: _loginTextController,
                           hintText: 'Enter email',
                         ),
@@ -83,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                         child: CustomTextField(
+                          focusNode: _passwordFocusNode,
                           controller: _passwordTextController,
                           hintText: 'Enter password',
                         ),

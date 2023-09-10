@@ -27,8 +27,8 @@ enum Images {
 }
 
 Map<Images, String> imagesMap = {
-  Images.appIcon: 'assets/apple.png',
-  Images.appleIcon: 'assets/facebook.png',
+  Images.appIcon: 'assets/sound.png',
+  Images.facebookIcon: 'assets/facebook.png',
   Images.googleIcon: 'assets/google.png',
-  Images.facebookIcon: 'assets/sound.png',
+  Images.appleIcon: 'assets/apple.png',
 };

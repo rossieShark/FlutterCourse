@@ -1,18 +1,22 @@
+import 'package:firebase/widgets/index.dart';
 import 'package:flutter/material.dart';
-
-import 'ui_properties.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
+  final double width;
 
-  const CustomButton(
-      {super.key, required this.onPressed, required this.buttonText});
-
+  CustomButton({
+    Key? key,
+    required this.onPressed,
+    required this.buttonText,
+    double? width,
+  })  : width = width ?? 180,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
+      width: width,
       height: 40,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),

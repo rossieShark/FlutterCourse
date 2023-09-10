@@ -41,9 +41,7 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
       }
     });
     _userNameTextController = TextEditingController();
-    _userNameTextController.addListener(() {
-      setState(() {});
-    });
+  
   }
 
   // ignore: body_might_complete_normally_nullable

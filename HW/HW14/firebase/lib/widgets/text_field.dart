@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
+  final FocusNode focusNode;
 
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
+    required this.focusNode,
   }) : super(key: key);
 
   @override
@@ -16,23 +18,6 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -43,7 +28,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: BoxDecoration(color: AppColors.white.color),
         child: TextField(
           controller: widget.controller,
-          focusNode: _focusNode,
+          focusNode: widget.focusNode,
           cursorColor: AppColors.accent.color,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -65,17 +50,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide(color: AppColors.white.color),
             ),
-            suffixIcon: widget.controller.text.isNotEmpty && _focusNode.hasFocus
-                ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    color: AppColors.accent.color,
-                    onPressed: () {
-                      setState(() {
-                        widget.controller.clear();
-                      });
-                    },
-                  )
-                : null,
+            suffixIcon:
+                widget.controller.text.isNotEmpty && widget.focusNode.hasFocus
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        color: AppColors.accent.color,
+                        onPressed: () {
+                          setState(() {
+                            widget.controller.clear();
+                          });
+                        },
+                      )
+                    : null,
           ),
           style: TextStyle(
               fontSize: 18,

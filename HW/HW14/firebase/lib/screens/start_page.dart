@@ -54,6 +54,7 @@ class _StartPageState extends State<StartPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomButton(
+                    width: 140,
                     onPressed: () {
                       context.go(routeNameMap[RouteName.sigIn]!);
                     },
@@ -62,6 +63,7 @@ class _StartPageState extends State<StartPage> {
                   width: 30,
                 ),
                 CustomButton(
+                    width: 140,
                     onPressed: () {
                       context.go(routeNameMap[RouteName.signUp]!);
                     },
