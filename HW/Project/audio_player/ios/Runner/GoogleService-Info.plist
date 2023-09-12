@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyByQf2EfzcNeKY1U7WrbZlBpBbAP4dgEqg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>525912087392</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.musicPlayerR</string>
+	<key>PROJECT_ID</key>
+	<string>audioplayer-517db</string>
+	<key>STORAGE_BUCKET</key>
+	<string>audioplayer-517db.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:525912087392:ios:bad7aa18c6ee525fae5c05</string>
+</dict>
+</plist>

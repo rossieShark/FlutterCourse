@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "525912087392",
+    "project_id": "audioplayer-517db",
+    "storage_bucket": "audioplayer-517db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525912087392:android:c0924509cb01c6acae5c05",
+        "android_client_info": {
+          "package_name": "com.example.audio_player"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxIGYfhR4walS-51nKomaUvtsRidHIDpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
