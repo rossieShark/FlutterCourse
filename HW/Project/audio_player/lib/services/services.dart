@@ -6,3 +6,4 @@ export 'package:audio_player/services/song_detail/song_service.dart';
 export 'package:audio_player/services/home_screen_service/home_service_pagination.dart';
 export 'package:audio_player/services/genres_service/genres_service.dart';
 export 'package:audio_player/services/search_result/search_result_pagination.dart';
+export 'package:audio_player/services/app_services/firebase_service.dart';

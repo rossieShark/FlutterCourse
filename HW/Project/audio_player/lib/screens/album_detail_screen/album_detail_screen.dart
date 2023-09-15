@@ -60,7 +60,9 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
               ? const NoDataWidget()
               : Stack(children: [
                   CreateBackgroundImage(
-                    imageUrl: songList.isEmpty ? defaultImage : widget.image,
+                    imageUrl: songList.isEmpty
+                        ? imagesMap[Images.defaultImage]!
+                        : widget.image,
                     height: maxHeight / 2,
                   ),
                   CreatePlayButtonSection(

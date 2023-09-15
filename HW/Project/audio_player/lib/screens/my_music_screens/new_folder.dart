@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/favorite_folder_model.dart';
 import 'package:audio_player/screens/my_music_screens/my_music_screen.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -28,6 +29,7 @@ class _NewFolderState extends State<NewFolder> {
 
   @override
   Widget build(BuildContext context) {
+    List<FavoriteFolder> folders = initializeFolders(context);
     return Scaffold(
         backgroundColor: AppColors.background.color,
         body: SingleChildScrollView(
@@ -42,7 +44,7 @@ class _NewFolderState extends State<NewFolder> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    'Write the name of Playlist',
+                    AppLocalizations.of(context)!.addNewPlaylistDesc,
                     style: TextStyle(
                         color: AppColors.white.color,
                         fontSize: 16,
@@ -87,7 +89,7 @@ class _NewFolderState extends State<NewFolder> {
                           context.pop();
                         },
                         child: Text(
-                          'Create',
+                          AppLocalizations.of(context)!.createButton,
                           style: TextStyle(
                               color: AppColors.white.color,
                               fontSize: 12,
@@ -119,7 +121,7 @@ class _CreateChangeNameTextField extends StatelessWidget {
           bottom: BorderSide(width: 1, color: AppColors.white.color),
         ),
       ),
-      placeholder: 'Name of playlist',
+      placeholder: AppLocalizations.of(context)!.newPlaylistHintName,
       placeholderStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       textAlign: TextAlign.center,
       style: TextStyle(color: AppColors.white.color, fontSize: 18),

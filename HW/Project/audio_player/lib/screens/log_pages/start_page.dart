@@ -1,8 +1,6 @@
-import 'package:audio_player/screens/log_pages/widgets/custom_button.dart';
-
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,16 +23,16 @@ class _StartPageState extends State<StartPage> {
           Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 2.5,
                 child: Image.asset(
                   imagesMap[Images.appIcon]!,
-                  color: AppColors.accent.color,
                 ),
               ),
-              const Text('App name',
+              Text('Louder',
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 40,
                     fontWeight: FontWeight.w600,
+                    fontFamily: AppFonts.colombia.font,
                     color: Colors.white,
                   )),
               const Padding(
@@ -61,7 +59,7 @@ class _StartPageState extends State<StartPage> {
                     onPressed: () {
                       context.go(routeNameMap[RouteName.sigIn]!);
                     },
-                    buttonText: 'Sign In'),
+                    buttonText: AppLocalizations.of(context)!.signInButton),
                 const SizedBox(
                   width: 30,
                 ),
@@ -70,7 +68,7 @@ class _StartPageState extends State<StartPage> {
                     onPressed: () {
                       context.go(routeNameMap[RouteName.signUp]!);
                     },
-                    buttonText: 'Sign Up'),
+                    buttonText: AppLocalizations.of(context)!.signUpButton),
                 const SizedBox(
                   height: 150,
                 ),

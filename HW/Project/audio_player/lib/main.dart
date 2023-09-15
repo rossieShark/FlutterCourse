@@ -1,5 +1,5 @@
 import 'package:audio_player/firebase_options.dart';
-import 'package:audio_player/screens/tab_bar/additional_widgets/go_router.dart';
+import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/screens/tab_bar/tab_bar_screen.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -13,27 +13,31 @@ void main() async {
   SetGetItDependencies().setupProviderDependencies();
   SetGetItDependencies().setupRepoDependencies();
   SetGetItDependencies().setupBlocDependencies();
+  SetGetItDependencies().setupPermissionDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //setUrlStrategy(PathUrlStrategy());
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<TabBarBloc>(create: (context) => GetIt.I()),
       ],
-      child: PlatformBuilder(
-          web: AudioPlayerApp(
-            router: webRouter,
-          ),
-          other: AudioPlayerApp(
-            router: router,
-          ),
-          builder: (context, child, widget) {
-            return widget;
-          }),
+      child: ChangeNotifierProvider<LanguageProvider>(
+        create: (context) => LanguageProvider(),
+        child: PlatformBuilder(
+            web: AudioPlayerApp(
+              router: webRouter,
+            ),
+            other: AudioPlayerApp(
+              router: router,
+            ),
+            builder: (context, child, widget) {
+              return widget;
+            }),
+      ),
     ),
   );
 }

@@ -137,7 +137,7 @@ final router = GoRouter(
       path: '/${routeNameMap[RouteName.settings]!}',
       pageBuilder: (context, state) => CupertinoPage(
         key: state.pageKey,
-        child: Settings(),
+        child: const Settings(),
       ),
     ),
     GoRoute(
@@ -277,7 +277,7 @@ final webRouter = GoRouter(
           ]),
       GoRoute(
         path: '/${routeNameMap[RouteName.settings]!}',
-        pageBuilder: (context, state) => CupertinoPage(
+        pageBuilder: (context, state) => const CupertinoPage(
           child: Settings(),
         ),
       ),

@@ -7,6 +7,8 @@ import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -81,7 +83,7 @@ class _BuildMainSectionState extends State<_BuildMainSection> {
       child: PlatformBuilder(
           web: Column(
             children: [
-              UserInfoWidget(),
+              const UserInfoWidget(),
               Container(
                 height: 10,
                 decoration: BoxDecoration(
@@ -124,7 +126,7 @@ class _BuildRecentlyPlayedSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: Text(
-            'Recently played',
+            AppLocalizations.of(context)!.recentlyPlayed,
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -153,7 +155,7 @@ class _BuildFavoriteArtistSection extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: Text('Your favorite Artists',
+        child: Text(AppLocalizations.of(context)!.favouriteArtists,
             style: Theme.of(context).textTheme.titleMedium),
       ),
       ResponsiveBuilder(
@@ -192,7 +194,7 @@ class _BuildBestAlbumsSectionState extends State<_BuildBestAlbumsSection> {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 6, 16, 10),
-          child: Text('Best albums',
+          child: Text(AppLocalizations.of(context)!.bestAlbums,
               style: Theme.of(context).textTheme.titleMedium),
         ),
         BlocBuilder<AlbumBloc, AlbumState>(builder: (context, state) {

@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class CreateSongTitle extends StatelessWidget {
         children: [
           AutoSizeText(
             TextModifierService().removeTextAfter(
-              artistName ?? 'No name',
+              artistName ?? AppLocalizations.of(context)!.noName,
             ),
             style: TextStyle(
                 color: AppColors.white.color,
@@ -43,7 +44,8 @@ class CreateSongTitle extends StatelessWidget {
             maxLines: maxLines,
           ),
           Text(
-            TextModifierService().removeTextAfter(songTitle ?? "No name"),
+            TextModifierService().removeTextAfter(
+                songTitle ?? AppLocalizations.of(context)!.noName),
             style: TextStyle(
                 fontFamily: AppFonts.colombia.font,
                 fontSize: fontSize,

@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/search_screen/bloc_empty_state/web/recently_searched_section/recently_searched_list_view.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class CreateRecentlySearchedSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                'Search History',
+                AppLocalizations.of(context)!.searchHistoryText,
                 style: TextStyle(
                     fontFamily: AppFonts.lusitana.font,
                     fontSize: 18,

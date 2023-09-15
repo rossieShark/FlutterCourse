@@ -202,7 +202,7 @@ class _CreateImageSection extends StatelessWidget {
           height: 60,
           width: 60,
           child: Image.network(
-            songInfo?.imageUrl ?? defaultImage,
+            songInfo?.imageUrl ?? imagesMap[Images.defaultImage]!,
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ),

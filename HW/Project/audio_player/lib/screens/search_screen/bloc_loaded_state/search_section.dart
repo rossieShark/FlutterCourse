@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _CreateSearchSectionState extends State<CreateSearchSection> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Search Result',
+                  AppLocalizations.of(context)!.searchResult,
                   style: TextStyle(
                       fontFamily: AppFonts.lusitana.font,
                       fontSize: 18,

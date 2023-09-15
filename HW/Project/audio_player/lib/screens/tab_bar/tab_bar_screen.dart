@@ -1,11 +1,14 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class AudioPlayerApp extends StatefulWidget {
   final GoRouter router;
+
   const AudioPlayerApp({Key? key, required this.router}) : super(key: key);
 
   @override
@@ -21,6 +24,7 @@ class _AudioPlayerAppState extends State<AudioPlayerApp> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<FavoriteProvider>(
@@ -43,6 +47,18 @@ class _AudioPlayerAppState extends State<AudioPlayerApp> {
       ],
       child: MaterialApp.router(
         routerConfig: widget.router,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        locale: languageProvider.appLocale,
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ru'),
+          Locale('de'),
+        ],
         theme: ThemeData(
             splashColor: Colors.transparent,
             textTheme: TextTheme(

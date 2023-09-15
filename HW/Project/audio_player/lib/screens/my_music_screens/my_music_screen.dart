@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/favorite_folder_model.dart';
 import 'package:audio_player/screens/my_music_screens/new_folder.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
@@ -27,7 +28,7 @@ class _MyMusicPageState extends State<MyMusicPage> {
         title: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            'My music',
+            AppLocalizations.of(context)!.tabBarMyMusic,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -82,6 +83,7 @@ class _MyFavoriteListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<FavoriteFolder> folders = initializeFolders(context);
     return SizedBox(
       height: 70 * folders.length.toDouble(),
       child: ListView.builder(
@@ -111,6 +113,7 @@ class _FavouritefoldersCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
+    List<FavoriteFolder> folders = initializeFolders(context);
     return SizedBox(
       height: 70,
       width: MediaQuery.of(context).size.width - 32,
@@ -139,28 +142,30 @@ class _FavouritefoldersCard extends StatelessWidget {
   }
 }
 
-List<FavoriteFolder> folders = [
-  FavoriteFolder(
-      image: Icon(
-        Icons.album,
-        color: AppColors.white.color,
-      ),
-      title: "Albums",
+List<FavoriteFolder> initializeFolders(BuildContext context) {
+  return [
+    FavoriteFolder(
+        image: Icon(
+          Icons.album,
+          color: AppColors.white.color,
+        ),
+        title: AppLocalizations.of(context)!.playlist,
+        iconButton: IconButtonWidget(
+          iconData: Icons.arrow_forward_ios,
+          color: AppColors.white.color,
+          onPressed: () {},
+        )),
+    FavoriteFolder(
+      image: Icon(Icons.music_note, color: AppColors.white.color),
+      title: AppLocalizations.of(context)!.tracksFolder,
       iconButton: IconButtonWidget(
         iconData: Icons.arrow_forward_ios,
         color: AppColors.white.color,
         onPressed: () {},
-      )),
-  FavoriteFolder(
-    image: Icon(Icons.music_note, color: AppColors.white.color),
-    title: "Tracks",
-    iconButton: IconButtonWidget(
-      iconData: Icons.arrow_forward_ios,
-      color: AppColors.white.color,
-      onPressed: () {},
+      ),
     ),
-  ),
-];
+  ];
+}
 
 class ImagePickerActionSheet extends StatelessWidget {
   const ImagePickerActionSheet({super.key});
@@ -177,7 +182,7 @@ class ImagePickerActionSheet extends StatelessWidget {
               children: [
                 Icon(Icons.library_music, color: AppColors.white.color),
                 Text(
-                  ' Playlist',
+                  ' ${AppLocalizations.of(context)!.playlist}',
                   style: TextStyle(
                       color: AppColors.white.color,
                       fontSize: 14,
@@ -201,7 +206,7 @@ class ImagePickerActionSheet extends StatelessWidget {
               children: [
                 Icon(Icons.art_track, color: AppColors.white.color),
                 Text(
-                  ' Artist',
+                  ' ${AppLocalizations.of(context)!.artist}',
                   style: TextStyle(
                       color: AppColors.white.color,
                       fontSize: 14,

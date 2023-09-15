@@ -1,12 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:audio_player/screens/log_pages/widgets/app_alert.dart';
-import 'package:audio_player/screens/log_pages/widgets/custom_button.dart';
-import 'package:audio_player/screens/log_pages/widgets/sign_methods.dart';
-import 'package:audio_player/screens/log_pages/widgets/text_field.dart';
-
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
-import 'package:audio_player/services/firebase_service.dart';
+import 'package:audio_player/services/app_services/firebase_service.dart';
+
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -55,7 +52,7 @@ class _SignInPageState extends State<SignUpPage> {
       showDialog(
         context: context,
         builder: (context) =>
-            const SignAlert(text: 'Invalid email or password'),
+            SignAlert(text: AppLocalizations.of(context)!.invalidEmailPassword),
       );
     }
   }
@@ -78,9 +75,11 @@ class _SignInPageState extends State<SignUpPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  imagesMap[Images.appIcon]!,
-                  color: const Color.fromARGB(255, 171, 66, 122),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  child: Image.asset(
+                    imagesMap[Images.appIcon]!,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -89,17 +88,20 @@ class _SignInPageState extends State<SignUpPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: CustomTextField(
+                          obscureText: false,
                           focusNode: _emailFocusNode,
                           controller: _signUpTextController,
-                          hintText: 'Enter email',
+                          hintText: AppLocalizations.of(context)!.enterEmail,
                         ),
                       ),
                       Padding(
                           padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                           child: CustomTextField(
+                            obscureText: true,
                             focusNode: _passwordFocusNode,
                             controller: _passwordTextController,
-                            hintText: 'Enter passsword',
+                            hintText:
+                                AppLocalizations.of(context)!.enterPassword,
                           )),
                       const SizedBox(
                         height: 8,
@@ -108,7 +110,7 @@ class _SignInPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 65,
                 ),
                 Column(
                   children: [
@@ -116,21 +118,21 @@ class _SignInPageState extends State<SignUpPage> {
                       onPressed: () {
                         _signUp();
                       },
-                      buttonText: 'Sign Up',
+                      buttonText: AppLocalizations.of(context)!.signUpButton,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text('Sign Up with',
+                      child: Text(AppLocalizations.of(context)!.signUpMethods,
                           style: TextStyle(
                               color: AppColors.white.color,
                               fontSize: 12,
                               fontWeight: FontWeight.w400)),
                     ),
                     SignMethods(onGoogleTap: () {
-                      // FireBaseFunctions().validSignWithGoogle(context);
+                      FireBaseFunctions().validSignWithGoogle(context);
                     }),
                     const SizedBox(
                       height: 20,
@@ -158,7 +160,7 @@ class _CreateLoginWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Already have an account? ",
+          AppLocalizations.of(context)!.alreadyHaveAnAccount,
           style: TextStyle(color: AppColors.white.color),
         ),
         GestureDetector(
@@ -166,7 +168,7 @@ class _CreateLoginWidget extends StatelessWidget {
               context.go(routeNameMap[RouteName.sigIn]!);
             },
             child: Text(
-              "Sign In",
+              AppLocalizations.of(context)!.signInButton,
               style: TextStyle(color: AppColors.accent.color),
             )),
       ],

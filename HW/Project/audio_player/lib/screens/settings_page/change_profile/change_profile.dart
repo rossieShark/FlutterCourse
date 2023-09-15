@@ -1,15 +1,14 @@
-// ignore_for_file: use_build_context_synchronously
-
-//import 'dart:io';
-
-// import 'package:firebase/main.dart';
-// import 'package:firebase/service/service.dart';
-// import 'package:firebase/widgets/index.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChangeUserinfo extends StatefulWidget {
   const ChangeUserinfo({super.key});
@@ -20,61 +19,27 @@ class ChangeUserinfo extends StatefulWidget {
 
 class _ChangeUserinfoState extends State<ChangeUserinfo> {
   late TextEditingController _userNameTextController;
+  FirebaseStorage storage = FirebaseStorage.instance;
 
-  //final MediaServiceInterface _mediaService = getIt<MediaServiceInterface>();
-
-  // File? imageFile;
-  // User? _user;
-  String profilePhoto =
-      'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png';
+  User? _user;
+  File? imageFile;
+  String? imageUrl;
 
   @override
   void initState() {
     super.initState();
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   setState(() {
-    //     _user = user;
-    //   });
-    //   if (user == null) {
-    //     print('User is currently signed out!');
-    //   } else {
-    //     print('User is signed in!');
-    //   }
-    // });
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      setState(() {
+        _user = user;
+      });
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+      }
+    });
     _userNameTextController = TextEditingController();
   }
-
-  // ignore: body_might_complete_normally_nullable
-  // Future<AppImageSource?> pickImageSource() async {
-  //   AppImageSource? appImageSource = await showCupertinoModalPopup(
-  //     context: context,
-  //     builder: (BuildContext context) => const ImagePickerActionSheet(),
-  //   );
-  //   if (appImageSource != null) {
-  //     _getImage(appImageSource);
-  //   }
-  // }
-
-  // Future _getImage(AppImageSource appImageSource) async {
-  //   final pickedImageFile =
-  //       await _mediaService.uploadImage(context, appImageSource);
-
-  //   if (pickedImageFile != null) {
-  //     setState(() => imageFile = pickedImageFile);
-  //   }
-  // }
-
-  // void _saveData() async {
-  //   if (imageFile != null) {
-  //     final photoUrl = await changeImageFormat(imageFile!);
-  //     _user?.updatePhotoURL(photoUrl);
-  //   }
-  //   if (_userNameTextController.text.isNotEmpty) {
-  //     _user?.updateDisplayName(_userNameTextController.text);
-  //   }
-
-  //   context.pop(const ProfilePage());
-  // }
 
   @override
   void dispose() {
@@ -97,23 +62,35 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(150 / 2),
-                    child: Container(
+                    child: SizedBox(
                       width: 150,
                       height: 150,
-                      decoration: BoxDecoration(
-                        color: AppColors.background.color,
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child: imageFile != null && imageFile!.existsSync()
+                          ? Image.file(
+                              imageFile!,
+                              fit: BoxFit.cover,
+                            )
+                          : _user?.photoURL == null
+                              ? Image.network(
+                                  imagesMap[Images.userPhoto]!,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(_user!.photoURL!,
+                                  fit: BoxFit.cover),
                     ),
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                ImagePickerActionSheet(
+                                  getPhotoFromCamera: () => pickImageCamera(),
+                                  getPhotoFromLibrary: () => pickImage(),
+                                ));
+                      },
                       child: Text(
-                        'Change photo',
+                        AppLocalizations.of(context)!.changePhotoButton,
                         style: TextStyle(
                             color: AppColors.accent.color,
                             decoration: TextDecoration.underline,
@@ -131,41 +108,76 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                         userNameTextController: _userNameTextController),
                   ),
                   Text(
-                    'This could be your first name or a nickname.',
+                    AppLocalizations.of(context)!.changeNameDesc,
                     style:
                         TextStyle(color: AppColors.white.color, fontSize: 10),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
-                  Container(
-                    width: 140,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            AppColors.accent.color,
-                            AppColors.darkAccent.color,
-                          ],
-                        )),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                              color: AppColors.white.color,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        )),
-                  ),
+                  CustomButton(
+                      onPressed: () {
+                        _saveData();
+                        context.pop();
+                      },
+                      buttonText: AppLocalizations.of(context)!.saveButton)
                 ],
               ),
             ),
           ),
         ));
+  }
+
+  Future<void> uploadFile() async {
+    if (imageFile == null) return;
+
+    try {
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('userProfileImage')
+          .child('${DateTime.now()}.jpg');
+      await ref.putFile(imageFile!);
+
+      imageUrl = await ref.getDownloadURL();
+      await _user?.updatePhotoURL(imageUrl);
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  void _saveData() async {
+    await uploadFile();
+
+    if (_userNameTextController.text.isNotEmpty) {
+      await _user?.updateDisplayName(_userNameTextController.text);
+    }
+  }
+
+  Future<void> pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(
+          source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => imageFile = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<void> pickImageCamera() async {
+    final status = await Permission.camera.request();
+    if (status.isGranted) {
+      try {
+        final image = await ImagePicker().pickImage(source: ImageSource.camera);
+        if (image == null) return;
+        final imageTemp = File(image.path);
+        setState(() => imageFile = imageTemp);
+      } on PlatformException catch (e) {
+        print('Failed to pick image: $e');
+      }
+    } else {}
   }
 }
 
@@ -186,7 +198,7 @@ class _CreateChangeNameTextField extends StatelessWidget {
           bottom: BorderSide(width: 1, color: AppColors.white.color),
         ),
       ),
-      placeholder: 'Your name',
+      placeholder: AppLocalizations.of(context)!.changeNameTextFieldHintText,
       placeholderStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       textAlign: TextAlign.center,
       style: TextStyle(color: AppColors.white.color, fontSize: 18),
@@ -194,55 +206,63 @@ class _CreateChangeNameTextField extends StatelessWidget {
   }
 }
 
-// class ImagePickerActionSheet extends StatelessWidget {
-//   const ImagePickerActionSheet({super.key});
+class ImagePickerActionSheet extends StatelessWidget {
+  final VoidCallback getPhotoFromLibrary;
+  final VoidCallback getPhotoFromCamera;
+  const ImagePickerActionSheet(
+      {super.key,
+      required this.getPhotoFromCamera,
+      required this.getPhotoFromLibrary});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return CupertinoActionSheet(
-//       actions: <Widget>[
-//         CupertinoActionSheetAction(
-//           isDefaultAction: true,
-//           child: Row(
-//             children: [
-//               Icon(Icons.image, color: AppColors.black.color),
-//               Text(
-//                 ' Gallery',
-//                 style: TextStyle(
-//                     color: AppColors.black.color,
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w400),
-//               ),
-//             ],
-//           ),
-//           onPressed: () => Navigator.of(context).pop(AppImageSource.camera),
-//         ),
-//         CupertinoActionSheetAction(
-//           child: Row(
-//             children: [
-//               Icon(Icons.camera_alt, color: AppColors.black.color),
-//               Text(
-//                 ' Camera',
-//                 style: TextStyle(
-//                     color: AppColors.black.color,
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w400),
-//               ),
-//             ],
-//           ),
-//           onPressed: () => Navigator.of(context).pop(AppImageSource.gallery),
-//         ),
-//       ],
-//       cancelButton: CupertinoActionSheetAction(
-//         child: Text(
-//           'Cancel',
-//           style: TextStyle(
-//               color: AppColors.accent.color,
-//               fontSize: 16,
-//               fontWeight: FontWeight.w600),
-//         ),
-//         onPressed: () => Navigator.of(context).pop(),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoActionSheet(
+      actions: <Widget>[
+        CupertinoActionSheetAction(
+            isDefaultAction: true,
+            child: Row(
+              children: [
+                Icon(Icons.image, color: AppColors.black.color),
+                Text(
+                  AppLocalizations.of(context)!.galleryButton,
+                  style: TextStyle(
+                      color: AppColors.black.color,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            onPressed: () {
+              getPhotoFromLibrary;
+            }),
+        CupertinoActionSheetAction(
+          child: Row(
+            children: [
+              Icon(Icons.camera_alt, color: AppColors.black.color),
+              Text(
+                AppLocalizations.of(context)!.cameraButton,
+                style: TextStyle(
+                    color: AppColors.black.color,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+          onPressed: () {
+            getPhotoFromCamera;
+          },
+        ),
+      ],
+      cancelButton: CupertinoActionSheetAction(
+        child: Text(
+          AppLocalizations.of(context)!.cancelButton,
+          style: TextStyle(
+              color: AppColors.accent.color,
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+    );
+  }
+}

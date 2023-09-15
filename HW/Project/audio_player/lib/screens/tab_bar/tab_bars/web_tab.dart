@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:audio_player/screens/index.dart';
 
@@ -118,10 +119,10 @@ class _NavigationRailWidget extends StatelessWidget {
                             NavigationUtils.WebHandleTabTap(context, index);
                           },
                           destinations: [
-                            DestinationData(
-                                const Icon(CupertinoIcons.home), 'Home'),
-                            DestinationData(
-                                const Icon(CupertinoIcons.search), 'Search'),
+                            DestinationData(const Icon(CupertinoIcons.home),
+                                AppLocalizations.of(context)!.homePageTitle),
+                            DestinationData(const Icon(CupertinoIcons.search),
+                                AppLocalizations.of(context)!.tabBarSearch),
                           ],
                         ),
                       ),

@@ -5,10 +5,12 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final FocusNode focusNode;
+  final bool obscureText;
 
   const CustomTextField({
     Key? key,
     required this.controller,
+    required this.obscureText,
     required this.hintText,
     required this.focusNode,
   }) : super(key: key);
@@ -27,6 +29,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         height: 45,
         decoration: BoxDecoration(color: AppColors.white.color),
         child: TextField(
+          obscureText: widget.obscureText,
           controller: widget.controller,
           focusNode: widget.focusNode,
           cursorColor: AppColors.accent.color,

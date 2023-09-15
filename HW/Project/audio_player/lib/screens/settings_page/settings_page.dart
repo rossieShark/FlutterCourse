@@ -1,17 +1,25 @@
-import 'package:audio_player/screens/settings_page/change_profile/change_profile.dart';
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:audio_player/screens/settings_page/settings_index.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as modal;
 
-class Settings extends StatelessWidget {
-  
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
-   Settings({super.key});
-final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user;
+
   Future<void> _signOut() async {
     try {
       await _auth.signOut();
@@ -22,13 +30,35 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
     }
   }
 
+  Future<void> _deleteAccount() async {
+    await user?.delete();
+  }
+
+  void _showDialog(Widget child, BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 200,
+        padding: const EdgeInsets.only(top: 0.0),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: AppColors.background.color,
       appBar: AppBar(
-        title: Text('Settings', style: Theme.of(context).textTheme.titleMedium),
+        title: Text(AppLocalizations.of(context)!.settingPageTitle,
+            style: Theme.of(context).textTheme.titleMedium),
         backgroundColor: AppColors.background.color,
       ),
       body: SettingsList(
@@ -42,66 +72,111 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
         ),
         sections: [
           SettingsSection(
-            title: const Text('Common'),
+            title: Text(AppLocalizations.of(context)!.settingPageCommon),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
+                onPressed: (context) => _showDialog(
+                    CupertinoPicker(
+                      magnification: 1.22,
+                      squeeze: 1.2,
+                      useMagnifier: true,
+                      itemExtent: 32.0,
+                      scrollController: FixedExtentScrollController(
+                        initialItem: 0,
+                      ),
+                      onSelectedItemChanged: (int selectedItem) {
+                        setState(() {
+                          final newLocale = Locale.fromSubtags(
+                              languageCode: pickerData[selectedItem]);
+                          final languageProvider =
+                              Provider.of<LanguageProvider>(context,
+                                  listen: false);
+                          languageProvider.changeLocale(newLocale);
+                        });
+                      },
+                      children:
+                          List<Widget>.generate(pickerData.length, (int index) {
+                        return Center(child: Text(pickerData[index]));
+                      }),
+                    ),
+                    context),
                 leading: const Icon(Icons.language),
-                title: Text('Language',
+                title: Text(
+                    AppLocalizations.of(context)!.settingPageCommonLanguage,
                     style: TextStyle(color: AppColors.white.color)),
-                value: const Text('English'),
+                value: Text(Localizations.localeOf(context).languageCode),
               ),
               SettingsTile.navigation(
                 leading: const Icon(Icons.subscriptions),
-                title: Text('Subscription plan',
-                    style: TextStyle(color: AppColors.white.color)),
-              ),
-              SettingsTile.switchTile(
-                activeSwitchColor: AppColors.accent.color,
-                onToggle: (value) {},
-                initialValue: true,
-                leading: const Icon(Icons.format_paint),
                 title: Text(
-                  'Enable custom theme',
-                  style: TextStyle(color: AppColors.white.color),
-                ),
+                    AppLocalizations.of(context)!
+                        .settingPageCommonSubscriptionPlan,
+                    style: TextStyle(color: AppColors.white.color)),
               ),
               SettingsTile.navigation(
                 leading: const Icon(Icons.devices),
-                title: Text('Devices',
+                title: Text(
+                    AppLocalizations.of(context)!.settingPageCommonDevices,
                     style: TextStyle(color: AppColors.white.color)),
               ),
             ],
           ),
-          SettingsSection(title: const Text('Account'), tiles: <SettingsTile>[
-            SettingsTile.navigation(
-              leading: const Icon(Icons.account_box),
-              title: Text('Account',
-                  style: TextStyle(color: AppColors.white.color)),
-              onPressed: (BuildContext context) {
-                modal.showBarModalBottomSheet(
-                  expand: true,
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => const ChangeUserinfo(),
-                );
-              },
-            ),
-            SettingsTile.navigation(
-              leading: const Icon(Icons.key),
-              title: Text('Password',
-                  style: TextStyle(color: AppColors.white.color)),
-            ),
-            SettingsTile.navigation(
-              leading: const Icon(Icons.payment),
-              title: Text('Payment methods',
-                  style: TextStyle(color: AppColors.white.color)),
-            ),
-            SettingsTile.navigation(
-              leading: const Icon(Icons.delete_forever),
-              title: Text('Delete account',
-                  style: TextStyle(color: AppColors.white.color)),
-            ),
-          ]),
+          SettingsSection(
+              title: Text(AppLocalizations.of(context)!.settingPageAccount),
+              tiles: <SettingsTile>[
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.account_box),
+                  title: Text(AppLocalizations.of(context)!.settingPageAccount,
+                      style: TextStyle(color: AppColors.white.color)),
+                  onPressed: (BuildContext context) {
+                    modal.showBarModalBottomSheet(
+                      expand: true,
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const ChangeUserinfo(),
+                    );
+                  },
+                ),
+                SettingsTile.navigation(
+                  onPressed: (BuildContext context) {
+                    modal.showBarModalBottomSheet(
+                      expand: true,
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const ChangePassword(),
+                    );
+                  },
+                  leading: const Icon(Icons.key),
+                  title: Text(
+                      AppLocalizations.of(context)!.settingPageAccountPassword,
+                      style: TextStyle(color: AppColors.white.color)),
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.payment),
+                  title: Text(
+                      AppLocalizations.of(context)!.settingPageAccountPayment,
+                      style: TextStyle(color: AppColors.white.color)),
+                ),
+                SettingsTile.navigation(
+                  onPressed: (context) => showDialog(
+                    context: context,
+                    builder: (context) => AppAlertDialog(
+                      onConfirm: () async {
+                        await _deleteAccount();
+                        await _signOut();
+                        Navigator.of(context).pop();
+                      },
+                      title: AppLocalizations.of(context)!.deleteAccount,
+                      subtitle:
+                          AppLocalizations.of(context)!.deleteAccountAlert,
+                    ),
+                  ),
+                  leading: const Icon(Icons.delete_forever),
+                  title: Text(
+                      AppLocalizations.of(context)!.settingPageAccountDelete,
+                      style: TextStyle(color: AppColors.white.color)),
+                ),
+              ]),
           SettingsSection(title: const Text(''), tiles: <SettingsTile>[
             SettingsTile(
               onPressed: (context) {
@@ -110,7 +185,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
               },
               title: Center(
                 child: Text(
-                  'Log Out',
+                  AppLocalizations.of(context)!.settingPageLogOut,
                   style: TextStyle(color: AppColors.accent.color),
                 ),
               ),
@@ -121,3 +196,9 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
     );
   }
 }
+
+List<String> pickerData = [
+  'en',
+  'de',
+  'ru',
+];

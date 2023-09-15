@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/search_screen/search_export.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +130,9 @@ class _SearchTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 6.0),
         prefixIcon: const Icon(Icons.search, color: Colors.grey),
-        hintText: focusNode.hasFocus ? '' : 'Song, Artist name',
+        hintText: focusNode.hasFocus
+            ? ''
+            : AppLocalizations.of(context)!.searchTextFieldHintText,
         hintStyle: TextStyle(
             fontFamily: AppFonts.colombia.font,
             fontSize: 18,

@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,13 +26,11 @@ class IPadTabBar extends StatelessWidget {
               NavigationUtils.mobileHandleTabTap(context, index);
             },
             destinations: [
-              DestinationData(
-                  const Icon(CupertinoIcons.music_albums), 'Playlist'),
-              DestinationData(const Icon(CupertinoIcons.music_mic), 'Artist'),
-              DestinationData(const CustomAnimatedContainer(), 'Search'),
-              DestinationData(const Icon(CupertinoIcons.search), 'Search'),
-              DestinationData(
-                  const Icon(Icons.favorite_border_outlined), 'My music'),
+              DestinationData(const Icon(Icons.favorite_border_outlined),
+                  AppLocalizations.of(context)!.tabBarSearch),
+              DestinationData(const CustomAnimatedContainer(), ''),
+              DestinationData(const Icon(CupertinoIcons.search),
+                  AppLocalizations.of(context)!.tabBarMyMusic),
             ],
           ),
           VerticalDivider(

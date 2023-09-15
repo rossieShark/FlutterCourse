@@ -1,8 +1,10 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/services/app_services/permission_service.dart';
 import 'package:audio_player/services/service.dart';
 import 'package:audio_player/services/services.dart';
 import 'package:get_it/get_it.dart';
+
 
 class SetGetItDependencies {
   void setupDatabaseDependencies() {
@@ -70,5 +72,11 @@ class SetGetItDependencies {
         () => FavoriteBloc(GetIt.instance.get()));
     GetIt.instance.registerFactory<DetailMusicPageBloc>(
         () => DetailMusicPageBloc(GetIt.instance.get()));
+  }
+
+  void setupPermissionDependencies() {
+    GetIt.instance.registerSingleton<PermissionService>(
+        PermissionHandlerPermissionService());
+    // GetIt.instance.registerSingleton<MediaServiceInterface>(MediaService());
   }
 }

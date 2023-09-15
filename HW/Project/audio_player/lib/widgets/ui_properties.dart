@@ -39,14 +39,17 @@ enum Images {
   facebookIcon,
   googleIcon,
   appIcon,
+  defaultImage,
+  userPhoto
 }
 
 Map<Images, String> imagesMap = {
-  Images.appIcon: 'assets/images/sound.png',
+  Images.appIcon: 'assets/images/sound_logo.png',
   Images.facebookIcon: 'assets/images/facebook.png',
   Images.googleIcon: 'assets/images/google.png',
   Images.appleIcon: 'assets/images/apple.png',
+  Images.defaultImage:
+      'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
+  Images.userPhoto:
+      'https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small/user-icon-on-transparent-background-free-png.png',
 };
-
-const String defaultImage =
-    'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg';

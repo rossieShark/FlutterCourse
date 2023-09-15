@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/favorite_song_model.dart';
 
 import 'package:audio_player/screens/tab_bar/index.dart';
@@ -133,7 +134,7 @@ class _CreateListEmptyState extends StatelessWidget {
           large: 18.0,
           builder: (context, child, size) {
             return Text(
-              'Search history is empty',
+              AppLocalizations.of(context)!.searchHistoryResultText,
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: AppFonts.lusitana.font,

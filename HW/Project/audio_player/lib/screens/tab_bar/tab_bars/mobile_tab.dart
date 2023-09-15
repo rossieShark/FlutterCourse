@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,36 +34,22 @@ class MobileTabBar extends StatelessWidget {
           onTap: (index) {
             NavigationUtils.mobileHandleTabTap(context, index);
           },
-          items: const [
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     CupertinoIcons.music_albums,
-            //   ),
-            //   label: 'Playlist',
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     CupertinoIcons.music_mic,
-            //   ),
-            //   label: 'Artist',
-            // ),
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(
+              icon: const Icon(
                 Icons.favorite_border_outlined,
               ),
-              label: 'My music',
+              label: AppLocalizations.of(context)!.tabBarMyMusic,
             ),
-
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: CustomAnimatedContainer(),
               label: '',
             ),
-
             BottomNavigationBarItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.search,
               ),
-              label: 'Search',
+              label: AppLocalizations.of(context)!.tabBarSearch,
             ),
           ]),
     );

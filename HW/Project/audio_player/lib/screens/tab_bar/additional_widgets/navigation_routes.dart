@@ -8,12 +8,6 @@ class NavigationUtils {
     tabBarBloc.setTabIndex(index);
 
     switch (index) {
-      // case 0:
-      //   context.go(routeNameMap[RouteName.playlist]!);
-      //   break;
-      // case 1:
-      //   context.go(routeNameMap[RouteName.artist]!);
-      //   break;
       case 0:
         context.go(routeNameMap[RouteName.myMusic]!);
         break;
@@ -46,8 +40,7 @@ enum RouteName {
   home,
   myMusic,
   search,
-  // artist,
-  // playlist,
+
   favoriteTracks,
   favoriteAlbums,
   detailMusic,
@@ -60,10 +53,8 @@ enum RouteName {
 
 Map<RouteName, String> routeNameMap = {
   RouteName.home: '/',
-  // RouteName.artist: '/artist',
   RouteName.search: '/search',
   RouteName.myMusic: '/my_music',
-  // RouteName.playlist: '/playlist',
   RouteName.favoriteTracks: 'tracks',
   RouteName.favoriteAlbums: 'albums',
   RouteName.detailMusic: 'detail_music/',

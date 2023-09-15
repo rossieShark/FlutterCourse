@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:audio_player/screens/search_screen/search_export.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -17,7 +18,7 @@ class MobileRecentlySearchedSection extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(16),
         child: Text(
-          'Search History',
+          AppLocalizations.of(context)!.searchHistoryText,
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -40,7 +41,7 @@ class MobileRecentlySearchedSection extends StatelessWidget {
             provider.removeAll();
           },
           child: Text(
-            'Clear all',
+            AppLocalizations.of(context)!.clearAll,
             style: TextStyle(
                 color: AppColors.white.color,
                 fontSize: 20,

@@ -74,7 +74,7 @@ class _CreatMainContent extends StatelessWidget {
             height: maxHeight / 2,
             width: maxWidth - maxWidth * 0.2,
             child: Image.network(
-              songInfo?.imageUrl ?? defaultImage,
+              songInfo?.imageUrl ?? imagesMap[Images.defaultImage]!,
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
             ),

@@ -1,12 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:audio_player/screens/log_pages/widgets/app_alert.dart';
-import 'package:audio_player/screens/log_pages/widgets/custom_button.dart';
-import 'package:audio_player/screens/log_pages/widgets/sign_methods.dart';
-import 'package:audio_player/screens/log_pages/widgets/text_field.dart';
-
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
-import 'package:audio_player/services/firebase_service.dart';
+import 'package:audio_player/services/services.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: context,
         builder: (context) =>
-            const SignAlert(text: 'Incorrect password or email'),
+            SignAlert(text: AppLocalizations.of(context)!.invalidEmailPassword),
       );
     }
   }
@@ -82,9 +78,12 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  imagesMap[Images.appIcon]!,
-                  color: const Color.fromARGB(255, 171, 66, 122),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  child: Image.asset(
+                    imagesMap[Images.appIcon]!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -93,17 +92,19 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: CustomTextField(
+                          obscureText: false,
                           focusNode: _emailFocusNode,
                           controller: _loginTextController,
-                          hintText: 'Enter email',
+                          hintText: AppLocalizations.of(context)!.enterEmail,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                         child: CustomTextField(
+                          obscureText: true,
                           focusNode: _passwordFocusNode,
                           controller: _passwordTextController,
-                          hintText: 'Enter password',
+                          hintText: AppLocalizations.of(context)!.enterPassword,
                         ),
                       ),
                       const SizedBox(
@@ -116,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
                 Column(
                   children: [
@@ -124,13 +125,13 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           _signIn();
                         },
-                        buttonText: 'Sign In'),
+                        buttonText: AppLocalizations.of(context)!.signInButton),
                     const SizedBox(
                       height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text('Be connect with',
+                      child: Text(AppLocalizations.of(context)!.signInMethods,
                           style: TextStyle(
                               color: AppColors.white.color,
                               fontSize: 12,
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SignMethods(
                       onGoogleTap: () {
-                        //FireBaseFunctions().validSignWithGoogle(context);
+                        FireBaseFunctions().validSignWithGoogle(context);
                       },
                     ),
                     const SizedBox(
@@ -171,12 +172,12 @@ class _CreateForgetPasswordWidget extends StatelessWidget {
         FireBaseFunctions()
             .resetPassword(context, _resetPasswordTextController);
       },
-      child: const SizedBox(
+      child: SizedBox(
         width: 400,
         child: Align(
             alignment: Alignment.bottomRight,
-            child: Text('Forgot password?',
-                style: TextStyle(
+            child: Text(AppLocalizations.of(context)!.forgotPassword,
+                style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
                     fontWeight: FontWeight.w400))),
@@ -195,7 +196,7 @@ class _CreateRegisterWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Don't have an account? ",
+          AppLocalizations.of(context)!.noAccount,
           style: TextStyle(color: AppColors.white.color),
         ),
         GestureDetector(
@@ -203,7 +204,7 @@ class _CreateRegisterWidget extends StatelessWidget {
               context.go(routeNameMap[RouteName.signUp]!);
             },
             child: Text(
-              "Sign Up",
+              AppLocalizations.of(context)!.signUpButton,
               style: TextStyle(color: AppColors.accent.color),
             )),
       ],
