@@ -135,9 +135,9 @@ class _SearchTextField extends StatelessWidget {
             : AppLocalizations.of(context)!.searchTextFieldHintText,
         hintStyle: TextStyle(
             fontFamily: AppFonts.colombia.font,
-            fontSize: 18,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: Colors.white),
+            color: Colors.grey),
         labelStyle: TextStyle(color: AppColors.white.color),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -160,7 +160,7 @@ class _SearchTextField extends StatelessWidget {
       ),
       style: TextStyle(
           fontFamily: AppFonts.colombia.font,
-          fontSize: 18,
+          fontSize: 13,
           fontWeight: FontWeight.w600,
           color: Colors.white),
     );

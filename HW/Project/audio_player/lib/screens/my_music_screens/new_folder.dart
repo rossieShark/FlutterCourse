@@ -1,6 +1,8 @@
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/my_music_folders.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/favorite_folder_model.dart';
-import 'package:audio_player/screens/my_music_screens/my_music_screen.dart';
+
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ class _NewFolderState extends State<NewFolder> {
   void initState() {
     super.initState();
     _newFolderTextField = TextEditingController();
+
+    _newFolderTextField.text = 'Playlist';
   }
 
   @override
@@ -29,7 +33,8 @@ class _NewFolderState extends State<NewFolder> {
 
   @override
   Widget build(BuildContext context) {
-    List<FavoriteFolder> folders = initializeFolders(context);
+    final folders = Provider.of<MyMusicFoldersProvider>(context);
+    // List<FavoriteFolder> folders = initializeFolders(context);
     return Scaffold(
         backgroundColor: AppColors.background.color,
         body: SingleChildScrollView(
@@ -76,17 +81,24 @@ class _NewFolderState extends State<NewFolder> {
                         )),
                     child: TextButton(
                         onPressed: () {
-                          if (_newFolderTextField.text.isNotEmpty) {
+                          if (_newFolderTextField.text.isNotEmpty &&
+                              !folders
+                                  .doesFolderExist(_newFolderTextField.text)) {
                             setState(() {
-                              folders.add(FavoriteFolder(
-                                  title: _newFolderTextField.text,
-                                  iconButton: IconButtonWidget(
-                                      color: AppColors.white.color,
-                                      iconData: Icons.arrow_forward_ios,
-                                      onPressed: () {})));
+                              folders.folders.add(FavoriteFolder(
+                                image: imagesMap[Images.playlist]!,
+                                title: _newFolderTextField.text,
+                              ));
                             });
+                            print(folders.folders);
+                            context.pop();
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const SignAlert(
+                                  text: 'Please enter a unique name'),
+                            );
                           }
-                          context.pop();
                         },
                         child: Text(
                           AppLocalizations.of(context)!.createButton,
@@ -121,7 +133,7 @@ class _CreateChangeNameTextField extends StatelessWidget {
           bottom: BorderSide(width: 1, color: AppColors.white.color),
         ),
       ),
-      placeholder: AppLocalizations.of(context)!.newPlaylistHintName,
+      // placeholder: AppLocalizations.of(context)!.newPlaylistHintName,
       placeholderStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       textAlign: TextAlign.center,
       style: TextStyle(color: AppColors.white.color, fontSize: 18),

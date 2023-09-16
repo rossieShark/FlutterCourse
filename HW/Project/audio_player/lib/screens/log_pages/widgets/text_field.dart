@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final FocusNode focusNode;
   final bool obscureText;
+  final void Function(String)? onChanged;
 
   const CustomTextField({
     Key? key,
@@ -13,6 +14,7 @@ class CustomTextField extends StatefulWidget {
     required this.obscureText,
     required this.hintText,
     required this.focusNode,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           focusNode: widget.focusNode,
           cursorColor: AppColors.accent.color,
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),

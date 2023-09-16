@@ -216,10 +216,13 @@ class RecentlyPlayedPageContent extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 5,
+            ),
             ResponsiveBuilder(
-                narrow: 15.0,
-                medium: 18.0,
-                large: 20.0,
+                narrow: 12.0,
+                medium: 14.0,
+                large: 14.0,
                 builder: (context, child, size) {
                   return CreateSongTitle(
                     artistName: chartItems[index].artistNames,

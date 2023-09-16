@@ -2491,6 +2491,188 @@ class MusicGenresCompanion extends UpdateCompanion<MusicGenre> {
   }
 }
 
+class $MyMusicFoldersTable extends MyMusicFolders
+    with TableInfo<$MyMusicFoldersTable, MyMusicFolder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MyMusicFoldersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _imageMeta = const VerificationMeta('image');
+  @override
+  late final GeneratedColumn<String> image = GeneratedColumn<String>(
+      'image', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [name, image];
+  @override
+  String get aliasedName => _alias ?? 'my_music_folders';
+  @override
+  String get actualTableName => 'my_music_folders';
+  @override
+  VerificationContext validateIntegrity(Insertable<MyMusicFolder> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('image')) {
+      context.handle(
+          _imageMeta, image.isAcceptableOrUnknown(data['image']!, _imageMeta));
+    } else if (isInserting) {
+      context.missing(_imageMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {name};
+  @override
+  MyMusicFolder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MyMusicFolder(
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      image: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image'])!,
+    );
+  }
+
+  @override
+  $MyMusicFoldersTable createAlias(String alias) {
+    return $MyMusicFoldersTable(attachedDatabase, alias);
+  }
+}
+
+class MyMusicFolder extends DataClass implements Insertable<MyMusicFolder> {
+  final String name;
+  final String image;
+  const MyMusicFolder({required this.name, required this.image});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['name'] = Variable<String>(name);
+    map['image'] = Variable<String>(image);
+    return map;
+  }
+
+  MyMusicFoldersCompanion toCompanion(bool nullToAbsent) {
+    return MyMusicFoldersCompanion(
+      name: Value(name),
+      image: Value(image),
+    );
+  }
+
+  factory MyMusicFolder.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MyMusicFolder(
+      name: serializer.fromJson<String>(json['name']),
+      image: serializer.fromJson<String>(json['image']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'name': serializer.toJson<String>(name),
+      'image': serializer.toJson<String>(image),
+    };
+  }
+
+  MyMusicFolder copyWith({String? name, String? image}) => MyMusicFolder(
+        name: name ?? this.name,
+        image: image ?? this.image,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('MyMusicFolder(')
+          ..write('name: $name, ')
+          ..write('image: $image')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(name, image);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MyMusicFolder &&
+          other.name == this.name &&
+          other.image == this.image);
+}
+
+class MyMusicFoldersCompanion extends UpdateCompanion<MyMusicFolder> {
+  final Value<String> name;
+  final Value<String> image;
+  final Value<int> rowid;
+  const MyMusicFoldersCompanion({
+    this.name = const Value.absent(),
+    this.image = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MyMusicFoldersCompanion.insert({
+    required String name,
+    required String image,
+    this.rowid = const Value.absent(),
+  })  : name = Value(name),
+        image = Value(image);
+  static Insertable<MyMusicFolder> custom({
+    Expression<String>? name,
+    Expression<String>? image,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (name != null) 'name': name,
+      if (image != null) 'image': image,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MyMusicFoldersCompanion copyWith(
+      {Value<String>? name, Value<String>? image, Value<int>? rowid}) {
+    return MyMusicFoldersCompanion(
+      name: name ?? this.name,
+      image: image ?? this.image,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (image.present) {
+      map['image'] = Variable<String>(image.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MyMusicFoldersCompanion(')
+          ..write('name: $name, ')
+          ..write('image: $image, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AudioAppDatabase extends GeneratedDatabase {
   _$AudioAppDatabase(QueryExecutor e) : super(e);
   late final $RecentlyPlayedSongsTable recentlyPlayedSongs =
@@ -2506,6 +2688,7 @@ abstract class _$AudioAppDatabase extends GeneratedDatabase {
   late final $DetailInfoSongsTable detailInfoSongs =
       $DetailInfoSongsTable(this);
   late final $MusicGenresTable musicGenres = $MusicGenresTable(this);
+  late final $MyMusicFoldersTable myMusicFolders = $MyMusicFoldersTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2519,6 +2702,7 @@ abstract class _$AudioAppDatabase extends GeneratedDatabase {
         favoriteSongs,
         recentlySearchedSongs,
         detailInfoSongs,
-        musicGenres
+        musicGenres,
+        myMusicFolders
       ];
 }

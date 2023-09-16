@@ -1,14 +1,14 @@
-import 'dart:io';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:audio_player/screens/settings_page/change_profile/platform_image/image_picker.dart';
+
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ChangeUserinfo extends StatefulWidget {
   const ChangeUserinfo({super.key});
@@ -22,9 +22,9 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
   FirebaseStorage storage = FirebaseStorage.instance;
 
   User? _user;
-  File? imageFile;
-  String? imageUrl;
 
+  String? imageUrl;
+  ImagePickerService imagePickerService = ImagePickerService();
   @override
   void initState() {
     super.initState();
@@ -47,6 +47,17 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
     _userNameTextController.dispose();
   }
 
+  Future<void> pickAndUploadImage() async {
+    final imageUrl = await imagePickerService.pickImageFromGallery();
+    print(imageUrl);
+    if (imageUrl != null) {
+      setState(() {
+        this.imageUrl = imageUrl;
+        print(imageUrl);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,9 +76,9 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                     child: SizedBox(
                       width: 150,
                       height: 150,
-                      child: imageFile != null && imageFile!.existsSync()
-                          ? Image.file(
-                              imageFile!,
+                      child: imageUrl != null
+                          ? Image.network(
+                              imageUrl!,
                               fit: BoxFit.cover,
                             )
                           : _user?.photoURL == null
@@ -79,26 +90,101 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                                   fit: BoxFit.cover),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                ImagePickerActionSheet(
-                                  getPhotoFromCamera: () => pickImageCamera(),
-                                  getPhotoFromLibrary: () => pickImage(),
-                                ));
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.changePhotoButton,
-                        style: TextStyle(
-                            color: AppColors.accent.color,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.accent.color,
-                            decorationStyle: TextDecorationStyle.solid,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400),
-                      )),
+                  PlatformBuilder(
+                      web: TextButton(
+                          onPressed: () {
+                            pickAndUploadImage();
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.changePhotoButton,
+                            style: TextStyle(
+                                color: AppColors.accent.color,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.accent.color,
+                                decorationStyle: TextDecorationStyle.solid,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          )),
+                      other: TextButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    CupertinoActionSheet(
+                                      actions: <Widget>[
+                                        CupertinoActionSheetAction(
+                                            isDefaultAction: true,
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.image,
+                                                    color:
+                                                        AppColors.black.color),
+                                                Text(
+                                                  AppLocalizations.of(context)!
+                                                      .galleryButton,
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppColors.black.color,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              pickAndUploadImage();
+                                              // ImagePickerService()
+                                              //     .pickImageFromGallery();
+                                            }),
+                                        CupertinoActionSheetAction(
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.camera_alt,
+                                                  color: AppColors.black.color),
+                                              Text(
+                                                AppLocalizations.of(context)!
+                                                    .cameraButton,
+                                                style: TextStyle(
+                                                    color:
+                                                        AppColors.black.color,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
+                                          onPressed: () {
+                                            // pickImageCamera();
+                                          },
+                                        ),
+                                      ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .cancelButton,
+                                          style: TextStyle(
+                                              color: AppColors.accent.color,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                    ));
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.changePhotoButton,
+                            style: TextStyle(
+                                color: AppColors.accent.color,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.accent.color,
+                                decorationStyle: TextDecorationStyle.solid,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          )),
+                      builder: (context, child, widget) {
+                        return widget;
+                      }),
                   const SizedBox(
                     height: 20,
                   ),
@@ -129,20 +215,8 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
   }
 
   Future<void> uploadFile() async {
-    if (imageFile == null) return;
-
-    try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('userProfileImage')
-          .child('${DateTime.now()}.jpg');
-      await ref.putFile(imageFile!);
-
-      imageUrl = await ref.getDownloadURL();
-      await _user?.updatePhotoURL(imageUrl);
-    } catch (e) {
-      print('Error uploading file: $e');
-    }
+    if (imageUrl == null) return;
+    await _user?.updatePhotoURL(imageUrl);
   }
 
   void _saveData() async {
@@ -153,32 +227,29 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
     }
   }
 
-  Future<void> pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(
-          source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
-      if (image == null) return;
+  // Future<void> pickImage() async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(
+  //         source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+  //     if (image == null) return;
 
-      final imageTemp = File(image.path);
-      setState(() => imageFile = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
+  //     final imageTemp = File(image.path);
+  //     setState(() => imageFile = imageTemp);
+  //   } on PlatformException catch (e) {
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
 
-  Future<void> pickImageCamera() async {
-    final status = await Permission.camera.request();
-    if (status.isGranted) {
-      try {
-        final image = await ImagePicker().pickImage(source: ImageSource.camera);
-        if (image == null) return;
-        final imageTemp = File(image.path);
-        setState(() => imageFile = imageTemp);
-      } on PlatformException catch (e) {
-        print('Failed to pick image: $e');
-      }
-    } else {}
-  }
+  // Future<void> pickImageCamera() async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: ImageSource.camera);
+  //     if (image == null) return;
+  //     final imageTemp = File(image.path);
+  //     setState(() => imageFile = imageTemp);
+  //   } on PlatformException catch (e) {
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
 }
 
 class _CreateChangeNameTextField extends StatelessWidget {

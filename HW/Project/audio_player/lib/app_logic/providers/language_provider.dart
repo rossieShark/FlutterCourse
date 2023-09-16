@@ -4,8 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageProvider extends ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Locale _appLocale =
-      ui.PlatformDispatcher.instance.locale ?? const Locale('en');
+  Locale _appLocale = ui.PlatformDispatcher.instance.locale;
 
   LanguageProvider() {
     _loadSavedLocale();

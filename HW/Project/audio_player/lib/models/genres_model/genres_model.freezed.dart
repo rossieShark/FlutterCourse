@@ -267,6 +267,7 @@ class _$_Data implements _Data {
   final int id;
   @override
   final String name;
+
   @override
   @JsonKey(name: 'picture_big')
   final String image;

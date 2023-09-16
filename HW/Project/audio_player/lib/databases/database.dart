@@ -13,13 +13,14 @@ part 'database.g.dart';
   FavoriteSongs,
   RecentlySearchedSongs,
   DetailInfoSongs,
-  MusicGenres
+  MusicGenres,
+  MyMusicFolders
 ])
 class AudioAppDatabase extends _$AudioAppDatabase {
   AudioAppDatabase() : super(impl.connect());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
 //RecentlyPlayedSong
   Future<List<RecentlyPlayedSong>> get allRecentlyPlayedSongs =>
@@ -118,6 +119,15 @@ class AudioAppDatabase extends _$AudioAppDatabase {
     });
   }
 
+//MyMusicFolders
+  Future<List<MyMusicFolder>> getFolders() => select(myMusicFolders).get();
+
+  Future<void> insertToMyFolders(MyMusicFolder folder) =>
+      into(myMusicFolders).insert(folder, mode: InsertMode.replace);
+
+  Future<void> deleteFolder(String name) =>
+      (delete(myMusicFolders)..where((song) => song.name.equals(name))).go();
+
   Future<void> deleteEverything() {
     return transaction(() async {
       for (final table in allTables) {
@@ -141,7 +151,7 @@ class AudioAppDatabase extends _$AudioAppDatabase {
         await m.addColumn(bestAlbums, bestAlbums.type);
       }
       if (from < 3) {
-        await m.addColumn(detailInfoSongs, detailInfoSongs.preview);
+        await m.createTable(myMusicFolders);
       }
     });
   }

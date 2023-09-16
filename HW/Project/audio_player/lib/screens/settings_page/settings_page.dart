@@ -1,5 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:audio_player/screens/settings_page/settings_index.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -133,7 +134,12 @@ class _SettingsState extends State<Settings> {
                       expand: true,
                       context: context,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => const ChangeUserinfo(),
+                      builder: (context) => PlatformBuilder(
+                          iOS: const ChangeUserinfo(),
+                          other: const ChangeUserinfo(),
+                          builder: (context, child, widget) {
+                            return widget;
+                          }),
                     );
                   },
                 ),

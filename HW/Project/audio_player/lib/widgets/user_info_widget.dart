@@ -14,14 +14,14 @@ class UserInfoWidget extends StatelessWidget {
         stream: FirebaseAuth.instance.userChanges(),
         builder: (context, snapshot) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
             child: Row(
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(100 / 2),
                     child: Container(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         decoration:
                             BoxDecoration(color: AppColors.background.color),
                         child: Image.network(
@@ -30,7 +30,7 @@ class UserInfoWidget extends StatelessWidget {
                           fit: BoxFit.cover,
                         ))),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -48,7 +48,7 @@ class UserInfoWidget extends StatelessWidget {
                           Text(
                             AppLocalizations.of(context)!.followers(1200),
                             style: TextStyle(
-                                color: AppColors.white.color, fontSize: 12),
+                                color: AppColors.white.color, fontSize: 10),
                           ),
                           const Text(
                             "﹒",
@@ -56,7 +56,7 @@ class UserInfoWidget extends StatelessWidget {
                           Text(
                             AppLocalizations.of(context)!.subscriptions(0),
                             style: TextStyle(
-                                color: AppColors.white.color, fontSize: 12),
+                                color: AppColors.white.color, fontSize: 10),
                           )
                         ],
                       )

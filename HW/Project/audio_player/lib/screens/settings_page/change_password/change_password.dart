@@ -16,6 +16,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   late TextEditingController _newPasswordController;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late FocusNode _passwordFocusNode;
+  String resultText = '';
   late FocusNode _newPasswordFocusNode;
   late User? _user;
   bool obscureText = true;
@@ -59,6 +60,17 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
+  Future<void> _changePasswordWeb() async {
+    if (_passwordController.text == _newPasswordController.text) {
+      await _user?.updatePassword(_passwordController.text);
+      context.pop();
+    } else {
+      setState(() {
+        resultText = AppLocalizations.of(context)!.passwordMissmatch;
+      });
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -93,6 +105,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                         obscureText: obscureText,
                         controller: _passwordController,
                         focusNode: _passwordFocusNode,
+                        onChanged: (text) {
+                          setState(() {
+                            resultText =
+                                ''; // Clear the result text when input changes
+                          });
+                        },
                         hintText: AppLocalizations.of(context)!.changePassword,
                       ),
                     ),
@@ -121,6 +139,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                         obscureText: newObscureText,
                         controller: _newPasswordController,
                         focusNode: _newPasswordFocusNode,
+                        onChanged: (text) {
+                          setState(() {
+                            resultText = '';
+                          });
+                        },
                         hintText: AppLocalizations.of(context)!.confirmPassword,
                       ),
                     ),
@@ -137,33 +160,31 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ],
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
-                Container(
-                  width: 120,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          AppColors.accent.color,
-                          AppColors.darkAccent.color,
-                        ],
-                      )),
-                  child: TextButton(
-                      onPressed: () {
-                        _changePassword();
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.changebutton,
-                        style: TextStyle(
-                            color: AppColors.white.color,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                      )),
+                Text(
+                  resultText,
+                  style: const TextStyle(color: Colors.red),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                PlatformBuilder(
+                    web: CustomButton(
+                        width: 120,
+                        onPressed: () {
+                          _changePasswordWeb();
+                        },
+                        buttonText: AppLocalizations.of(context)!.changebutton),
+                    other: CustomButton(
+                        width: 120,
+                        onPressed: () {
+                          _changePassword();
+                        },
+                        buttonText: AppLocalizations.of(context)!.changebutton),
+                    builder: (context, child, widget) {
+                      return widget;
+                    })
               ],
             ),
           ),

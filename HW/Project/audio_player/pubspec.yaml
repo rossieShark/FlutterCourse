@@ -21,7 +21,7 @@ dependencies:
   provider: ^6.0.5
   auto_size_text: ^3.0.0
   infinite_carousel: ^1.0.3
-  collection: ^1.17.1
+  # collection: ^1.17.1
   path_provider: ^2.0.15
   sqlite3_flutter_libs: ^0.5.0
   sqflite: ^2.3.0
@@ -48,6 +48,9 @@ dependencies:
   flutter_native_splash: ^2.3.2
   image: ^4.0.17
   firebase_storage: ^11.2.6
+  file_picker: ^5.5.0
+  # image_picker_for_web: ^3.0.1
+  share_plus: ^7.1.0
 
 dev_dependencies:
   flutter_test:
@@ -73,9 +76,9 @@ flutter:
     - family: Lusitana
       fonts:
         - asset: assets/fonts/Lusitana-Regular.ttf    
-    - family: Colombia
+    - family: PoiretOne
       fonts:
-        - asset: assets/fonts/Colombia.ttf   
+        - asset: assets/fonts/PoiretOne-Regular.ttf  
 
 flutter_native_splash:
   android: true

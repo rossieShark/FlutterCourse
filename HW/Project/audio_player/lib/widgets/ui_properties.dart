@@ -10,7 +10,7 @@ extension AppFontsExtension on AppFonts {
       case AppFonts.lusitana:
         return 'Lusitana';
       default:
-        return 'Colombia';
+        return 'PoiretOne';
     }
   }
 }
@@ -40,7 +40,10 @@ enum Images {
   googleIcon,
   appIcon,
   defaultImage,
-  userPhoto
+  userPhoto,
+  track,
+  album,
+  playlist
 }
 
 Map<Images, String> imagesMap = {
@@ -48,6 +51,9 @@ Map<Images, String> imagesMap = {
   Images.facebookIcon: 'assets/images/facebook.png',
   Images.googleIcon: 'assets/images/google.png',
   Images.appleIcon: 'assets/images/apple.png',
+  Images.album: 'assets/images/album.png',
+  Images.track: 'assets/images/track.png',
+  Images.playlist: 'assets/images/playlist.png',
   Images.defaultImage:
       'https://static.dezeen.com/uploads/2020/06/architects-designers-racial-justice-george-floyd-protests-dezeen-sq-a.jpg',
   Images.userPhoto:

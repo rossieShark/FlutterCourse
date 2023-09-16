@@ -187,6 +187,14 @@ final webRouter = GoRouter(
                         ),
                       ]),
                     ),
+                redirect: (BuildContext context, GoRouterState state) {
+                  final FirebaseAuth auth = FirebaseAuth.instance;
+                  if (auth.currentUser == null) {
+                    return routeNameMap[RouteName.start]!;
+                  } else {
+                    return null;
+                  }
+                },
                 routes: [
                   GoRoute(
                     path: 'detail_music/:id',
@@ -209,14 +217,14 @@ final webRouter = GoRouter(
                         );
                       },
                     ),
-                    redirect: (BuildContext context, GoRouterState state) {
-                      final FirebaseAuth auth = FirebaseAuth.instance;
-                      if (auth.currentUser == null) {
-                        return routeNameMap[RouteName.start]!;
-                      } else {
-                        return null;
-                      }
-                    },
+                    // redirect: (BuildContext context, GoRouterState state) {
+                    //   final FirebaseAuth auth = FirebaseAuth.instance;
+                    //   if (auth.currentUser == null) {
+                    //     return routeNameMap[RouteName.start]!;
+                    //   } else {
+                    //     return null;
+                    //   }
+                    // },
                   ),
                   GoRoute(
                     path: '${routeNameMap[RouteName.albumDetail]!}:id',

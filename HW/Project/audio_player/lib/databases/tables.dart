@@ -99,3 +99,11 @@ class MusicGenres extends Table {
   @override
   Set<Column> get primaryKey => {id};
 }
+
+class MyMusicFolders extends Table {
+  TextColumn get name => text()();
+  TextColumn get image => text()();
+
+  @override
+  Set<Column> get primaryKey => {name};
+}

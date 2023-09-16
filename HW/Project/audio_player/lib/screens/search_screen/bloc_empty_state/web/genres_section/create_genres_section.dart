@@ -131,7 +131,7 @@ class _CreateGenresListContent extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: AppFonts.colombia.font,
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w900,
                         color: Colors.white),
                     textAlign: TextAlign.center,
                     maxLines: 3,

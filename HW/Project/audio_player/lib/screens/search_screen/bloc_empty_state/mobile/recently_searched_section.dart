@@ -44,7 +44,7 @@ class MobileRecentlySearchedSection extends StatelessWidget {
             AppLocalizations.of(context)!.clearAll,
             style: TextStyle(
                 color: AppColors.white.color,
-                fontSize: 20,
+                fontSize: 13,
                 fontFamily: AppFonts.colombia.font,
                 fontWeight: FontWeight.w700),
           ),

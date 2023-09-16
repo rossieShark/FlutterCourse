@@ -30,7 +30,7 @@ class _CreateSliderSectionState extends State<CreateSliderSection> {
             style: TextStyle(
                 fontFamily: AppFonts.colombia.font,
                 fontSize: 15,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: Colors.white)),
         SizedBox(
           width: widget.width,

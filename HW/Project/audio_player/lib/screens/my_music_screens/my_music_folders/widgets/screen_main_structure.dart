@@ -65,7 +65,7 @@ class FavoriteBody extends StatelessWidget {
             AppLocalizations.of(context)!.noMusicState,
             style: TextStyle(
                 color: AppColors.white.color,
-                fontSize: 20,
+                fontSize: 18,
                 fontFamily: AppFonts.colombia.font,
                 fontWeight: FontWeight.w700),
           ))

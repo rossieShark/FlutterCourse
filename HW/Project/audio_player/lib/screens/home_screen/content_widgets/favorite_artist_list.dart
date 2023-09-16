@@ -108,9 +108,9 @@ class _CreateListViewState extends State<CreateListView> {
                       height: 5,
                     ),
                     ResponsiveBuilder(
-                        narrow: 16.0,
-                        medium: 18.0,
-                        large: 18.0,
+                        narrow: 13.0,
+                        medium: 14.0,
+                        large: 14.0,
                         builder: (context, child, size) {
                           return Text(
                             TextModifierService().removeTextAfter(

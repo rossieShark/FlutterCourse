@@ -1,10 +1,12 @@
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/my_music_folders.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/models/favorite_folder_model.dart';
 import 'package:audio_player/screens/my_music_screens/new_folder.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/user_info_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -38,21 +40,35 @@ class _MyMusicPageState extends State<MyMusicPage> {
             onPressed: () {}),
         actions: [
           IconButtonWidget(
-              iconData: Icons.add,
-              color: AppColors.accent.color,
-              onPressed: () {
-                showCupertinoModalPopup(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      const ImagePickerActionSheet(),
-                );
-              })
+            iconData: Icons.add,
+            color: AppColors.accent.color,
+            onPressed: () => showBarModalBottomSheet(
+              // Use the alias here
+              expand: true,
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (context) => const NewFolder(),
+            ),
+          )
         ],
       ),
       body: PlatformBuilder(
-          web: const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-            child: _MyFavoriteListView(),
+          web: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: _MyFavoriteListView(),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Consumer<MyMusicFoldersProvider>(
+                    builder: (context, folders, child) {
+                  return _NewFoldersList(
+                    folders: folders.folders,
+                  );
+                }),
+              ),
+            ],
           ),
           other: Column(
             children: [
@@ -68,6 +84,15 @@ class _MyMusicPageState extends State<MyMusicPage> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                 child: _MyFavoriteListView(),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Consumer<MyMusicFoldersProvider>(
+                    builder: (context, folders, child) {
+                  return _NewFoldersList(
+                    folders: folders.folders,
+                  );
+                }),
               ),
             ],
           ),
@@ -85,12 +110,13 @@ class _MyFavoriteListView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<FavoriteFolder> folders = initializeFolders(context);
     return SizedBox(
-      height: 70 * folders.length.toDouble(),
+      height: 60 * folders.length.toDouble(),
       child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: folders.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
+            List<FavoriteFolder> folders = initializeFolders(context);
             return GestureDetector(
               onTap: () {
                 if (index == 0) {
@@ -101,7 +127,7 @@ class _MyFavoriteListView extends StatelessWidget {
                       .push('/${routeNameMap[RouteName.favoriteTracks]!}');
                 }
               },
-              child: _FavouritefoldersCard(index: index),
+              child: _FavouritefoldersCard(index: index, folders: folders),
             );
           }),
     );
@@ -109,125 +135,79 @@ class _MyFavoriteListView extends StatelessWidget {
 }
 
 class _FavouritefoldersCard extends StatelessWidget {
-  const _FavouritefoldersCard({required this.index});
+  const _FavouritefoldersCard({required this.index, required this.folders});
   final int index;
+  final List<FavoriteFolder> folders;
   @override
   Widget build(BuildContext context) {
-    List<FavoriteFolder> folders = initializeFolders(context);
-    return SizedBox(
-      height: 70,
-      width: MediaQuery.of(context).size.width - 32,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: folders[index].image),
-            ),
-            Text(
-              folders[index].title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: AppFonts.lusitana.font,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        folders[index].iconButton
-      ]),
-    );
+    return HoverableWidget(builder: (context, child, isHovered) {
+      return SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width - 32,
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: Image.asset(folders[index].image,
+                            fit: BoxFit.cover))),
+              ),
+              Text(
+                folders[index].title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: AppFonts.lusitana.font,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ]),
+      );
+    });
   }
 }
 
 List<FavoriteFolder> initializeFolders(BuildContext context) {
   return [
     FavoriteFolder(
-        image: Icon(
-          Icons.album,
-          color: AppColors.white.color,
-        ),
-        title: AppLocalizations.of(context)!.playlist,
-        iconButton: IconButtonWidget(
-          iconData: Icons.arrow_forward_ios,
-          color: AppColors.white.color,
-          onPressed: () {},
-        )),
+      image: imagesMap[Images.album]!,
+      title: AppLocalizations.of(context)!.albumsFolder,
+    ),
     FavoriteFolder(
-      image: Icon(Icons.music_note, color: AppColors.white.color),
+      image: imagesMap[Images.track]!,
       title: AppLocalizations.of(context)!.tracksFolder,
-      iconButton: IconButtonWidget(
-        iconData: Icons.arrow_forward_ios,
-        color: AppColors.white.color,
-        onPressed: () {},
-      ),
     ),
   ];
 }
 
-class ImagePickerActionSheet extends StatelessWidget {
-  const ImagePickerActionSheet({super.key});
+class _NewFoldersList extends StatelessWidget {
+  final List<FavoriteFolder> folders;
+  const _NewFoldersList({required this.folders});
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoActionSheet(
-      actions: <Widget>[
-        Container(
-          color: const Color.fromARGB(255, 55, 54, 54),
-          child: CupertinoActionSheetAction(
-            isDefaultAction: true,
-            child: Row(
-              children: [
-                Icon(Icons.library_music, color: AppColors.white.color),
-                Text(
-                  ' ${AppLocalizations.of(context)!.playlist}',
-                  style: TextStyle(
-                      color: AppColors.white.color,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            onPressed: () => showBarModalBottomSheet(
-              // Use the alias here
-              expand: true,
-              context: context,
-              backgroundColor: Colors.transparent,
-              builder: (context) => const NewFolder(),
-            ),
-          ),
-        ),
-        Container(
-          color: const Color.fromARGB(255, 55, 54, 54),
-          child: CupertinoActionSheetAction(
-            child: Row(
-              children: [
-                Icon(Icons.art_track, color: AppColors.white.color),
-                Text(
-                  ' ${AppLocalizations.of(context)!.artist}',
-                  style: TextStyle(
-                      color: AppColors.white.color,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            onPressed: () {},
-          ),
-        ),
-      ],
-      // cancelButton: CupertinoActionSheetAction(
-      //   child: Text(
-      //     'Cancel',
-      //     style: TextStyle(
-      //         color: AppColors.accent.color,
-      //         fontSize: 16,
-      //         fontWeight: FontWeight.w600),
-      //   ),
-      //   onPressed: () => Navigator.of(context).pop(),
-      // ),
-    );
+    return HoverableWidget(builder: (context, child, isHovered) {
+      print(folders.length);
+      return SizedBox(
+        height: 60 * folders.length.toDouble(),
+        child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: folders.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {},
+                child: _FavouritefoldersCard(index: index, folders: folders),
+              );
+            }),
+      );
+    });
   }
 }
