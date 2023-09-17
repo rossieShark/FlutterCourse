@@ -18,6 +18,7 @@ class AlbumData with _$AlbumData {
       {required int id,
       required String title,
       required String type,
+      required String preview,
       required AlbumDataArtist artist}) = _AlbumData;
 
   factory AlbumData.fromJson(Map<String, Object?> json) =>

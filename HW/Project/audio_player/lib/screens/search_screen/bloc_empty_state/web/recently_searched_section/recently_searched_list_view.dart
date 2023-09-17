@@ -1,7 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/models/models.dart';
-
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
@@ -186,15 +184,33 @@ class _CreateButtonsLayer extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CreatePlayButton(
-                  onPressed: () {},
-                  id: int.parse(
-                    song.id,
-                  ),
+                  onPressed: () {
+                    Provider.of<RecentlyPlayedIdProvider>(context,
+                            listen: false)
+                        .setId(song.id);
+                    if (musicProvider.isSongPlaying(int.parse(song.id))) {
+                      if (musicProvider.isPlaying) {
+                        musicProvider.pause();
+                      } else {
+                        musicProvider.play(musicProvider.playlist[0].preview);
+                      }
+                    } else {
+                      musicProvider.clearPlaylist();
+
+                      musicProvider.addSong(PlayedSong(
+                          id: int.parse(song.id), preview: song.preview));
+                      musicProvider.play(musicProvider.playlist[0].preview);
+                      musicProvider.currentSongId = int.parse(song.id);
+                    }
+                    musicProvider.musicCompleted();
+                  },
+            
                   size: 35,
-                  icon: musicProvider.isPlaying
-                      ? Icon(Icons.pause)
-                      : Icon(Icons.play_arrow),
-                  iconColor: AppColors.white.color,
+                  icon: (musicProvider.isPlaying &&
+                          musicProvider.isSongInPlaylist(int.parse(song.id)))
+                      ? Icon(Icons.pause, color: AppColors.black.color)
+                      : Icon(Icons.play_arrow, color: AppColors.black.color),
+
                   containerColor: AppColors.accent.color,
                 ),
               )

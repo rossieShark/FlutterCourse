@@ -24,6 +24,7 @@ class FavoriteProvider extends ChangeNotifier {
     notifyListeners();
     await _database.insertFavoriteSong(
       FavoriteSong(
+        preview: detailSong.preview,
         type: detailSong.type,
         id: int.parse(detailSong.id),
         title: detailSong.title,
@@ -75,6 +76,7 @@ class FavoriteProvider extends ChangeNotifier {
     notifyListeners();
     await _database.insertFavoritAlbum(
       FavoriteAlbum(
+          preview: detailSong.preview,
           type: detailSong.type,
           id: int.parse(detailSong.id),
           title: detailSong.title,
@@ -94,6 +96,7 @@ class FavoriteProvider extends ChangeNotifier {
     final loadedFavoriteSongs = favoriteSongs
         .map(
           (favoriteSong) => SongModel(
+            preview: favoriteSong.preview,
             type: favoriteSong.type,
             id: favoriteSong.id.toString(),
             title: favoriteSong.title,
@@ -109,6 +112,7 @@ class FavoriteProvider extends ChangeNotifier {
     final loadedFavoriteAlbums = favoriteAlbums
         .map(
           (favoriteAlbum) => SongModel(
+            preview: favoriteAlbum.preview,
             type: favoriteAlbum.type,
             id: favoriteAlbum.id.toString(),
             title: favoriteAlbum.title,

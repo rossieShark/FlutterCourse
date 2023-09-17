@@ -27,3 +27,5 @@ export 'package:audio_player/app_logic/blocs/genres_bloc/genres_state.dart';
 export 'package:audio_player/screens/search_screen/bloc_loaded_state/search_result_list.dart';
 export 'package:audio_player/app_logic/providers/web_detail_music_provider.dart';
 export 'package:audio_player/app_logic/providers/language_provider.dart';
+export 'package:audio_player/app_logic/providers/my_music_folders.dart';
+export 'package:audio_player/app_logic/providers/audio_player_service.dart';

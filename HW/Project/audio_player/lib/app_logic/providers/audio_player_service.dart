@@ -1,66 +1,113 @@
+import 'package:audio_player/models/played_song_model.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class MusicProvider with ChangeNotifier {
-  List<String> playlist = [];
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  bool _isPlaying = false;
+  List<PlayedSong> playlist = [];
+  final AudioPlayer audioPlayer = AudioPlayer();
 
-  int _currentSongIndex = 0;
-
-  bool get isPlaying => _isPlaying;
+  int _currentSongIndex = -1;
+  int _currentSongId = -1;
   int get currentSongIndex => _currentSongIndex;
+  int get currentSongId => _currentSongId;
+  bool get isPlaying => audioPlayer.state == PlayerState.playing;
 
-  void addSong(String song) {
+  set currentSongId(int songId) {
+    _currentSongId = songId;
+    notifyListeners();
+  }
+
+  void addSong(PlayedSong song) {
     playlist.add(song);
     notifyListeners();
   }
 
-  void addMultipleSongs(List<String> songs) {
+  void addMultipleSongs(List<PlayedSong> songs) {
     playlist.addAll(songs);
     notifyListeners();
   }
 
   void clearPlaylist() {
     playlist.clear();
-    _currentSongIndex = 0;
+    _currentSongId = -1;
+    _currentSongIndex = -1;
     notifyListeners();
   }
 
   void play(String url) async {
-    await _audioPlayer.play(UrlSource(url));
-    _isPlaying = true;
+    await audioPlayer.play(UrlSource(url));
+
     notifyListeners();
   }
 
   void pause() {
-    _audioPlayer.pause();
-    _isPlaying = false;
+    audioPlayer.pause();
     notifyListeners();
   }
 
   void stop() {
-    _audioPlayer.stop();
-    _isPlaying = false;
+    audioPlayer.stop();
+
     notifyListeners();
+  }
+
+  void musicCompleted() {
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (state == PlayerState.completed) {
+        audioPlayer.stop();
+      }
+    });
+  }
+
+  void automaticPlay(int i, int length, int id, int nullId) {
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (state == PlayerState.completed) {
+        if (i + 1 < length) {
+          i++; 
+          play(playlist[i].preview);
+          currentSongId = id;
+          _currentSongIndex = i;
+        } else {
+          play(playlist[0].preview);
+          currentSongId = nullId;
+          _currentSongIndex = 0;
+        }
+      }
+    });
   }
 
   void playNext() {
     if (_currentSongIndex < playlist.length - 1) {
       _currentSongIndex++;
-      play(playlist[_currentSongIndex]);
+      play(playlist[_currentSongIndex].preview);
+    } else {
+      _currentSongIndex = 0;
+      play(playlist[_currentSongIndex].preview);
     }
   }
 
   void playPrevious() {
     if (_currentSongIndex > 0) {
       _currentSongIndex--;
-      play(playlist[_currentSongIndex]);
+      play(playlist[_currentSongIndex].preview);
+    } else {
+      _currentSongIndex = playlist.length - 1;
+      play(playlist[_currentSongIndex].preview);
     }
   }
 
+
+  bool isSongInPlaylist(int songId) {
+    return playlist.any((song) => song.id == songId);
+  }
+
+  bool isSongPlaying(int songId) {
+    return _currentSongId == songId;
+  }
+
+  @override
   void dispose() {
-    _audioPlayer.dispose();
+    audioPlayer.dispose();
     super.dispose();
   }
 }

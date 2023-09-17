@@ -1,7 +1,7 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/models/played_song_model.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
-
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -72,6 +72,7 @@ class _CreateListViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return ResponsiveBuilder(
       narrow: 40.0,
       medium: 60.0,
@@ -113,15 +114,44 @@ class _CreateListViewContent extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           )
-                        : IconButtonWidget(
+                        : CreatePlayButton(
+                            icon: musicProvider.isPlaying &&
+                                    musicProvider
+                                        .isSongInPlaylist(songList[index].id)
+                                ? Icon(Icons.pause,
+                                    color: AppColors.white.color)
+                                : Icon(Icons.play_arrow,
+                                    color: AppColors.white.color),
+                            size: 30,
+                     
+
+                            containerColor: Colors.transparent,
                             onPressed: () {
-                              final id = songList[index].id;
                               Provider.of<RecentlyPlayedIdProvider>(context,
                                       listen: false)
-                                  .setId(id.toString());
+                                  .setId(songList[index].id.toString());
+                              if (musicProvider
+                                  .isSongPlaying(songList[index].id)) {
+                                if (musicProvider.isPlaying) {
+                                  musicProvider.pause();
+                                } else {
+                                  musicProvider
+                                      .play(musicProvider.playlist[0].preview);
+                                }
+                              } else {
+                                musicProvider.clearPlaylist();
+
+                                musicProvider.addSong(PlayedSong(
+                                    id: songList[index].id,
+                                    preview: songList[index].preview));
+                                musicProvider
+                                    .play(musicProvider.playlist[0].preview);
+                                musicProvider.currentSongId =
+                                    songList[index].id;
+                              }
+                              musicProvider.musicCompleted();
                             },
-                            color: AppColors.white.color,
-                            iconData: Icons.play_arrow),
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -158,6 +188,7 @@ class _CreateManageButtons extends StatelessWidget {
     return Row(
       children: [
         LikeButtonWidget(
+            preview: songList[index].preview,
             id: songList[index].id.toString(),
             artistNames: songList[index].artistNames,
             title: songList[index].title,

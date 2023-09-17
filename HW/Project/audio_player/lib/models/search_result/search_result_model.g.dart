@@ -25,6 +25,7 @@ _$_SearchData _$$_SearchDataFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int,
       title: json['title'] as String,
       type: json['type'] as String,
+      preview: json['preview'] as String,
       artist: SearchDataArtist.fromJson(json['artist'] as Map<String, dynamic>),
     );
 
@@ -33,6 +34,7 @@ Map<String, dynamic> _$$_SearchDataToJson(_$_SearchData instance) =>
       'id': instance.id,
       'title': instance.title,
       'type': instance.type,
+      'preview': instance.preview,
       'artist': instance.artist,
     };
 

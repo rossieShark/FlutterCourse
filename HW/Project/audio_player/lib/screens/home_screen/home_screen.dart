@@ -1,8 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/screens/home_screen/home_screen_index.dart';
-
 import 'package:audio_player/screens/tab_bar/index.dart';
-import 'package:audio_player/widgets/user_info_widget.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

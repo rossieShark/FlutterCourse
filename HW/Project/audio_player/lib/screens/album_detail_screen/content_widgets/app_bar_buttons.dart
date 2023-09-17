@@ -1,5 +1,4 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -44,12 +43,44 @@ class CreatePlayButtonSection extends StatelessWidget {
                   large: 60.0,
                   builder: (context, child, height) {
                     return CreatePlayButton(
+                      onPressed: () {
+                        Provider.of<RecentlyPlayedIdProvider>(context,
+                                listen: false)
+                            .setId(songList[0].id.toString());
+
+                        if (musicProvider.isPlaying) {
+                          musicProvider.pause();
+                        } else {
+                          musicProvider.clearPlaylist();
+                          musicProvider.addSong(PlayedSong(
+                            id: songList[0].id,
+                            preview: songList[0].preview,
+                          ));
+                          musicProvider.play(musicProvider.playlist[0].preview);
+                          for (int i = 1; i < songList.length; i++) {
+                            musicProvider.addSong(PlayedSong(
+                              id: songList[i].id,
+                              preview: songList[i].preview,
+                            ));
+                            print(musicProvider.playlist.length);
+                          }
+                          for (int i = 0; i < songList.length; i++) {
+                
+                            if (i == 0) {
+                              musicProvider
+                                  .play(musicProvider.playlist[1].preview);
+                              musicProvider.currentSongId = songList[1].id;
+                            }
+                            musicProvider.automaticPlay(i, songList.length,
+                                songList[i].id, songList[1].id);
+                          }
+                        }
+                      },
                       icon: musicProvider.isPlaying
-                          ? Icon(Icons.pause)
-                          : Icon(Icons.play_arrow),
-                      id: songList[0].id,
+                          ? Icon(Icons.pause, color: AppColors.black.color)
+                          : Icon(Icons.play_arrow,
+                              color: AppColors.black.color),
                       size: height,
-                      iconColor: AppColors.black.color,
                       containerColor: AppColors.white.color,
                     );
                   }),
@@ -149,6 +180,7 @@ class _LikeButtonWidgetState extends State<_LikeButtonWidget> {
             onPressed: () {
               _toggleFavorite();
               final songInfoModel = SongModel(
+                preview: songs[0].preview,
                 type: 'album',
                 id: widget.param,
                 artistNames: songs[0].title,

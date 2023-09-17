@@ -24,6 +24,7 @@ _$_AlbumData _$$_AlbumDataFromJson(Map<String, dynamic> json) => _$_AlbumData(
       id: json['id'] as int,
       title: json['title'] as String,
       type: json['type'] as String,
+      preview: json['preview'] as String,
       artist: AlbumDataArtist.fromJson(json['artist'] as Map<String, dynamic>),
     );
 
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$_AlbumDataToJson(_$_AlbumData instance) =>
       'id': instance.id,
       'title': instance.title,
       'type': instance.type,
+      'preview': instance.preview,
       'artist': instance.artist,
     };
 

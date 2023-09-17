@@ -11,10 +11,10 @@ class SongDetailRepository {
     try {
       final int songId = int.parse(id);
 
-      // Try to get detailed song info from the database
+
       final detailSong = await _database.watchDetailSongById(songId).first;
 
-      // If detailSong is not found in the database, fetch it from the API and save it to the database
+
       if (detailSong == null) {
         try {
           final apiResponse = await _songDetailsService.getDetailSongs(id);
@@ -30,25 +30,25 @@ class SongDetailRepository {
               imageUrl: albumAppearances?.contributors[0].image ?? '',
             );
 
-            // Insert the detail song into the database
+  
             await _database.insertDetailSong(detailSongToInsert);
 
             return detailSongToInsert;
           } else {
-            // Handle API request failure here
+       
             print('API request failed: ${apiResponse.error}');
             return null;
           }
         } catch (apiException) {
-          // Handle exceptions related to the API request here
+ 
           print('API request error: $apiException');
           return null;
         }
       }
 
-      return detailSong; // Return from the database or the newly inserted data
+      return detailSong;
     } catch (e) {
-      // Handle exceptions related to parsing or database access here
+
       print('Error: $e');
       return null;
     }

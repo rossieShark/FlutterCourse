@@ -11,8 +11,8 @@ class CreateSongTitle extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.maxLines = 1,
-    this.fontSize = 16,
-    this.minFontSize = 16,
+    this.fontSize = 13,
+    this.minFontSize = 13,
   }) : super(key: key);
 
   final String? artistName;
@@ -38,7 +38,7 @@ class CreateSongTitle extends StatelessWidget {
                 color: AppColors.white.color,
                 fontSize: fontSize,
                 fontFamily: AppFonts.lusitana.font,
-                fontWeight: FontWeight.w400),
+                fontWeight: FontWeight.w600),
             maxFontSize: minFontSize,
             overflow: TextOverflow.ellipsis,
             maxLines: maxLines,

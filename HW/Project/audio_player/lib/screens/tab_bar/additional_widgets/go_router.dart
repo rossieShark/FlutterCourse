@@ -217,14 +217,7 @@ final webRouter = GoRouter(
                         );
                       },
                     ),
-                    // redirect: (BuildContext context, GoRouterState state) {
-                    //   final FirebaseAuth auth = FirebaseAuth.instance;
-                    //   if (auth.currentUser == null) {
-                    //     return routeNameMap[RouteName.start]!;
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+    
                   ),
                   GoRoute(
                     path: '${routeNameMap[RouteName.albumDetail]!}:id',

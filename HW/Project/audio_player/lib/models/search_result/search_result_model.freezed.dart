@@ -169,6 +169,7 @@ mixin _$SearchData {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  String get preview => throw _privateConstructorUsedError;
   SearchDataArtist get artist => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -183,7 +184,12 @@ abstract class $SearchDataCopyWith<$Res> {
           SearchData value, $Res Function(SearchData) then) =
       _$SearchDataCopyWithImpl<$Res, SearchData>;
   @useResult
-  $Res call({int id, String title, String type, SearchDataArtist artist});
+  $Res call(
+      {int id,
+      String title,
+      String type,
+      String preview,
+      SearchDataArtist artist});
 
   $SearchDataArtistCopyWith<$Res> get artist;
 }
@@ -204,6 +210,7 @@ class _$SearchDataCopyWithImpl<$Res, $Val extends SearchData>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? preview = null,
     Object? artist = null,
   }) {
     return _then(_value.copyWith(
@@ -218,6 +225,10 @@ class _$SearchDataCopyWithImpl<$Res, $Val extends SearchData>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
               as String,
       artist: null == artist
           ? _value.artist
@@ -243,7 +254,12 @@ abstract class _$$_SearchDataCopyWith<$Res>
       __$$_SearchDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String type, SearchDataArtist artist});
+  $Res call(
+      {int id,
+      String title,
+      String type,
+      String preview,
+      SearchDataArtist artist});
 
   @override
   $SearchDataArtistCopyWith<$Res> get artist;
@@ -263,6 +279,7 @@ class __$$_SearchDataCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? preview = null,
     Object? artist = null,
   }) {
     return _then(_$_SearchData(
@@ -277,6 +294,10 @@ class __$$_SearchDataCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
               as String,
       artist: null == artist
           ? _value.artist
@@ -293,6 +314,7 @@ class _$_SearchData implements _SearchData {
       {required this.id,
       required this.title,
       required this.type,
+      required this.preview,
       required this.artist});
 
   factory _$_SearchData.fromJson(Map<String, dynamic> json) =>
@@ -305,11 +327,13 @@ class _$_SearchData implements _SearchData {
   @override
   final String type;
   @override
+  final String preview;
+  @override
   final SearchDataArtist artist;
 
   @override
   String toString() {
-    return 'SearchData(id: $id, title: $title, type: $type, artist: $artist)';
+    return 'SearchData(id: $id, title: $title, type: $type, preview: $preview, artist: $artist)';
   }
 
   @override
@@ -320,12 +344,14 @@ class _$_SearchData implements _SearchData {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.preview, preview) || other.preview == preview) &&
             (identical(other.artist, artist) || other.artist == artist));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, type, artist);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, type, preview, artist);
 
   @JsonKey(ignore: true)
   @override
@@ -346,6 +372,7 @@ abstract class _SearchData implements SearchData {
       {required final int id,
       required final String title,
       required final String type,
+      required final String preview,
       required final SearchDataArtist artist}) = _$_SearchData;
 
   factory _SearchData.fromJson(Map<String, dynamic> json) =
@@ -357,6 +384,8 @@ abstract class _SearchData implements SearchData {
   String get title;
   @override
   String get type;
+  @override
+  String get preview;
   @override
   SearchDataArtist get artist;
   @override

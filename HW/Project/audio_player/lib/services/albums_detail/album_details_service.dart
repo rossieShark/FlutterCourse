@@ -20,6 +20,7 @@ class AlbumDetailsRepository {
 
       final detailAlbumsToInsert = albumAppearances.map((albumData) {
         return DetailAlbum(
+            preview: albumData.preview,
             type: albumData.type,
             albumid: int.parse(albumId),
             artistNames: albumData.artist.name,

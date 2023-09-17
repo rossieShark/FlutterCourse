@@ -1,20 +1,16 @@
-import 'package:audio_player/app_logic/providers/web_detail_music_provider.dart';
 import 'package:audio_player/widgets/responsive_widgets/hovered_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CreatePlayButton extends StatefulWidget {
   const CreatePlayButton(
       {super.key,
       required this.size,
-      required this.id,
       this.onPressed,
-      required this.iconColor,
       required this.containerColor,
       required this.icon});
-  final Color iconColor;
+
   final Color containerColor;
-  final int id;
+
   final VoidCallback? onPressed;
   final double size;
   final Icon icon;
@@ -41,8 +37,6 @@ class _CreatePlayButtonState extends State<CreatePlayButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
-            .setId(widget.id.toString());
         if (widget.onPressed != null) {
           widget.onPressed!();
         }

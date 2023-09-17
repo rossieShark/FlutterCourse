@@ -14,7 +14,7 @@ class ImagePickerService {
     uploadInput.click();
 
     final completer =
-        Completer<String?>(); // Create a completer to handle the future result
+        Completer<String?>(); 
 
     uploadInput.onChange.listen((event) async {
       final files = uploadInput.files;
@@ -34,22 +34,21 @@ class ImagePickerService {
           await ref.putData(bytesData);
           final imageUrl = await ref.getDownloadURL();
           completer
-              .complete(imageUrl); // Resolve the completer with the imageUrl
+              .complete(imageUrl); 
         } catch (e) {
           print('Error uploading image: $e');
-          completer.completeError(e); // Reject the completer with an error
+          completer.completeError(e); 
         }
       });
 
       reader.readAsDataUrl(file);
     });
 
-    return completer.future; // Return the future from the completer
+    return completer.future; 
   }
 
   Future<String?> pickImageFromCamera() {
-    // Implement camera image picking for web (if applicable)
-    // This may involve using additional libraries or plugins
-    return Future.value(null); // Placeholder
+  
+    return Future.value(null); 
   }
 }

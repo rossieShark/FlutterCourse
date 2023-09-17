@@ -9,14 +9,16 @@ class LikeButtonWidget extends StatefulWidget {
   final String artistNames;
   final String title;
   final String image;
+  final String preview;
 
-  const LikeButtonWidget({
-    Key? key,
-    required this.id,
-    required this.artistNames,
-    required this.title,
-    required this.image,
-  }) : super(key: key);
+  const LikeButtonWidget(
+      {Key? key,
+      required this.id,
+      required this.artistNames,
+      required this.title,
+      required this.image,
+      required this.preview})
+      : super(key: key);
 
   @override
   State<LikeButtonWidget> createState() => _LikeButtonWidgetState();
@@ -54,15 +56,12 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
-        // if (state is FavoriteSongUpdatedState) {
-        //   isFavorite = state.isFavorite;
-        //   print(isFavorite);
-        // }
 
         return LikeButton(
             onPressed: () {
               _toggleFavorite();
               final songInfoModel = SongModel(
+                preview: widget.preview,
                 type: "track",
                 id: widget.id,
                 artistNames: widget.artistNames,

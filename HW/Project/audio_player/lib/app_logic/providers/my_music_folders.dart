@@ -17,7 +17,6 @@ class MyMusicFoldersProvider extends ChangeNotifier {
         image: folder.image,
       ),
     );
-    notifyListeners();
   }
 
   bool doesFolderExist(String folderTitle) {

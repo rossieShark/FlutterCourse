@@ -4,11 +4,13 @@ class SongModel {
   final String artistNames;
   final String image;
   final String type;
+  final String preview;
 
   SongModel(
       {required this.id,
       required this.title,
       required this.artistNames,
       required this.image,
-      required this.type});
+      required this.type,
+      required this.preview});
 }

@@ -1,8 +1,10 @@
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
 class CreateSliderSection extends StatefulWidget {
   final double width;
+
   const CreateSliderSection({super.key, required this.width});
 
   @override
@@ -10,26 +12,42 @@ class CreateSliderSection extends StatefulWidget {
 }
 
 class _CreateSliderSectionState extends State<CreateSliderSection> {
-  late double _sliderValue;
-  late String _formattedDuration;
-  late Duration _audioDuration;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+  String formatTime(int seconds) {
+    return '${(Duration(seconds: seconds))}'.split('.')[0].padLeft(8, '0');
+  }
+
   @override
   void initState() {
     super.initState();
-    _formattedDuration = '00:00';
-    _sliderValue = 0.0;
-    _audioDuration = const Duration(seconds: 15);
+
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
+    musicProvider.audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+
+    musicProvider.audioPlayer.onPositionChanged.listen((newPosition) {
+      setState(() {
+        position = newPosition;
+      });
+    });
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(_formattedDuration,
+        Text(formatTime(position.inSeconds),
             style: TextStyle(
                 fontFamily: AppFonts.colombia.font,
-                fontSize: 15,
+                fontSize: 11,
                 fontWeight: FontWeight.w400,
                 color: Colors.white)),
         SizedBox(
@@ -38,25 +56,23 @@ class _CreateSliderSectionState extends State<CreateSliderSection> {
             activeColor: const Color.fromARGB(255, 72, 72, 72),
             inactiveColor: AppColors.black.color,
             thumbColor: AppColors.accent.color,
-            value: _sliderValue,
+            value: position.inSeconds.toDouble(),
             min: 0.0,
-            max: _audioDuration.inMilliseconds.toDouble(),
-            onChanged: (newValue) {
+            max: duration.inSeconds.toDouble(),
+            onChanged: (value) {
               setState(() {
-                setState(() {
-                  _sliderValue = newValue;
-                  _formattedDuration =
-                      SliderFormatter().sliderValueFormatDuration(_sliderValue);
-                });
+                final position = Duration(seconds: value.toInt());
+                musicProvider.audioPlayer.seek(position);
+                musicProvider.audioPlayer.resume();
               });
             },
             onChangeEnd: (newValue) {},
           ),
         ),
-        Text(SliderFormatter().sliderFormatDuration(_audioDuration),
+        Text(formatTime((duration - position).inSeconds),
             style: TextStyle(
                 fontFamily: AppFonts.colombia.font,
-                fontSize: 15,
+                fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: Colors.white))
       ],

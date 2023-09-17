@@ -168,6 +168,7 @@ mixin _$AlbumData {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  String get preview => throw _privateConstructorUsedError;
   AlbumDataArtist get artist => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -181,7 +182,12 @@ abstract class $AlbumDataCopyWith<$Res> {
   factory $AlbumDataCopyWith(AlbumData value, $Res Function(AlbumData) then) =
       _$AlbumDataCopyWithImpl<$Res, AlbumData>;
   @useResult
-  $Res call({int id, String title, String type, AlbumDataArtist artist});
+  $Res call(
+      {int id,
+      String title,
+      String type,
+      String preview,
+      AlbumDataArtist artist});
 
   $AlbumDataArtistCopyWith<$Res> get artist;
 }
@@ -202,6 +208,7 @@ class _$AlbumDataCopyWithImpl<$Res, $Val extends AlbumData>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? preview = null,
     Object? artist = null,
   }) {
     return _then(_value.copyWith(
@@ -216,6 +223,10 @@ class _$AlbumDataCopyWithImpl<$Res, $Val extends AlbumData>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
               as String,
       artist: null == artist
           ? _value.artist
@@ -240,7 +251,12 @@ abstract class _$$_AlbumDataCopyWith<$Res> implements $AlbumDataCopyWith<$Res> {
       __$$_AlbumDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String type, AlbumDataArtist artist});
+  $Res call(
+      {int id,
+      String title,
+      String type,
+      String preview,
+      AlbumDataArtist artist});
 
   @override
   $AlbumDataArtistCopyWith<$Res> get artist;
@@ -260,6 +276,7 @@ class __$$_AlbumDataCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? type = null,
+    Object? preview = null,
     Object? artist = null,
   }) {
     return _then(_$_AlbumData(
@@ -274,6 +291,10 @@ class __$$_AlbumDataCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
               as String,
       artist: null == artist
           ? _value.artist
@@ -290,6 +311,7 @@ class _$_AlbumData implements _AlbumData {
       {required this.id,
       required this.title,
       required this.type,
+      required this.preview,
       required this.artist});
 
   factory _$_AlbumData.fromJson(Map<String, dynamic> json) =>
@@ -302,11 +324,13 @@ class _$_AlbumData implements _AlbumData {
   @override
   final String type;
   @override
+  final String preview;
+  @override
   final AlbumDataArtist artist;
 
   @override
   String toString() {
-    return 'AlbumData(id: $id, title: $title, type: $type, artist: $artist)';
+    return 'AlbumData(id: $id, title: $title, type: $type, preview: $preview, artist: $artist)';
   }
 
   @override
@@ -317,12 +341,14 @@ class _$_AlbumData implements _AlbumData {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.preview, preview) || other.preview == preview) &&
             (identical(other.artist, artist) || other.artist == artist));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, type, artist);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, type, preview, artist);
 
   @JsonKey(ignore: true)
   @override
@@ -343,6 +369,7 @@ abstract class _AlbumData implements AlbumData {
       {required final int id,
       required final String title,
       required final String type,
+      required final String preview,
       required final AlbumDataArtist artist}) = _$_AlbumData;
 
   factory _AlbumData.fromJson(Map<String, dynamic> json) =
@@ -354,6 +381,8 @@ abstract class _AlbumData implements AlbumData {
   String get title;
   @override
   String get type;
+  @override
+  String get preview;
   @override
   AlbumDataArtist get artist;
   @override

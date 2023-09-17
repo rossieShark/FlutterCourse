@@ -1,8 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/app_logic/providers/my_music_folders.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:audio_player/models/favorite_folder_model.dart';
-
+import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +32,7 @@ class _NewFolderState extends State<NewFolder> {
   @override
   Widget build(BuildContext context) {
     final folders = Provider.of<MyMusicFoldersProvider>(context);
-    // List<FavoriteFolder> folders = initializeFolders(context);
+
     return Scaffold(
         backgroundColor: AppColors.background.color,
         body: SingleChildScrollView(
@@ -85,7 +83,7 @@ class _NewFolderState extends State<NewFolder> {
                               !folders
                                   .doesFolderExist(_newFolderTextField.text)) {
                             setState(() {
-                              folders.folders.add(FavoriteFolder(
+                              folders.addToFolders(FavoriteFolder(
                                 image: imagesMap[Images.playlist]!,
                                 title: _newFolderTextField.text,
                               ));
@@ -133,7 +131,6 @@ class _CreateChangeNameTextField extends StatelessWidget {
           bottom: BorderSide(width: 1, color: AppColors.white.color),
         ),
       ),
-      // placeholder: AppLocalizations.of(context)!.newPlaylistHintName,
       placeholderStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       textAlign: TextAlign.center,
       style: TextStyle(color: AppColors.white.color, fontSize: 18),

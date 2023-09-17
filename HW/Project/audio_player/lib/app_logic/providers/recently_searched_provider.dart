@@ -14,6 +14,7 @@ class RecentlySearchedProvider extends ChangeNotifier {
     notifyListeners();
     await _database.insertRecentlySearched(
       RecentlySearchedSong(
+        preview: detailSong.preview,
         type: detailSong.type,
         id: int.parse(detailSong.id),
         title: detailSong.title,
@@ -40,6 +41,7 @@ class RecentlySearchedProvider extends ChangeNotifier {
     final loadedRecentlySearchedSongs = recentlySearchedSongs
         .map(
           (favoriteSong) => SongModel(
+            preview: favoriteSong.preview,
             type: favoriteSong.type,
             id: favoriteSong.id.toString(),
             title: favoriteSong.title,

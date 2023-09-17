@@ -77,6 +77,6 @@ class SetGetItDependencies {
   void setupPermissionDependencies() {
     GetIt.instance.registerSingleton<PermissionService>(
         PermissionHandlerPermissionService());
-    // GetIt.instance.registerSingleton<MediaServiceInterface>(MediaService());
+
   }
 }

@@ -133,8 +133,7 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                                             ),
                                             onPressed: () {
                                               pickAndUploadImage();
-                                              // ImagePickerService()
-                                              //     .pickImageFromGallery();
+                                      
                                             }),
                                         CupertinoActionSheetAction(
                                           child: Row(
@@ -226,30 +225,6 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
       await _user?.updateDisplayName(_userNameTextController.text);
     }
   }
-
-  // Future<void> pickImage() async {
-  //   try {
-  //     final image = await ImagePicker().pickImage(
-  //         source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
-  //     if (image == null) return;
-
-  //     final imageTemp = File(image.path);
-  //     setState(() => imageFile = imageTemp);
-  //   } on PlatformException catch (e) {
-  //     print('Failed to pick image: $e');
-  //   }
-  // }
-
-  // Future<void> pickImageCamera() async {
-  //   try {
-  //     final image = await ImagePicker().pickImage(source: ImageSource.camera);
-  //     if (image == null) return;
-  //     final imageTemp = File(image.path);
-  //     setState(() => imageFile = imageTemp);
-  //   } on PlatformException catch (e) {
-  //     print('Failed to pick image: $e');
-  //   }
-  // }
 }
 
 class _CreateChangeNameTextField extends StatelessWidget {

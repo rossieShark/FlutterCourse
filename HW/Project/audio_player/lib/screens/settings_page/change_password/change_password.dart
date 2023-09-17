@@ -108,7 +108,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         onChanged: (text) {
                           setState(() {
                             resultText =
-                                ''; // Clear the result text when input changes
+                                ''; 
                           });
                         },
                         hintText: AppLocalizations.of(context)!.changePassword,

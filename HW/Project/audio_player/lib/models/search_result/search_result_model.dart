@@ -21,6 +21,7 @@ class SearchData with _$SearchData {
     required int id,
     required String title,
     required String type,
+    required String preview,
     required SearchDataArtist artist,
   }) = _SearchData;
 

@@ -24,6 +24,7 @@ class CreateTitleSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
         ),
         LikeButtonWidget(
+            preview: songInfo!.preview,
             id: songInfo?.id.toString() ?? '',
             artistNames: songInfo?.artistNames ?? '',
             title: songInfo?.title ?? '',

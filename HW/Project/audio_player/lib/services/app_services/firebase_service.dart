@@ -32,7 +32,7 @@ class FireBaseFunctions {
       return true;
     } catch (e) {
       print('Error google signing in: $e');
-      return false; // Sign-in failed
+      return false; 
     }
   }
 
@@ -59,7 +59,7 @@ class FireBaseFunctions {
           child: CupertinoTextField(
             controller: controller,
             placeholder: AppLocalizations.of(context)!
-                .enterEmail, // Use 'placeholder' for hint text
+                .enterEmail, 
           ),
         ),
         actions: <CupertinoDialogAction>[
@@ -89,10 +89,10 @@ class FireBaseFunctions {
         email: email,
         password: password,
       );
-      return true; // Sign-in was successful
+      return true;
     } catch (e) {
       print('Error signing in: $e');
-      return false; // Sign-in failed
+      return false; 
     }
   }
 
@@ -105,7 +105,7 @@ class FireBaseFunctions {
       return true;
     } catch (e) {
       print('Error signing up: $e');
-      return false; // Sign-in failed
+      return false; 
     }
   }
 }

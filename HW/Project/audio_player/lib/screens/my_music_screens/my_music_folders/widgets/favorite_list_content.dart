@@ -1,5 +1,4 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -91,12 +90,37 @@ class CreateImageSection extends StatelessWidget {
                       child: Container(
                           color: AppColors.black.color.withOpacity(0.5),
                           child: CreatePlayButton(
+                              onPressed: () {
+                                Provider.of<RecentlyPlayedIdProvider>(context,
+                                        listen: false)
+                                    .setId(song.id.toString());
+                                if (musicProvider
+                                    .isSongPlaying(int.parse(song.id))) {
+                                  if (musicProvider.isPlaying) {
+                                    musicProvider.pause();
+                                  } else {
+                                    musicProvider.play(
+                                        musicProvider.playlist[0].preview);
+                                  }
+                                } else {
+                                  musicProvider.clearPlaylist();
+
+                                  musicProvider.addSong(PlayedSong(
+                                      id: int.parse(song.id),
+                                      preview: song.preview));
+                                  musicProvider
+                                      .play(musicProvider.playlist[0].preview);
+                                  musicProvider.currentSongId =
+                                      int.parse(song.id);
+                                }
+                                musicProvider.musicCompleted();
+                              },
                               icon: musicProvider.isPlaying
-                                  ? Icon(Icons.pause)
-                                  : Icon(Icons.play_arrow),
+                                  ? Icon(Icons.pause,
+                                      color: AppColors.white.color)
+                                  : Icon(Icons.play_arrow,
+                                      color: AppColors.white.color),
                               size: 30,
-                              id: int.parse(song.id),
-                              iconColor: AppColors.white.color,
                               containerColor: Colors.transparent)),
                     )
                   : Container())

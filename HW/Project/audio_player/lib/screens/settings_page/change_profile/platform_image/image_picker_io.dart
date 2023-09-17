@@ -15,7 +15,7 @@ class ImagePickerService {
       );
 
       if (image == null) {
-        // User canceled image picking
+      
         return null;
       }
 
@@ -37,7 +37,6 @@ class ImagePickerService {
   Future<String?> pickImageFromCamera() async {
     final image = await _picker.pickImage(source: ImageSource.camera);
     if (image == null) {
-      // User canceled image picking
       return null;
     }
 

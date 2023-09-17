@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/models/models.dart';
 
@@ -47,6 +48,7 @@ class CreateLikeandShuffleSection extends StatelessWidget {
       child: Row(
         children: [
           _LikeButtonWidget(
+              preview: songInfo!.preview,
               id: param ?? '',
               artistNames: songInfo?.artistNames ?? '',
               title: songInfo?.title ?? '',
@@ -67,14 +69,16 @@ class _LikeButtonWidget extends StatefulWidget {
   final String artistNames;
   final String title;
   final String image;
+  final String preview;
 
-  const _LikeButtonWidget({
-    Key? key,
-    required this.id,
-    required this.artistNames,
-    required this.title,
-    required this.image,
-  }) : super(key: key);
+  const _LikeButtonWidget(
+      {Key? key,
+      required this.id,
+      required this.artistNames,
+      required this.title,
+      required this.image,
+      required this.preview})
+      : super(key: key);
 
   @override
   State<_LikeButtonWidget> createState() => _LikeButtonWidgetState();
@@ -113,14 +117,11 @@ class _LikeButtonWidgetState extends State<_LikeButtonWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
-        // if (state is FavoriteSongUpdatedState) {
-        //   isFavorite = state.isFavorite;
-        // }
-
         return LikeButton(
             onPressed: () {
               _toggleFavorite();
               final songInfoModel = SongModel(
+                preview: widget.preview,
                 type: "track",
                 id: widget.id,
                 artistNames: widget.artistNames,

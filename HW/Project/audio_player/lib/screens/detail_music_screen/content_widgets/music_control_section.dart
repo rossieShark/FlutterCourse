@@ -1,6 +1,7 @@
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
-import 'package:just_audio/just_audio.dart';
+
 import 'package:flutter/material.dart';
 
 class CreatMusicControlSection extends StatefulWidget {
@@ -13,35 +14,17 @@ class CreatMusicControlSection extends StatefulWidget {
 }
 
 class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
-  bool isPlaying = false;
-  AudioPlayer? currentAudioPlayer;
-  AudioPlayer audioPlayer = AudioPlayer();
+  bool isPlayingMusic = true;
 
   void toggle() {
     setState(() {
-      isPlaying = !isPlaying;
+      isPlayingMusic = !isPlayingMusic;
     });
-  }
-
-  void audioPlay() async {
-    if (audioPlayer.playing) {
-      await audioPlayer.pause();
-      toggle();
-    } else {
-      if (currentAudioPlayer != null && currentAudioPlayer != audioPlayer) {
-        await currentAudioPlayer!.pause();
-      }
-
-      // ignore: unused_local_variable
-      final duration = await audioPlayer.setUrl(widget.songInfo.preview);
-      await audioPlayer.play();
-      toggle();
-      currentAudioPlayer = audioPlayer;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -58,26 +41,28 @@ class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
                   iconData: Icons.fast_rewind,
                   size: 20,
                   color: AppColors.white.color,
-                  onPressed: () {}),
+                  onPressed: () {
+                    musicProvider.playPrevious();
+                  }),
             ),
             const SizedBox(
               width: 10,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(color: AppColors.accent.color),
-                child: IconButtonWidget(
-                    iconData: isPlaying ? Icons.play_arrow : Icons.pause,
-                    color: AppColors.white.color,
-                    size: 45 / 2,
-                    onPressed: () {
-                      audioPlay();
-                    }),
-              ),
-            ),
+            Consumer<MusicProvider>(builder: (context, musicProvider, child) {
+              return CreatePlayButton(
+                  size: 40,
+                  containerColor: AppColors.accent.color,
+                  icon: musicProvider.isPlaying
+                      ? Icon(Icons.pause, color: AppColors.white.color)
+                      : Icon(Icons.play_arrow, color: AppColors.white.color),
+                  onPressed: () {
+                    musicProvider.isPlaying
+                        ? musicProvider.pause()
+                        : musicProvider.play(widget.songInfo.preview);
+
+                    musicProvider.musicCompleted();
+                  });
+            }),
             const SizedBox(
               width: 10,
             ),
@@ -87,7 +72,9 @@ class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
                   iconData: Icons.fast_forward,
                   size: 20,
                   color: AppColors.white.color,
-                  onPressed: () {}),
+                  onPressed: () {
+                    musicProvider.playNext();
+                  }),
             ),
           ],
         ),
