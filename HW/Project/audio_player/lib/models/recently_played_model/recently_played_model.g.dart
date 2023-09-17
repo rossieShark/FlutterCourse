@@ -32,6 +32,7 @@ _$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
       title: json['title'] as String,
       artist: Artist.fromJson(json['artist'] as Map<String, dynamic>),
       id: json['id'] as int,
+      preview: json['preview'] as String,
       type: json['type'] as String,
     );
 
@@ -39,6 +40,7 @@ Map<String, dynamic> _$$_DataToJson(_$_Data instance) => <String, dynamic>{
       'title': instance.title,
       'artist': instance.artist,
       'id': instance.id,
+      'preview': instance.preview,
       'type': instance.type,
     };
 

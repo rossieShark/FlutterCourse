@@ -27,6 +27,7 @@ class Data with _$Data {
       {required String title,
       required Artist artist,
       required int id,
+      required String preview,
       required String type}) = _Data;
 
   factory Data.fromJson(Map<String, Object?> json) => _$DataFromJson(json);

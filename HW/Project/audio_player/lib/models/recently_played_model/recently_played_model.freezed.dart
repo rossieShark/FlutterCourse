@@ -313,6 +313,7 @@ mixin _$Data {
   String get title => throw _privateConstructorUsedError;
   Artist get artist => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
+  String get preview => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -325,7 +326,7 @@ abstract class $DataCopyWith<$Res> {
   factory $DataCopyWith(Data value, $Res Function(Data) then) =
       _$DataCopyWithImpl<$Res, Data>;
   @useResult
-  $Res call({String title, Artist artist, int id, String type});
+  $Res call({String title, Artist artist, int id, String preview, String type});
 
   $ArtistCopyWith<$Res> get artist;
 }
@@ -346,6 +347,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
     Object? title = null,
     Object? artist = null,
     Object? id = null,
+    Object? preview = null,
     Object? type = null,
   }) {
     return _then(_value.copyWith(
@@ -361,6 +363,10 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
+              as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -383,7 +389,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       __$$_DataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, Artist artist, int id, String type});
+  $Res call({String title, Artist artist, int id, String preview, String type});
 
   @override
   $ArtistCopyWith<$Res> get artist;
@@ -401,6 +407,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
     Object? title = null,
     Object? artist = null,
     Object? id = null,
+    Object? preview = null,
     Object? type = null,
   }) {
     return _then(_$_Data(
@@ -416,6 +423,10 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      preview: null == preview
+          ? _value.preview
+          : preview // ignore: cast_nullable_to_non_nullable
+              as String,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -431,6 +442,7 @@ class _$_Data implements _Data {
       {required this.title,
       required this.artist,
       required this.id,
+      required this.preview,
       required this.type});
 
   factory _$_Data.fromJson(Map<String, dynamic> json) => _$$_DataFromJson(json);
@@ -442,11 +454,13 @@ class _$_Data implements _Data {
   @override
   final int id;
   @override
+  final String preview;
+  @override
   final String type;
 
   @override
   String toString() {
-    return 'Data(title: $title, artist: $artist, id: $id, type: $type)';
+    return 'Data(title: $title, artist: $artist, id: $id, preview: $preview, type: $type)';
   }
 
   @override
@@ -457,12 +471,14 @@ class _$_Data implements _Data {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.artist, artist) || other.artist == artist) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.preview, preview) || other.preview == preview) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, artist, id, type);
+  int get hashCode =>
+      Object.hash(runtimeType, title, artist, id, preview, type);
 
   @JsonKey(ignore: true)
   @override
@@ -483,6 +499,7 @@ abstract class _Data implements Data {
       {required final String title,
       required final Artist artist,
       required final int id,
+      required final String preview,
       required final String type}) = _$_Data;
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$_Data.fromJson;
@@ -493,6 +510,8 @@ abstract class _Data implements Data {
   Artist get artist;
   @override
   int get id;
+  @override
+  String get preview;
   @override
   String get type;
   @override

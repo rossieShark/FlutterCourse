@@ -1,3 +1,5 @@
+import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +63,7 @@ class CreateImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return HoverableWidget(builder: (context, child, isHovered) {
       return Stack(
         children: [
@@ -88,6 +91,9 @@ class CreateImageSection extends StatelessWidget {
                       child: Container(
                           color: AppColors.black.color.withOpacity(0.5),
                           child: CreatePlayButton(
+                              icon: musicProvider.isPlaying
+                                  ? Icon(Icons.pause)
+                                  : Icon(Icons.play_arrow),
                               size: 30,
                               id: int.parse(song.id),
                               iconColor: AppColors.white.color,

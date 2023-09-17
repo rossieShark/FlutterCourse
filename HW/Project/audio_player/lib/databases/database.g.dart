@@ -38,9 +38,15 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _previewMeta =
+      const VerificationMeta('preview');
+  @override
+  late final GeneratedColumn<String> preview = GeneratedColumn<String>(
+      'preview', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, artistNames, title, headerImageUrl, type];
+      [id, artistNames, title, headerImageUrl, type, preview];
   @override
   String get aliasedName => _alias ?? 'recently_played_songs';
   @override
@@ -81,6 +87,12 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
+    if (data.containsKey('preview')) {
+      context.handle(_previewMeta,
+          preview.isAcceptableOrUnknown(data['preview']!, _previewMeta));
+    } else if (isInserting) {
+      context.missing(_previewMeta);
+    }
     return context;
   }
 
@@ -100,6 +112,8 @@ class $RecentlyPlayedSongsTable extends RecentlyPlayedSongs
           DriftSqlType.string, data['${effectivePrefix}header_image_url'])!,
       type: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      preview: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}preview'])!,
     );
   }
 
@@ -116,12 +130,14 @@ class RecentlyPlayedSong extends DataClass
   final String title;
   final String headerImageUrl;
   final String type;
+  final String preview;
   const RecentlyPlayedSong(
       {required this.id,
       required this.artistNames,
       required this.title,
       required this.headerImageUrl,
-      required this.type});
+      required this.type,
+      required this.preview});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -130,6 +146,7 @@ class RecentlyPlayedSong extends DataClass
     map['title'] = Variable<String>(title);
     map['header_image_url'] = Variable<String>(headerImageUrl);
     map['type'] = Variable<String>(type);
+    map['preview'] = Variable<String>(preview);
     return map;
   }
 
@@ -140,6 +157,7 @@ class RecentlyPlayedSong extends DataClass
       title: Value(title),
       headerImageUrl: Value(headerImageUrl),
       type: Value(type),
+      preview: Value(preview),
     );
   }
 
@@ -152,6 +170,7 @@ class RecentlyPlayedSong extends DataClass
       title: serializer.fromJson<String>(json['title']),
       headerImageUrl: serializer.fromJson<String>(json['headerImageUrl']),
       type: serializer.fromJson<String>(json['type']),
+      preview: serializer.fromJson<String>(json['preview']),
     );
   }
   @override
@@ -163,6 +182,7 @@ class RecentlyPlayedSong extends DataClass
       'title': serializer.toJson<String>(title),
       'headerImageUrl': serializer.toJson<String>(headerImageUrl),
       'type': serializer.toJson<String>(type),
+      'preview': serializer.toJson<String>(preview),
     };
   }
 
@@ -171,13 +191,15 @@ class RecentlyPlayedSong extends DataClass
           String? artistNames,
           String? title,
           String? headerImageUrl,
-          String? type}) =>
+          String? type,
+          String? preview}) =>
       RecentlyPlayedSong(
         id: id ?? this.id,
         artistNames: artistNames ?? this.artistNames,
         title: title ?? this.title,
         headerImageUrl: headerImageUrl ?? this.headerImageUrl,
         type: type ?? this.type,
+        preview: preview ?? this.preview,
       );
   @override
   String toString() {
@@ -186,13 +208,15 @@ class RecentlyPlayedSong extends DataClass
           ..write('artistNames: $artistNames, ')
           ..write('title: $title, ')
           ..write('headerImageUrl: $headerImageUrl, ')
-          ..write('type: $type')
+          ..write('type: $type, ')
+          ..write('preview: $preview')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, artistNames, title, headerImageUrl, type);
+  int get hashCode =>
+      Object.hash(id, artistNames, title, headerImageUrl, type, preview);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -201,7 +225,8 @@ class RecentlyPlayedSong extends DataClass
           other.artistNames == this.artistNames &&
           other.title == this.title &&
           other.headerImageUrl == this.headerImageUrl &&
-          other.type == this.type);
+          other.type == this.type &&
+          other.preview == this.preview);
 }
 
 class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
@@ -210,12 +235,14 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
   final Value<String> title;
   final Value<String> headerImageUrl;
   final Value<String> type;
+  final Value<String> preview;
   const RecentlyPlayedSongsCompanion({
     this.id = const Value.absent(),
     this.artistNames = const Value.absent(),
     this.title = const Value.absent(),
     this.headerImageUrl = const Value.absent(),
     this.type = const Value.absent(),
+    this.preview = const Value.absent(),
   });
   RecentlyPlayedSongsCompanion.insert({
     this.id = const Value.absent(),
@@ -223,16 +250,19 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
     required String title,
     required String headerImageUrl,
     required String type,
+    required String preview,
   })  : artistNames = Value(artistNames),
         title = Value(title),
         headerImageUrl = Value(headerImageUrl),
-        type = Value(type);
+        type = Value(type),
+        preview = Value(preview);
   static Insertable<RecentlyPlayedSong> custom({
     Expression<int>? id,
     Expression<String>? artistNames,
     Expression<String>? title,
     Expression<String>? headerImageUrl,
     Expression<String>? type,
+    Expression<String>? preview,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -240,6 +270,7 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
       if (title != null) 'title': title,
       if (headerImageUrl != null) 'header_image_url': headerImageUrl,
       if (type != null) 'type': type,
+      if (preview != null) 'preview': preview,
     });
   }
 
@@ -248,13 +279,15 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
       Value<String>? artistNames,
       Value<String>? title,
       Value<String>? headerImageUrl,
-      Value<String>? type}) {
+      Value<String>? type,
+      Value<String>? preview}) {
     return RecentlyPlayedSongsCompanion(
       id: id ?? this.id,
       artistNames: artistNames ?? this.artistNames,
       title: title ?? this.title,
       headerImageUrl: headerImageUrl ?? this.headerImageUrl,
       type: type ?? this.type,
+      preview: preview ?? this.preview,
     );
   }
 
@@ -276,6 +309,9 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
     if (type.present) {
       map['type'] = Variable<String>(type.value);
     }
+    if (preview.present) {
+      map['preview'] = Variable<String>(preview.value);
+    }
     return map;
   }
 
@@ -286,7 +322,8 @@ class RecentlyPlayedSongsCompanion extends UpdateCompanion<RecentlyPlayedSong> {
           ..write('artistNames: $artistNames, ')
           ..write('title: $title, ')
           ..write('headerImageUrl: $headerImageUrl, ')
-          ..write('type: $type')
+          ..write('type: $type, ')
+          ..write('preview: $preview')
           ..write(')'))
         .toString();
   }

@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/app_logic/providers/my_music_folders.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -51,6 +52,7 @@ class _AudioPlayerAppState extends State<AudioPlayerApp> {
           provider.loadFolders();
           return provider;
         }),
+        ChangeNotifierProvider(create: (context) => MusicProvider()),
       ],
       child: MaterialApp.router(
         routerConfig: widget.router,

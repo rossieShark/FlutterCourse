@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CreatePlayButton extends StatefulWidget {
-  const CreatePlayButton({
-    super.key,
-    required this.size,
-    required this.id,
-    this.onPressed,
-    required this.iconColor,
-    required this.containerColor,
-  });
+  const CreatePlayButton(
+      {super.key,
+      required this.size,
+      required this.id,
+      this.onPressed,
+      required this.iconColor,
+      required this.containerColor,
+      required this.icon});
   final Color iconColor;
   final Color containerColor;
   final int id;
   final VoidCallback? onPressed;
   final double size;
+  final Icon icon;
 
   @override
   State<CreatePlayButton> createState() => _CreatePlayButtonState();
@@ -53,15 +54,11 @@ class _CreatePlayButtonState extends State<CreatePlayButton>
         ),
         child: HoverableWidget(builder: (context, child, isHovered) {
           return Container(
-            width: widget.size,
-            height: widget.size,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: widget.containerColor),
-            child: Icon(
-              Icons.play_arrow,
-              color: widget.iconColor,
-            ),
-          );
+              width: widget.size,
+              height: widget.size,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: widget.containerColor),
+              child: widget.icon);
         }),
       ),
     );

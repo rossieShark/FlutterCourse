@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/models/models.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/image_widget.dart';
@@ -129,6 +130,7 @@ class _CreateImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     RecentlySearchedBloc recentlySearchedBloc = RecentlySearchedBloc(
       Provider.of<RecentlySearchedProvider>(context, listen: false),
     );
@@ -155,6 +157,9 @@ class _CreateImageSection extends StatelessWidget {
                           color: AppColors.black.color.withOpacity(0.5),
                           child: CreatePlayButton(
                               size: 30,
+                              icon: musicProvider.isPlaying
+                                  ? Icon(Icons.pause)
+                                  : Icon(Icons.play_arrow),
                               onPressed: () {
                                 recentlySearchedBloc
                                     .add(AddToRecentlySearchedEvent(

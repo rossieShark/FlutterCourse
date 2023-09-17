@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/models/models.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
@@ -168,6 +169,7 @@ class _CreateButtonsLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,10 +186,14 @@ class _CreateButtonsLayer extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CreatePlayButton(
+                  onPressed: () {},
                   id: int.parse(
                     song.id,
                   ),
                   size: 35,
+                  icon: musicProvider.isPlaying
+                      ? Icon(Icons.pause)
+                      : Icon(Icons.play_arrow),
                   iconColor: AppColors.white.color,
                   containerColor: AppColors.accent.color,
                 ),

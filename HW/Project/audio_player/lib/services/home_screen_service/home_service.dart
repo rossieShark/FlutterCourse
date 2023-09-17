@@ -19,6 +19,7 @@ class RecentlyPlayedRepository {
         artistNames: track.artist.name,
         title: track.title,
         headerImageUrl: track.artist.image,
+        preview: track.preview,
         id: track.id,
       );
     }).toList();

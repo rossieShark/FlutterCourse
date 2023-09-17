@@ -7,6 +7,7 @@ class RecentlyPlayedSongs extends Table {
   TextColumn get title => text()();
   TextColumn get headerImageUrl => text()();
   TextColumn get type => text()();
+  TextColumn get preview => text()();
   @override
   Set<Column> get primaryKey => {id};
 }

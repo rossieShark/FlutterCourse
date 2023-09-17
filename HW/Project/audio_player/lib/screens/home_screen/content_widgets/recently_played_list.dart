@@ -1,4 +1,5 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
+import 'package:audio_player/app_logic/providers/audio_player_service.dart';
 import 'package:audio_player/databases/database.dart';
 
 import 'package:audio_player/screens/tab_bar/index.dart';
@@ -176,6 +177,7 @@ class RecentlyPlayedPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     final int id = chartItems[index].id;
     return Builder(builder: (context) {
       return HoverableWidget(builder: (context, child, isHovered) {
@@ -207,8 +209,18 @@ class RecentlyPlayedPageContent extends StatelessWidget {
                   right: 8,
                   child: isHovered
                       ? CreatePlayButton(
+                          onPressed: () {
+                            musicProvider.clearPlaylist();
+                            musicProvider.addSong(chartItems[index].preview);
+                            musicProvider.isPlaying
+                                ? musicProvider.stop()
+                                : musicProvider.play(musicProvider.playlist[0]);
+                          },
                           id: id,
                           size: 45,
+                          icon: musicProvider.isPlaying 
+                              ? Icon(Icons.pause)
+                              : Icon(Icons.play_arrow),
                           iconColor: AppColors.white.color,
                           containerColor: AppColors.accent.color,
                         )
