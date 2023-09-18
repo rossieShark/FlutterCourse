@@ -241,4 +241,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get deleteAccountAlert =>
       'Sind Sie sicher, dass Sie das Konto löschen wollen?';
+
+  @override
+  String get folderNameMessage => 'Bitte geben Sie einen eindeutigen Namen ein';
 }

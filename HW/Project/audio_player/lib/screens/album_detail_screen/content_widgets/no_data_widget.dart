@@ -1,3 +1,4 @@
+import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +26,10 @@ class NoDataWidget extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height / 3 * 2,
             color: Colors.black,
-            child: const Center(
+            child: Center(
               child: Text(
-                'No data',
-                style: TextStyle(color: Colors.white, fontSize: 60),
+                AppLocalizations.of(context)!.noDataText,
+                style: const TextStyle(color: Colors.white, fontSize: 60),
               ),
             ),
           ),

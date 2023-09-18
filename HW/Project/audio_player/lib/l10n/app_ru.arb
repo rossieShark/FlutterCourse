@@ -80,5 +80,6 @@
  
     "noResultsText": "Нет результатов",
   
-    "forgotPassword": "Забыли пароль?"
+    "forgotPassword": "Забыли пароль?",
+    "folderNameMessage": "Это имя уже занято"
     }

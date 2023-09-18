@@ -7,7 +7,6 @@ import 'package:audio_player/widgets/widget_exports.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MyMusicPage extends StatefulWidget {
   const MyMusicPage({super.key});
@@ -40,9 +39,8 @@ class _MyMusicPageState extends State<MyMusicPage> {
           IconButtonWidget(
             iconData: Icons.add,
             color: AppColors.accent.color,
-            onPressed: () => showBarModalBottomSheet(
-        
-              expand: true,
+            onPressed: () => showModalBottomSheet(
+              constraints: const BoxConstraints(maxWidth: 400),
               context: context,
               backgroundColor: Colors.transparent,
               builder: (context) => const NewFolder(),

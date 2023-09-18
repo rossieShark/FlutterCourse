@@ -1,6 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/screens/index.dart';
-import 'package:audio_player/screens/log_pages/login_screen.dart';
+import 'package:audio_player/screens/log_pages/sign_in_page.dart';
 import 'package:audio_player/screens/log_pages/sign_up_screen.dart';
 import 'package:audio_player/screens/log_pages/start_page.dart';
 import 'package:audio_player/screens/settings_page/settings_page.dart';
@@ -148,7 +148,7 @@ final router = GoRouter(
     GoRoute(
       path: routeNameMap[RouteName.sigIn]!,
       pageBuilder: (context, state) => const CupertinoPage(
-        child: LoginPage(),
+        child: SignInPage(),
       ),
     ),
     GoRoute(
@@ -217,7 +217,6 @@ final webRouter = GoRouter(
                         );
                       },
                     ),
-    
                   ),
                   GoRoute(
                     path: '${routeNameMap[RouteName.albumDetail]!}:id',
@@ -290,7 +289,7 @@ final webRouter = GoRouter(
       GoRoute(
         path: routeNameMap[RouteName.sigIn]!,
         pageBuilder: (context, state) => const CupertinoPage(
-          child: LoginPage(),
+          child: SignInPage(),
         ),
       ),
       GoRoute(

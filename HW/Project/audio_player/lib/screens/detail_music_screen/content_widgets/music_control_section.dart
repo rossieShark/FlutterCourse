@@ -1,5 +1,6 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
+import 'package:audio_player/models/played_song_model.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 
 import 'package:flutter/material.dart';
@@ -14,12 +15,22 @@ class CreatMusicControlSection extends StatefulWidget {
 }
 
 class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
-  bool isPlayingMusic = true;
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    if (musicProvider.isSongPlaying(widget.songInfo.id)) {
+      if (musicProvider.isPlaying) {
+        musicProvider.pause();
+      } else {
+        musicProvider.play(musicProvider.playlist[0].preview);
+      }
+    } else {
+      musicProvider.clearPlaylist();
 
-  void toggle() {
-    setState(() {
-      isPlayingMusic = !isPlayingMusic;
-    });
+      musicProvider.addSong(
+          PlayedSong(id: widget.songInfo.id, preview: widget.songInfo.preview));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.currentSongId = widget.songInfo.id;
+    }
+    musicProvider.musicCompleted();
   }
 
   @override
@@ -52,15 +63,12 @@ class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
               return CreatePlayButton(
                   size: 40,
                   containerColor: AppColors.accent.color,
-                  icon: musicProvider.isPlaying
+                  icon: musicProvider.isPlaying &&
+                          musicProvider.isSongInPlaylist(widget.songInfo.id)
                       ? Icon(Icons.pause, color: AppColors.white.color)
                       : Icon(Icons.play_arrow, color: AppColors.white.color),
                   onPressed: () {
-                    musicProvider.isPlaying
-                        ? musicProvider.pause()
-                        : musicProvider.play(widget.songInfo.preview);
-
-                    musicProvider.musicCompleted();
+                    playPauseMusic(context, musicProvider);
                   });
             }),
             const SizedBox(

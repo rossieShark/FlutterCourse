@@ -1,13 +1,15 @@
 import 'package:audio_player/models/played_song_model.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 import 'package:flutter/material.dart';
 
 class MusicProvider with ChangeNotifier {
   List<PlayedSong> playlist = [];
   final AudioPlayer audioPlayer = AudioPlayer();
 
-  int _currentSongIndex = -1;
+  int _currentSongIndex = 0;
   int _currentSongId = -1;
+
   int get currentSongIndex => _currentSongIndex;
   int get currentSongId => _currentSongId;
   bool get isPlaying => audioPlayer.state == PlayerState.playing;
@@ -30,7 +32,7 @@ class MusicProvider with ChangeNotifier {
   void clearPlaylist() {
     playlist.clear();
     _currentSongId = -1;
-    _currentSongIndex = -1;
+    _currentSongIndex = 0;
     notifyListeners();
   }
 
@@ -63,7 +65,7 @@ class MusicProvider with ChangeNotifier {
     audioPlayer.onPlayerStateChanged.listen((state) {
       if (state == PlayerState.completed) {
         if (i + 1 < length) {
-          i++; 
+          i++;
           play(playlist[i].preview);
           currentSongId = id;
           _currentSongIndex = i;
@@ -96,12 +98,15 @@ class MusicProvider with ChangeNotifier {
     }
   }
 
-
   bool isSongInPlaylist(int songId) {
     return playlist.any((song) => song.id == songId);
   }
 
   bool isSongPlaying(int songId) {
+    return _currentSongId == songId;
+  }
+
+  bool isCurrentlyPlaying(int songId) {
     return _currentSongId == songId;
   }
 

@@ -240,4 +240,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteAccountAlert => 'Вы уверены, что хотите удалить аккаунт';
+
+  @override
+  String get folderNameMessage => 'Это имя уже занято';
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -14,41 +16,59 @@ class CreateSliderSection extends StatefulWidget {
 class _CreateSliderSectionState extends State<CreateSliderSection> {
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  StreamSubscription<Duration>? durationSubscription;
+  StreamSubscription<Duration>? positionSubscription;
   String formatTime(int seconds) {
-    return '${(Duration(seconds: seconds))}'.split('.')[0].padLeft(8, '0');
+    final int minutes = (seconds / 60).floor();
+    final int remainingSeconds = seconds % 60;
+    final String formattedMinutes = minutes.toString().padLeft(2, '0');
+    final String formattedSeconds = remainingSeconds.toString().padLeft(2, '0');
+    return '$formattedMinutes:$formattedSeconds';
   }
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    durationSubscription?.cancel();
+    positionSubscription?.cancel();
 
     final musicProvider = Provider.of<MusicProvider>(context, listen: false);
-    musicProvider.audioPlayer.onDurationChanged.listen((newDuration) {
+    durationSubscription =
+        musicProvider.audioPlayer.onDurationChanged.listen((newDuration) {
       setState(() {
         duration = newDuration;
       });
     });
 
-    musicProvider.audioPlayer.onPositionChanged.listen((newPosition) {
+    positionSubscription =
+        musicProvider.audioPlayer.onPositionChanged.listen((newPosition) {
       setState(() {
         position = newPosition;
       });
     });
+  }
 
-
+  @override
+  void dispose() {
+    durationSubscription?.cancel();
+    positionSubscription?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final musicProvider = Provider.of<MusicProvider>(context, listen: false);
+    final maxDuration = duration.inSeconds.toDouble();
+    final currentPosition = position.inSeconds.toDouble();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(formatTime(position.inSeconds),
             style: TextStyle(
-                fontFamily: AppFonts.colombia.font,
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
+                fontFamily: AppFonts.lusitana.font,
+                fontSize: 13,
+                fontWeight: FontWeight.w100,
                 color: Colors.white)),
         SizedBox(
           width: widget.width,
@@ -56,24 +76,25 @@ class _CreateSliderSectionState extends State<CreateSliderSection> {
             activeColor: const Color.fromARGB(255, 72, 72, 72),
             inactiveColor: AppColors.black.color,
             thumbColor: AppColors.accent.color,
-            value: position.inSeconds.toDouble(),
+            value: currentPosition,
             min: 0.0,
-            max: duration.inSeconds.toDouble(),
+            max: maxDuration,
             onChanged: (value) {
+              final newPosition = Duration(seconds: value.toInt());
               setState(() {
-                final position = Duration(seconds: value.toInt());
-                musicProvider.audioPlayer.seek(position);
-                musicProvider.audioPlayer.resume();
+                position = newPosition;
               });
+              musicProvider.audioPlayer.seek(newPosition);
+              musicProvider.audioPlayer.resume();
             },
             onChangeEnd: (newValue) {},
           ),
         ),
         Text(formatTime((duration - position).inSeconds),
             style: TextStyle(
-                fontFamily: AppFonts.colombia.font,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+                fontFamily: AppFonts.lusitana.font,
+                fontSize: 13,
+                fontWeight: FontWeight.w100,
                 color: Colors.white))
       ],
     );

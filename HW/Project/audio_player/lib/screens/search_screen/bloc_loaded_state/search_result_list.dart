@@ -127,6 +127,25 @@ class _CreateImageSection extends StatelessWidget {
   final double listHeight;
   final List<SearchData> searchResult;
   final int index;
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
+        .setId(searchResult[index].id.toString());
+    if (musicProvider.isSongPlaying(searchResult[index].id)) {
+      if (musicProvider.isPlaying) {
+        musicProvider.pause();
+      } else {
+        musicProvider.play(musicProvider.playlist[0].preview);
+      }
+    } else {
+      musicProvider.clearPlaylist();
+
+      musicProvider.addSong(PlayedSong(
+          id: searchResult[index].id, preview: searchResult[index].preview));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.currentSongId = searchResult[index].id;
+    }
+    musicProvider.musicCompleted();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,30 +196,7 @@ class _CreateImageSection extends StatelessWidget {
                                     image: searchResult[index].artist.image,
                                   ),
                                 ));
-
-                                Provider.of<RecentlyPlayedIdProvider>(context,
-                                        listen: false)
-                                    .setId(searchResult[index].id.toString());
-                                if (musicProvider
-                                    .isSongPlaying(searchResult[index].id)) {
-                                  if (musicProvider.isPlaying) {
-                                    musicProvider.pause();
-                                  } else {
-                                    musicProvider.play(
-                                        musicProvider.playlist[0].preview);
-                                  }
-                                } else {
-                                  musicProvider.clearPlaylist();
-
-                                  musicProvider.addSong(PlayedSong(
-                                      id: searchResult[index].id,
-                                      preview: searchResult[index].preview));
-                                  musicProvider
-                                      .play(musicProvider.playlist[0].preview);
-                                  musicProvider.currentSongId =
-                                      searchResult[index].id;
-                                }
-                                musicProvider.musicCompleted();
+                                playPauseMusic(context, musicProvider);
                               },
                               containerColor: Colors.transparent)),
                     )

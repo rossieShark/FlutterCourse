@@ -26,30 +26,13 @@ class _DetailAlbumListViewState extends State<DetailAlbumListView> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: List.generate(widget.songList.length, (index) {
-        final id = widget.songList[index].id;
         return HoverableWidget(builder: (context, child, isHovered) {
-          return PlatformBuilder(
-              web: _CreateListViewContent(
-                image: widget.image,
-                songList: widget.songList,
-                index: index,
-                isHovered: isHovered,
-              ),
-              other: GestureDetector(
-                onTap: () {
-                  GoRouter.of(context).push(
-                      Uri(path: '/${routeNameMap[RouteName.detailMusic]!}$id')
-                          .toString());
-                },
-                child: _CreateListViewContent(
-                    image: widget.image,
-                    songList: widget.songList,
-                    index: index,
-                    isHovered: isHovered),
-              ),
-              builder: (context, child, widget) {
-                return widget;
-              });
+          return _CreateListViewContent(
+            image: widget.image,
+            songList: widget.songList,
+            index: index,
+            isHovered: isHovered,
+          );
         });
       }),
     );
@@ -68,6 +51,24 @@ class _CreateListViewContent extends StatelessWidget {
   final String image;
   final int index;
   final bool isHovered;
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
+        .setId(songList[index].id.toString());
+    if (musicProvider.isSongPlaying(songList[index].id)) {
+      if (musicProvider.isPlaying) {
+        musicProvider.pause();
+      } else {
+        musicProvider.play(musicProvider.playlist[0].preview);
+      }
+    } else {
+      musicProvider.clearPlaylist();
+
+      musicProvider.addSong(
+          PlayedSong(id: songList[index].id, preview: songList[index].preview));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.currentSongId = songList[index].id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,52 +107,49 @@ class _CreateListViewContent extends StatelessWidget {
                   width: 60,
                   height: 60,
                   child: Center(
-                    child: !isHovered
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              image,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : CreatePlayButton(
-                            icon: musicProvider.isPlaying &&
+                    child: PlatformBuilder(
+                        web: !isHovered
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : CreatePlayButton(
+                                icon: musicProvider.isPlaying &&
+                                        musicProvider.isCurrentlyPlaying(
+                                            songList[index].id)
+                                    ? Icon(Icons.pause,
+                                        color: AppColors.white.color)
+                                    : Icon(Icons.play_arrow,
+                                        color: AppColors.white.color),
+                                size: 30,
+                                containerColor: Colors.transparent,
+                                onPressed: () {
+                                  playPauseMusic(context, musicProvider);
+                                  // musicProvider.musicCompleted();
+                                },
+                              ),
+                        other: IconButtonWidget(
+                            iconData: (musicProvider.isPlaying &&
                                     musicProvider
-                                        .isSongInPlaylist(songList[index].id)
-                                ? Icon(Icons.pause,
-                                    color: AppColors.white.color)
-                                : Icon(Icons.play_arrow,
-                                    color: AppColors.white.color),
-                            size: 30,
-                     
-
-                            containerColor: Colors.transparent,
+                                        .isCurrentlyPlaying(songList[index].id))
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                            color: AppColors.white.color,
                             onPressed: () {
-                              Provider.of<RecentlyPlayedIdProvider>(context,
-                                      listen: false)
-                                  .setId(songList[index].id.toString());
-                              if (musicProvider
-                                  .isSongPlaying(songList[index].id)) {
-                                if (musicProvider.isPlaying) {
-                                  musicProvider.pause();
-                                } else {
-                                  musicProvider
-                                      .play(musicProvider.playlist[0].preview);
-                                }
-                              } else {
-                                musicProvider.clearPlaylist();
-
-                                musicProvider.addSong(PlayedSong(
-                                    id: songList[index].id,
-                                    preview: songList[index].preview));
-                                musicProvider
-                                    .play(musicProvider.playlist[0].preview);
-                                musicProvider.currentSongId =
-                                    songList[index].id;
-                              }
-                              musicProvider.musicCompleted();
-                            },
-                          ),
+                              final id = songList[index].id;
+                              GoRouter.of(context).push(Uri(
+                                      path:
+                                          '/${routeNameMap[RouteName.detailMusic]!}$id')
+                                  .toString());
+                              playPauseMusic(context, musicProvider);
+                              // musicProvider.musicCompleted();),
+                            }),
+                        builder: (context, child, widget) {
+                          return widget;
+                        }),
                   ),
                 ),
                 const SizedBox(

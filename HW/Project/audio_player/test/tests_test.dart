@@ -1,5 +1,5 @@
 import 'package:audio_player/screens/tab_bar/additional_widgets/go_router.dart';
-import 'package:audio_player/screens/tab_bar/tab_bar_screen.dart';
+import 'package:audio_player/screens/tab_bar/audio_player_app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

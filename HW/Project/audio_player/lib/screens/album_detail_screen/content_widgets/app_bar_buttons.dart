@@ -18,6 +18,38 @@ class CreatePlayButtonSection extends StatelessWidget {
       required this.title,
       required this.artist,
       required this.songList});
+
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
+        .setId(songList[0].id.toString());
+
+    if (musicProvider.isPlaying) {
+      musicProvider.pause();
+    } else {
+      musicProvider.clearPlaylist();
+      musicProvider.addSong(PlayedSong(
+        id: songList[0].id,
+        preview: songList[0].preview,
+      ));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      for (int i = 1; i < songList.length; i++) {
+        musicProvider.addSong(PlayedSong(
+          id: songList[i].id,
+          preview: songList[i].preview,
+        ));
+        print(musicProvider.playlist.length);
+      }
+      for (int i = 0; i < songList.length; i++) {
+        if (i == 0) {
+          musicProvider.play(musicProvider.playlist[1].preview);
+          musicProvider.currentSongId = songList[1].id;
+        }
+        musicProvider.automaticPlay(
+            i, songList.length, songList[i].id, songList[1].id);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final musicProvider = Provider.of<MusicProvider>(context, listen: false);
@@ -44,39 +76,10 @@ class CreatePlayButtonSection extends StatelessWidget {
                   builder: (context, child, height) {
                     return CreatePlayButton(
                       onPressed: () {
-                        Provider.of<RecentlyPlayedIdProvider>(context,
-                                listen: false)
-                            .setId(songList[0].id.toString());
-
-                        if (musicProvider.isPlaying) {
-                          musicProvider.pause();
-                        } else {
-                          musicProvider.clearPlaylist();
-                          musicProvider.addSong(PlayedSong(
-                            id: songList[0].id,
-                            preview: songList[0].preview,
-                          ));
-                          musicProvider.play(musicProvider.playlist[0].preview);
-                          for (int i = 1; i < songList.length; i++) {
-                            musicProvider.addSong(PlayedSong(
-                              id: songList[i].id,
-                              preview: songList[i].preview,
-                            ));
-                            print(musicProvider.playlist.length);
-                          }
-                          for (int i = 0; i < songList.length; i++) {
-                
-                            if (i == 0) {
-                              musicProvider
-                                  .play(musicProvider.playlist[1].preview);
-                              musicProvider.currentSongId = songList[1].id;
-                            }
-                            musicProvider.automaticPlay(i, songList.length,
-                                songList[i].id, songList[1].id);
-                          }
-                        }
+                        playPauseMusic(context, musicProvider);
                       },
-                      icon: musicProvider.isPlaying
+                      icon: (musicProvider.isPlaying &&
+                              musicProvider.playlist[0].id == songList[0].id)
                           ? Icon(Icons.pause, color: AppColors.black.color)
                           : Icon(Icons.play_arrow,
                               color: AppColors.black.color),

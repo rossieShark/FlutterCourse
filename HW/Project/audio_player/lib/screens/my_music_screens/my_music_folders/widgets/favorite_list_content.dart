@@ -59,6 +59,25 @@ class CreateImageSection extends StatelessWidget {
 
   final SongModel song;
   final double height;
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
+        .setId(song.id.toString());
+    if (musicProvider.isSongPlaying(int.parse(song.id))) {
+      if (musicProvider.isPlaying) {
+        musicProvider.pause();
+      } else {
+        musicProvider.play(musicProvider.playlist[0].preview);
+      }
+    } else {
+      musicProvider.clearPlaylist();
+
+      musicProvider
+          .addSong(PlayedSong(id: int.parse(song.id), preview: song.preview));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.currentSongId = int.parse(song.id);
+    }
+    musicProvider.musicCompleted();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,31 +110,11 @@ class CreateImageSection extends StatelessWidget {
                           color: AppColors.black.color.withOpacity(0.5),
                           child: CreatePlayButton(
                               onPressed: () {
-                                Provider.of<RecentlyPlayedIdProvider>(context,
-                                        listen: false)
-                                    .setId(song.id.toString());
-                                if (musicProvider
-                                    .isSongPlaying(int.parse(song.id))) {
-                                  if (musicProvider.isPlaying) {
-                                    musicProvider.pause();
-                                  } else {
-                                    musicProvider.play(
-                                        musicProvider.playlist[0].preview);
-                                  }
-                                } else {
-                                  musicProvider.clearPlaylist();
-
-                                  musicProvider.addSong(PlayedSong(
-                                      id: int.parse(song.id),
-                                      preview: song.preview));
-                                  musicProvider
-                                      .play(musicProvider.playlist[0].preview);
-                                  musicProvider.currentSongId =
-                                      int.parse(song.id);
-                                }
-                                musicProvider.musicCompleted();
+                                playPauseMusic(context, musicProvider);
                               },
-                              icon: musicProvider.isPlaying
+                              icon: (musicProvider.isPlaying &&
+                                      musicProvider.isCurrentlyPlaying(
+                                          int.parse(song.id)))
                                   ? Icon(Icons.pause,
                                       color: AppColors.white.color)
                                   : Icon(Icons.play_arrow,

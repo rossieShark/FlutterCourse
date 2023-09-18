@@ -79,7 +79,7 @@
     "forgotPassword": "Passwort vergessen",
     "deleteAccount": "Account löschen",
   
-    "deleteAccountAlert": "Sind Sie sicher, dass Sie das Konto löschen wollen?"
-  
+    "deleteAccountAlert": "Sind Sie sicher, dass Sie das Konto löschen wollen?",
+    "folderNameMessage": "Bitte geben Sie einen eindeutigen Namen ein"
  
     }

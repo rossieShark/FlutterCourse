@@ -195,7 +195,7 @@
     "@incorrectPasswordAlert": {
         "description": "incorrectPasswordAlert text"
     },
-    "signInButton": "Sign In",
+    "signInButton": " Sign In",
     "@signInButton": {
         "description": "Sign In button"
     },
@@ -207,7 +207,7 @@
     "@noAccount": {
         "description": "Don't have an account text"
     },
-    "signUpButton": "Sign Up",
+    "signUpButton": " Sign Up",
     "@signUpButton": {
         "description": "Sign Up button"
     },
@@ -227,7 +227,7 @@
     "@confirmButton": {
         "description": "Confirm button"
     },
-    "cancelButton": "Calcel",
+    "cancelButton": "Cancel",
     "@cancelButton": {
         "description": "Cancel button"
     },
@@ -310,6 +310,10 @@
     "deleteAccountAlert": "Are you sure you want to delete the account?",
     "@deleteAccountAlert": {
         "description": "Delete account alert message"
+    },
+    "folderNameMessage": "Please enter a unique name",
+    "@folderNameMessage": {
+        "description": "Please enter a unique name Alert message"
     }
 
 }

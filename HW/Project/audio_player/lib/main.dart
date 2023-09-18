@@ -1,6 +1,6 @@
 import 'package:audio_player/firebase_options.dart';
 import 'package:audio_player/screens/tab_bar/index.dart';
-import 'package:audio_player/screens/tab_bar/tab_bar_screen.dart';
+import 'package:audio_player/screens/tab_bar/audio_player_app.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:firebase_core/firebase_core.dart';

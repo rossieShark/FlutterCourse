@@ -362,7 +362,7 @@ abstract class AppLocalizations {
   /// Sign In button
   ///
   /// In en, this message translates to:
-  /// **'Sign In'**
+  /// **' Sign In'**
   String get signInButton;
 
   /// Sign In methods
@@ -380,7 +380,7 @@ abstract class AppLocalizations {
   /// Sign Up button
   ///
   /// In en, this message translates to:
-  /// **'Sign Up'**
+  /// **' Sign Up'**
   String get signUpButton;
 
   /// Invalid email or password alert
@@ -410,7 +410,7 @@ abstract class AppLocalizations {
   /// Cancel button
   ///
   /// In en, this message translates to:
-  /// **'Calcel'**
+  /// **'Cancel'**
   String get cancelButton;
 
   /// OK button
@@ -532,6 +532,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete the account?'**
   String get deleteAccountAlert;
+
+  /// Please enter a unique name Alert message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a unique name'**
+  String get folderNameMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

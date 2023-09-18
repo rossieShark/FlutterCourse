@@ -146,18 +146,8 @@ class ImageScroll extends StatelessWidget {
                 return PlatformBuilder(
                     web: RecentlyPlayedPageContent(
                         chartItems: chartItems, index: index),
-                    other: GestureDetector(
-                      onTap: () {
-                        int id = chartItems[index].id;
-
-                        GoRouter.of(context).push(Uri(
-                                path:
-                                    '/${routeNameMap[RouteName.detailMusic]!}$id')
-                            .toString());
-                      },
-                      child: RecentlyPlayedPageContent(
-                          chartItems: chartItems, index: index),
-                    ),
+                    other: RecentlyPlayedPageContent(
+                        chartItems: chartItems, index: index),
                     builder: (context, child, widget) {
                       return widget;
                     });
@@ -175,10 +165,32 @@ class RecentlyPlayedPageContent extends StatelessWidget {
   const RecentlyPlayedPageContent(
       {super.key, required this.chartItems, required this.index});
 
+  void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
+    final int id = chartItems[index].id;
+
+    Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
+        .setId(id.toString());
+    if (musicProvider.isSongPlaying(id)) {
+      if (musicProvider.isPlaying) {
+        musicProvider.pause();
+      } else {
+        musicProvider.play(musicProvider.playlist[0].preview);
+      }
+    } else {
+      musicProvider.clearPlaylist();
+
+      musicProvider
+          .addSong(PlayedSong(id: id, preview: chartItems[index].preview));
+      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.currentSongId = id;
+    }
+    musicProvider.musicCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     final int id = chartItems[index].id;
+    final musicProvider = Provider.of<MusicProvider>(context, listen: false);
     return Builder(builder: (context) {
       return HoverableWidget(builder: (context, child, isHovered) {
         return Padding(
@@ -207,40 +219,41 @@ class RecentlyPlayedPageContent extends StatelessWidget {
                 Positioned(
                   bottom: 8,
                   right: 8,
-                  child: isHovered
-                      ? CreatePlayButton(
-                          onPressed: () {
-                            Provider.of<RecentlyPlayedIdProvider>(context,
-                                    listen: false)
-                                .setId(id.toString());
-                            if (musicProvider.isSongPlaying(id)) {
-                              if (musicProvider.isPlaying) {
-                                musicProvider.pause();
-                              } else {
-                                musicProvider
-                                    .play(musicProvider.playlist[0].preview);
-                              }
-                            } else {
-                              musicProvider.clearPlaylist();
-
-                              musicProvider.addSong(PlayedSong(
-                                  id: id, preview: chartItems[index].preview));
-                              musicProvider
-                                  .play(musicProvider.playlist[0].preview);
-                              musicProvider.currentSongId = id;
-                            }
-                            musicProvider.musicCompleted();
-                          },
-                          size: 45,
-                          icon: (musicProvider.isPlaying &&
-                                  musicProvider.isSongInPlaylist(id))
-                              ? Icon(Icons.pause, color: AppColors.black.color)
-                              : Icon(Icons.play_arrow,
-                                  color: AppColors.black.color),
-
-                          containerColor: AppColors.accent.color,
-                        )
-                      : Container(),
+                  child: PlatformBuilder(
+                      web: isHovered
+                          ? CreatePlayButton(
+                              onPressed: () {
+                                playPauseMusic(context, musicProvider);
+                              },
+                              size: 45,
+                              icon: (musicProvider.isPlaying &&
+                                      musicProvider.isSongInPlaylist(id))
+                                  ? Icon(Icons.pause,
+                                      color: AppColors.black.color)
+                                  : Icon(Icons.play_arrow,
+                                      color: AppColors.black.color),
+                              containerColor: AppColors.accent.color,
+                            )
+                          : Container(),
+                      other: CreatePlayButton(
+                        onPressed: () {
+                          GoRouter.of(context).push(Uri(
+                                  path:
+                                      '/${routeNameMap[RouteName.detailMusic]!}$id')
+                              .toString());
+                          playPauseMusic(context, musicProvider);
+                        },
+                        size: 40,
+                        icon: (musicProvider.isPlaying &&
+                                musicProvider.isSongInPlaylist(id))
+                            ? Icon(Icons.pause, color: AppColors.white.color)
+                            : Icon(Icons.play_arrow,
+                                color: AppColors.white.color),
+                        containerColor: AppColors.accent.color.withOpacity(0.8),
+                      ),
+                      builder: (context, child, widget) {
+                        return widget;
+                      }),
                 ),
               ],
             ),

@@ -153,7 +153,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get incorrectPasswordAlert => 'Incorrect password or email';
 
   @override
-  String get signInButton => 'Sign In';
+  String get signInButton => ' Sign In';
 
   @override
   String get signInMethods => 'Be connect with';
@@ -162,7 +162,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAccount => 'Do not have an account?';
 
   @override
-  String get signUpButton => 'Sign Up';
+  String get signUpButton => ' Sign Up';
 
   @override
   String get invalidEmailPassword => 'Invalid email or password';
@@ -177,7 +177,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmButton => 'Confirm';
 
   @override
-  String get cancelButton => 'Calcel';
+  String get cancelButton => 'Cancel';
 
   @override
   String get okButton => 'OK';
@@ -239,4 +239,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteAccountAlert =>
       'Are you sure you want to delete the account?';
+
+  @override
+  String get folderNameMessage => 'Please enter a unique name';
 }

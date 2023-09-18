@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +16,7 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   late TextEditingController _passwordController;
   late TextEditingController _newPasswordController;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   late FocusNode _passwordFocusNode;
   String resultText = '';
   late FocusNode _newPasswordFocusNode;
@@ -107,8 +109,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         focusNode: _passwordFocusNode,
                         onChanged: (text) {
                           setState(() {
-                            resultText =
-                                ''; 
+                            resultText = '';
                           });
                         },
                         hintText: AppLocalizations.of(context)!.changePassword,

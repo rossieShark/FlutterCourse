@@ -5,7 +5,6 @@ import 'package:audio_player/services/service.dart';
 import 'package:audio_player/services/services.dart';
 import 'package:get_it/get_it.dart';
 
-
 class SetGetItDependencies {
   void setupDatabaseDependencies() {
     GetIt.I.registerLazySingleton<AudioAppDatabase>(AudioAppDatabase.new);
@@ -17,6 +16,15 @@ class SetGetItDependencies {
     );
     GetIt.instance.registerLazySingleton<RecentlySearchedProvider>(
       () => RecentlySearchedProvider(GetIt.instance.get()),
+    );
+    GetIt.instance.registerLazySingleton<MyMusicFoldersProvider>(
+      () => MyMusicFoldersProvider(GetIt.instance.get()),
+    );
+    GetIt.instance.registerLazySingleton<MusicProvider>(
+      () => MusicProvider(),
+    );
+    GetIt.instance.registerLazySingleton<LanguageProvider>(
+      () => LanguageProvider(),
     );
   }
 
@@ -77,6 +85,5 @@ class SetGetItDependencies {
   void setupPermissionDependencies() {
     GetIt.instance.registerSingleton<PermissionService>(
         PermissionHandlerPermissionService());
-
   }
 }
