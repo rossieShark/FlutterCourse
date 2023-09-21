@@ -3,7 +3,7 @@ import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class CreateSongTitle extends StatelessWidget {
+class CreateSongTitle extends StatefulWidget {
   const CreateSongTitle({
     Key? key,
     required this.artistName,
@@ -24,34 +24,39 @@ class CreateSongTitle extends StatelessWidget {
   final double minFontSize;
 
   @override
+  State<CreateSongTitle> createState() => _CreateSongTitleState();
+}
+
+class _CreateSongTitleState extends State<CreateSongTitle> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: Column(
-        crossAxisAlignment: crossAxisAlignment,
-        mainAxisAlignment: mainAxisAlignment,
+        crossAxisAlignment: widget.crossAxisAlignment,
+        mainAxisAlignment: widget.mainAxisAlignment,
         children: [
           AutoSizeText(
             TextModifierService().removeTextAfter(
-              artistName ?? AppLocalizations.of(context)!.noName,
+              widget.artistName ?? AppLocalizations.of(context)!.noName,
             ),
             style: TextStyle(
                 color: AppColors.white.color,
-                fontSize: fontSize,
+                fontSize: widget.fontSize,
                 fontFamily: AppFonts.lusitana.font,
                 fontWeight: FontWeight.w600),
-            maxFontSize: minFontSize,
+            maxFontSize: widget.minFontSize,
             overflow: TextOverflow.ellipsis,
-            maxLines: maxLines,
+            maxLines: widget.maxLines,
           ),
           Text(
             TextModifierService().removeTextAfter(
-                songTitle ?? AppLocalizations.of(context)!.noName),
+                widget.songTitle ?? AppLocalizations.of(context)!.noName),
             style: TextStyle(
                 fontFamily: AppFonts.colombia.font,
-                fontSize: fontSize,
+                fontSize: widget.fontSize,
                 fontWeight: FontWeight.w600,
                 color: Colors.white),
-            maxLines: maxLines,
+            maxLines: widget.maxLines,
             overflow: TextOverflow.ellipsis,
           ),
         ],

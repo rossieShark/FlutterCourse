@@ -45,7 +45,18 @@ class _MyMusicPageState extends State<MyMusicPage> {
               backgroundColor: Colors.transparent,
               builder: (context) => const NewFolder(),
             ),
-          )
+          ),
+          PlatformBuilder(
+              web: Container(),
+              other: IconButtonWidget(
+                  iconData: Icons.settings,
+                  color: AppColors.accent.color,
+                  onPressed: () {
+                    context.push('/${routeNameMap[RouteName.settings]!}');
+                  }),
+              builder: (context, child, widget) {
+                return widget;
+              }),
         ],
       ),
       body: PlatformBuilder(

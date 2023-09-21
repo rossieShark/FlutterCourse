@@ -11,7 +11,8 @@ class MyFavoriteSongs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: true);
     return FavoritePageStructure(
       child: FavoriteBody(
         songs: favoriteProvider.favoriteSong,
@@ -43,9 +44,16 @@ class FavoriteSongListView extends StatelessWidget {
           return PlatformBuilder(
               web: GestureDetector(
                 onTap: null,
-                child: DismissibleWidget(
-                  song: song,
-                  onDismissed: () {
+                child: Dismissible(
+                  key: Key(song.id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    color: AppColors.accent.color,
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  onDismissed: (direction) {
                     favoriteProvider.removeFromFavorites(song);
                   },
                   child: FavouriteListContent(song: song),
@@ -59,9 +67,16 @@ class FavoriteSongListView extends StatelessWidget {
                       Uri(path: '/${routeNameMap[RouteName.detailMusic]!}$id')
                           .toString());
                 },
-                child: DismissibleWidget(
-                  song: song,
-                  onDismissed: () {
+                child: Dismissible(
+                  key: Key(song.id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    color: AppColors.accent.color,
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  onDismissed: (direction) {
                     favoriteProvider.removeFromFavorites(song);
                   },
                   child: CustomListViewContent(

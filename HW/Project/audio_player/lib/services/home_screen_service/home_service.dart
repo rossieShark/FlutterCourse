@@ -67,11 +67,11 @@ class FavoriteArtistRepository {
   }
 
   Future<List<FavoriteArtist>> getTracksFromDb() async {
-    return await _database.allFavouriteArtists;
+    return await _database.getallFavouriteArtists();
   }
 
   Future<List<FavoriteArtist>> getFavoriteArtists() async {
-    final dbTracks = await _database.allFavouriteArtists;
+    final dbTracks = await getTracksFromDb();
 
     if (dbTracks.isNotEmpty) {
       return dbTracks;

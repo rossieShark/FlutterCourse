@@ -27,10 +27,10 @@ class NavigationUtils {
 
     switch (index) {
       case 0:
-        context.go(routeNameMap[RouteName.home]!);
+        context.go(routeNameMap[RouteName.search]!);
         break;
       case 1:
-        context.go(routeNameMap[RouteName.search]!);
+        context.go(routeNameMap[RouteName.home]!);
         break;
     }
   }

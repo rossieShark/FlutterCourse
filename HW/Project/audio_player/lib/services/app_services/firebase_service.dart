@@ -14,7 +14,13 @@ class FireBaseFunctions {
   Future<bool> signInWithGoogle() async {
     try {
       await FirebaseAuth.instance.signOut();
-      FirebaseAuth.instance.userChanges().listen((User? user) {});
+      FirebaseAuth.instance.userChanges().listen((User? user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+        }
+      });
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: [
           'email',
@@ -32,7 +38,7 @@ class FireBaseFunctions {
       return true;
     } catch (e) {
       print('Error google signing in: $e');
-      return false; 
+      return false;
     }
   }
 
@@ -41,7 +47,7 @@ class FireBaseFunctions {
     if (success) {
       return context.go(routeNameMap[RouteName.home]!);
     } else {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) =>
             SignAlert(text: AppLocalizations.of(context)!.googleSignError),
@@ -58,8 +64,7 @@ class FireBaseFunctions {
           padding: const EdgeInsets.all(8.0),
           child: CupertinoTextField(
             controller: controller,
-            placeholder: AppLocalizations.of(context)!
-                .enterEmail, 
+            placeholder: AppLocalizations.of(context)!.enterEmail,
           ),
         ),
         actions: <CupertinoDialogAction>[
@@ -92,7 +97,7 @@ class FireBaseFunctions {
       return true;
     } catch (e) {
       print('Error signing in: $e');
-      return false; 
+      return false;
     }
   }
 
@@ -105,7 +110,7 @@ class FireBaseFunctions {
       return true;
     } catch (e) {
       print('Error signing up: $e');
-      return false; 
+      return false;
     }
   }
 }

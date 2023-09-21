@@ -10,9 +10,8 @@ class BestAlbumList extends StatelessWidget {
   const BestAlbumList({super.key, required this.bestAlbumList});
   @override
   Widget build(BuildContext context) {
-    final crossAxisCount = (MediaQuery.of(context).size.width -
-            MediaQuery.of(context).size.width / 3) ~/
-        220;
+    final maxWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = (maxWidth - maxWidth / 3) ~/ 220;
 
     return ResponsiveWidget(
       narrow: (context) => SizedBox(

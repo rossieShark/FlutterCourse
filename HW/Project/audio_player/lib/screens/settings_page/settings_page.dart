@@ -34,7 +34,16 @@ class _SettingsState extends State<Settings> {
   }
 
   Future<void> _deleteAccount() async {
-    await user?.delete();
+    final User? user = _auth.currentUser;
+
+    if (user != null) {
+      try {
+        await user.delete();
+        print('User account deleted');
+      } catch (e) {
+        print('Error deleting account: $e');
+      }
+    }
   }
 
   void _showDialog(Widget child, BuildContext context) {
@@ -64,142 +73,192 @@ class _SettingsState extends State<Settings> {
             style: Theme.of(context).textTheme.titleMedium),
         backgroundColor: AppColors.background.color,
       ),
-      body: SettingsList(
-        lightTheme: SettingsThemeData(
-          settingsListBackground: AppColors.background.color,
-          trailingTextColor: Colors.grey,
-          settingsSectionBackground: AppColors.background.color,
-          dividerColor: AppColors.background.color,
-          titleTextColor: Colors.grey,
-          inactiveTitleColor: AppColors.white.color,
-        ),
-        sections: [
-          SettingsSection(
-            title: Text(AppLocalizations.of(context)!.settingPageCommon),
-            tiles: <SettingsTile>[
-              SettingsTile.navigation(
-                onPressed: (context) => _showDialog(
-                    CupertinoPicker(
-                      magnification: 1.22,
-                      squeeze: 1.2,
-                      useMagnifier: true,
-                      itemExtent: 32.0,
-                      scrollController: FixedExtentScrollController(
-                        initialItem: 0,
-                      ),
-                      onSelectedItemChanged: (int selectedItem) {
-                        setState(() {
-                          final newLocale = Locale.fromSubtags(
-                              languageCode: pickerData[selectedItem]);
-                          final languageProvider =
-                              Provider.of<LanguageProvider>(context,
-                                  listen: false);
-                          languageProvider.changeLocale(newLocale);
-                        });
-                      },
-                      children:
-                          List<Widget>.generate(pickerData.length, (int index) {
-                        return Center(child: Text(pickerData[index]));
-                      }),
-                    ),
-                    context),
-                leading: const Icon(Icons.language),
-                title: Text(
-                    AppLocalizations.of(context)!.settingPageCommonLanguage,
-                    style: TextStyle(color: AppColors.white.color)),
-                value: Text(Localizations.localeOf(context).languageCode),
-              ),
-              SettingsTile.navigation(
-                leading: const Icon(Icons.subscriptions),
-                title: Text(
-                    AppLocalizations.of(context)!
-                        .settingPageCommonSubscriptionPlan,
-                    style: TextStyle(color: AppColors.white.color)),
-              ),
-              SettingsTile.navigation(
-                leading: const Icon(Icons.devices),
-                title: Text(
-                    AppLocalizations.of(context)!.settingPageCommonDevices,
-                    style: TextStyle(color: AppColors.white.color)),
-              ),
-            ],
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: SettingsList(
+          lightTheme: SettingsThemeData(
+            settingsListBackground: AppColors.background.color,
+            trailingTextColor: Colors.grey,
+            settingsSectionBackground: AppColors.background.color,
+            dividerColor: AppColors.background.color,
+            titleTextColor: AppColors.white.color,
+            inactiveTitleColor: AppColors.white.color,
           ),
-          SettingsSection(
-              title: Text(AppLocalizations.of(context)!.settingPageAccount),
+          sections: [
+            SettingsSection(
+              title: Text(
+                AppLocalizations.of(context)!.settingPageCommon,
+                style: TextStyle(
+                    fontFamily: AppFonts.lusitana.font,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
+              ),
               tiles: <SettingsTile>[
                 SettingsTile.navigation(
-                  leading: const Icon(Icons.account_box),
-                  title: Text(AppLocalizations.of(context)!.settingPageAccount,
-                      style: TextStyle(color: AppColors.white.color)),
-                  onPressed: (BuildContext context) {
-                    modal.showBarModalBottomSheet(
-                      expand: true,
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => PlatformBuilder(
-                          iOS: const ChangeUserinfo(),
-                          other: const ChangeUserinfo(),
-                          builder: (context, child, widget) {
-                            return widget;
-                          }),
-                    );
-                  },
+                  onPressed: (context) => _showDialog(
+                      CupertinoPicker(
+                        magnification: 1.22,
+                        squeeze: 1.2,
+                        useMagnifier: true,
+                        itemExtent: 32.0,
+                        scrollController: FixedExtentScrollController(
+                          initialItem: 0,
+                        ),
+                        onSelectedItemChanged: (int selectedItem) {
+                          setState(() {
+                            final newLocale = Locale.fromSubtags(
+                                languageCode: pickerData[selectedItem]);
+                            final languageProvider =
+                                Provider.of<LanguageProvider>(context,
+                                    listen: false);
+                            languageProvider.changeLocale(newLocale);
+                          });
+                        },
+                        children: List<Widget>.generate(pickerData.length,
+                            (int index) {
+                          return Center(child: Text(pickerData[index]));
+                        }),
+                      ),
+                      context),
+                  leading: const Icon(Icons.language),
+                  title: Text(
+                    AppLocalizations.of(context)!.settingPageCommonLanguage,
+                    style: TextStyle(
+                        fontFamily: AppFonts.colombia.font,
+                        fontSize: 15,
+                        color: AppColors.white.color,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  value: Text(Localizations.localeOf(context).languageCode),
                 ),
                 SettingsTile.navigation(
-                  onPressed: (BuildContext context) {
-                    modal.showBarModalBottomSheet(
-                      expand: true,
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => const ChangePassword(),
-                    );
-                  },
-                  leading: const Icon(Icons.key),
+                  leading: const Icon(Icons.subscriptions),
                   title: Text(
+                    AppLocalizations.of(context)!
+                        .settingPageCommonSubscriptionPlan,
+                    style: TextStyle(
+                        fontFamily: AppFonts.colombia.font,
+                        fontSize: 15,
+                        color: AppColors.white.color,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SettingsTile.navigation(
+                  leading: const Icon(Icons.devices),
+                  title: Text(
+                    AppLocalizations.of(context)!.settingPageCommonDevices,
+                    style: TextStyle(
+                        fontFamily: AppFonts.colombia.font,
+                        fontSize: 15,
+                        color: AppColors.white.color,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+            SettingsSection(
+                title: Text(
+                  AppLocalizations.of(context)!.settingPageAccount,
+                  style: TextStyle(
+                      fontFamily: AppFonts.lusitana.font,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
+                tiles: <SettingsTile>[
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.account_box),
+                    title: Text(
+                      AppLocalizations.of(context)!.settingPageAccount,
+                      style: TextStyle(
+                          fontFamily: AppFonts.colombia.font,
+                          fontSize: 15,
+                          color: AppColors.white.color,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onPressed: (BuildContext context) {
+                      modal.showBarModalBottomSheet(
+                        expand: true,
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => const ChangeUserinfo(),
+                      );
+                    },
+                  ),
+                  SettingsTile.navigation(
+                    onPressed: (BuildContext context) {
+                      modal.showBarModalBottomSheet(
+                        expand: true,
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => const ChangePassword(),
+                      );
+                    },
+                    leading: const Icon(Icons.key),
+                    title: Text(
                       AppLocalizations.of(context)!.settingPageAccountPassword,
-                      style: TextStyle(color: AppColors.white.color)),
-                ),
-                SettingsTile.navigation(
-                  leading: const Icon(Icons.payment),
-                  title: Text(
-                      AppLocalizations.of(context)!.settingPageAccountPayment,
-                      style: TextStyle(color: AppColors.white.color)),
-                ),
-                SettingsTile.navigation(
-                  onPressed: (context) => showDialog(
-                    context: context,
-                    builder: (context) => AppAlertDialog(
-                      onConfirm: () async {
-                        await _deleteAccount();
-                        await _signOut();
-                        Navigator.of(context).pop();
-                      },
-                      title: AppLocalizations.of(context)!.deleteAccount,
-                      subtitle:
-                          AppLocalizations.of(context)!.deleteAccountAlert,
+                      style: TextStyle(
+                          fontFamily: AppFonts.colombia.font,
+                          fontSize: 15,
+                          color: AppColors.white.color,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                  leading: const Icon(Icons.delete_forever),
-                  title: Text(
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.payment),
+                    title: Text(
+                      AppLocalizations.of(context)!.settingPageAccountPayment,
+                      style: TextStyle(
+                          fontFamily: AppFonts.colombia.font,
+                          fontSize: 15,
+                          color: AppColors.white.color,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  SettingsTile.navigation(
+                    onPressed: (context) => showDialog(
+                      context: context,
+                      builder: (context) => AppAlertDialog(
+                        onConfirm: () async {
+                          await _deleteAccount();
+                          await _signOut();
+                          Navigator.of(context).pop();
+                        },
+                        title: AppLocalizations.of(context)!.deleteAccount,
+                        subtitle:
+                            AppLocalizations.of(context)!.deleteAccountAlert,
+                      ),
+                    ),
+                    leading: const Icon(Icons.delete_forever),
+                    title: Text(
                       AppLocalizations.of(context)!.settingPageAccountDelete,
-                      style: TextStyle(color: AppColors.white.color)),
-                ),
-              ]),
-          SettingsSection(title: const Text(''), tiles: <SettingsTile>[
-            SettingsTile(
-              onPressed: (context) {
-                _signOut();
-                context.go(routeNameMap[RouteName.sigIn]!);
-              },
-              title: Center(
-                child: Text(
-                  AppLocalizations.of(context)!.settingPageLogOut,
-                  style: TextStyle(color: AppColors.accent.color),
+                      style: TextStyle(
+                          fontFamily: AppFonts.colombia.font,
+                          fontSize: 15,
+                          color: AppColors.white.color,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ]),
+            SettingsSection(title: const Text(''), tiles: <SettingsTile>[
+              SettingsTile(
+                onPressed: (context) {
+                  _signOut();
+                  context.go(routeNameMap[RouteName.sigIn]!);
+                },
+                title: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.settingPageLogOut,
+                    style: TextStyle(
+                        color: AppColors.accent.color,
+                        fontFamily: AppFonts.lusitana.font,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
-            ),
-          ])
-        ],
+            ])
+          ],
+        ),
       ),
     );
   }

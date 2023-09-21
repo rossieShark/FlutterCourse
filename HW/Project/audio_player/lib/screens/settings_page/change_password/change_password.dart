@@ -101,20 +101,42 @@ class _ChangePasswordState extends State<ChangePassword> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomTextField(
-                        obscureText: obscureText,
-                        controller: _passwordController,
-                        focusNode: _passwordFocusNode,
-                        onChanged: (text) {
-                          setState(() {
-                            resultText = '';
-                          });
-                        },
-                        hintText: AppLocalizations.of(context)!.changePassword,
-                      ),
-                    ),
+                    PlatformBuilder(
+                        web: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomTextField(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            obscureText: obscureText,
+                            controller: _passwordController,
+                            focusNode: _passwordFocusNode,
+                            onChanged: (text) {
+                              setState(() {
+                                resultText = '';
+                              });
+                            },
+                            hintText:
+                                AppLocalizations.of(context)!.changePassword,
+                          ),
+                        ),
+                        other: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomTextField(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            obscureText: obscureText,
+                            controller: _passwordController,
+                            focusNode: _passwordFocusNode,
+                            onChanged: (text) {
+                              setState(() {
+                                resultText = '';
+                              });
+                            },
+                            hintText:
+                                AppLocalizations.of(context)!.changePassword,
+                          ),
+                        ),
+                        builder: (context, child, widget) {
+                          return widget;
+                        }),
                     IconButtonWidget(
                         onPressed: () {
                           setState(() {
@@ -134,20 +156,57 @@ class _ChangePasswordState extends State<ChangePassword> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomTextField(
-                        obscureText: newObscureText,
-                        controller: _newPasswordController,
-                        focusNode: _newPasswordFocusNode,
-                        onChanged: (text) {
-                          setState(() {
-                            resultText = '';
-                          });
-                        },
-                        hintText: AppLocalizations.of(context)!.confirmPassword,
-                      ),
-                    ),
+                    PlatformBuilder(
+                        web: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomTextField(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            obscureText: newObscureText,
+                            controller: _newPasswordController,
+                            focusNode: _newPasswordFocusNode,
+                            onChanged: (text) {
+                              setState(() {
+                                resultText = '';
+                              });
+                            },
+                            hintText:
+                                AppLocalizations.of(context)!.confirmPassword,
+                          ),
+                        ),
+                        other: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomTextField(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            obscureText: newObscureText,
+                            controller: _newPasswordController,
+                            focusNode: _newPasswordFocusNode,
+                            onChanged: (text) {
+                              setState(() {
+                                resultText = '';
+                              });
+                            },
+                            hintText:
+                                AppLocalizations.of(context)!.confirmPassword,
+                          ),
+                        ),
+                        builder: (context, child, widget) {
+                          return widget;
+                        }),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: CustomTextField(
+                    //     width: MediaQuery.of(context).size.width / 2.4,
+                    //     obscureText: newObscureText,
+                    //     controller: _newPasswordController,
+                    //     focusNode: _newPasswordFocusNode,
+                    //     onChanged: (text) {
+                    //       setState(() {
+                    //         resultText = '';
+                    //       });
+                    //     },
+                    //     hintText: AppLocalizations.of(context)!.confirmPassword,
+                    //   ),
+                    // ),
                     IconButtonWidget(
                         onPressed: () {
                           setState(() {

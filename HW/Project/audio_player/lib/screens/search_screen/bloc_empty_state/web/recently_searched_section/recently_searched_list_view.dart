@@ -168,7 +168,7 @@ class _CreateButtonsLayer extends StatelessWidget {
   void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
     Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
         .setId(song.id);
-    if (musicProvider.isSongPlaying(int.parse(song.id))) {
+    if (musicProvider.isCurrentlyPlaying(int.parse(song.id))) {
       if (musicProvider.isPlaying) {
         musicProvider.pause();
       } else {

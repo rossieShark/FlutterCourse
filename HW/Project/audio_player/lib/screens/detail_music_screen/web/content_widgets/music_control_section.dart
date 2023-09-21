@@ -56,7 +56,7 @@ class CreateLikeandShuffleSection extends StatelessWidget {
           IconButtonWidget(
               iconData: Icons.ios_share,
               size: 20,
-              color: AppColors.white.color,
+              color: AppColors.accent.color,
               onPressed: () {}),
         ],
       ),

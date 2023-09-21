@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final FocusNode focusNode;
   final bool obscureText;
+  final double width;
   final void Function(String)? onChanged;
 
   const CustomTextField({
@@ -14,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.obscureText,
     required this.hintText,
     required this.focusNode,
+    this.width = 400,
     this.onChanged,
   }) : super(key: key);
 
@@ -27,7 +29,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        width: 400,
+        width: widget.width,
         height: 45,
         decoration: BoxDecoration(color: AppColors.white.color),
         child: TextField(

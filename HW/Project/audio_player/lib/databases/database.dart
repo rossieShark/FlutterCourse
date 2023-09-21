@@ -37,8 +37,9 @@ class AudioAppDatabase extends _$AudioAppDatabase {
   }
 
 //FavoriteArtist
-  Future<List<FavoriteArtist>> get allFavouriteArtists =>
-      select(favoriteArtists).get();
+  Future<List<FavoriteArtist>> getallFavouriteArtists() {
+    return select(favoriteArtists).get();
+  }
 
   Future<void> addManyFavoriteArtists(List<FavoriteArtist> items) async {
     await batch((batch) {

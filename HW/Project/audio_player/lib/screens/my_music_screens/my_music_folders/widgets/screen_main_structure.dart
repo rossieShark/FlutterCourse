@@ -10,7 +10,8 @@ class FavoritePageStructure extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: true);
     return Scaffold(
       backgroundColor: AppColors.background.color,
       appBar: AppBar(

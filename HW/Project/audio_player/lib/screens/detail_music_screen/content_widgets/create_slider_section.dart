@@ -14,7 +14,7 @@ class CreateSliderSection extends StatefulWidget {
 }
 
 class _CreateSliderSectionState extends State<CreateSliderSection> {
-  Duration duration = Duration.zero;
+  Duration duration = const Duration(seconds: 30);
   Duration position = Duration.zero;
   StreamSubscription<Duration>? durationSubscription;
   StreamSubscription<Duration>? positionSubscription;
@@ -34,12 +34,12 @@ class _CreateSliderSectionState extends State<CreateSliderSection> {
     positionSubscription?.cancel();
 
     final musicProvider = Provider.of<MusicProvider>(context, listen: false);
-    durationSubscription =
-        musicProvider.audioPlayer.onDurationChanged.listen((newDuration) {
-      setState(() {
-        duration = newDuration;
-      });
-    });
+    // durationSubscription =
+    //     musicProvider.audioPlayer.onDurationChanged.listen((newDuration) {
+    //   setState(() {
+    //     duration = newDuration;
+    //   });
+    // });
 
     positionSubscription =
         musicProvider.audioPlayer.onPositionChanged.listen((newPosition) {

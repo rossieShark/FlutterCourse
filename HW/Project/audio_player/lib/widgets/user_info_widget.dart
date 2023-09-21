@@ -50,8 +50,9 @@ class UserInfoWidget extends StatelessWidget {
                             style: TextStyle(
                                 color: AppColors.white.color, fontSize: 10),
                           ),
-                          const Text(
-                            "﹒",
+                          Text(
+                            " · ",
+                            style: TextStyle(color: AppColors.white.color),
                           ),
                           Text(
                             AppLocalizations.of(context)!.subscriptions(0),

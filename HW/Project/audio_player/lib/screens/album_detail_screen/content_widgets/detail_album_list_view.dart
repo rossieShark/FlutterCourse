@@ -54,7 +54,7 @@ class _CreateListViewContent extends StatelessWidget {
   void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
     Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
         .setId(songList[index].id.toString());
-    if (musicProvider.isSongPlaying(songList[index].id)) {
+    if (musicProvider.isCurrentlyPlaying(songList[index].id)) {
       if (musicProvider.isPlaying) {
         musicProvider.pause();
       } else {

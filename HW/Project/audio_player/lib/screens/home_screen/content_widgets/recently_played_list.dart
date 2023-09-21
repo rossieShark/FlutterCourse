@@ -170,7 +170,7 @@ class RecentlyPlayedPageContent extends StatelessWidget {
 
     Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
         .setId(id.toString());
-    if (musicProvider.isSongPlaying(id)) {
+    if (musicProvider.isCurrentlyPlaying(id)) {
       if (musicProvider.isPlaying) {
         musicProvider.pause();
       } else {

@@ -58,6 +58,17 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
     }
   }
 
+  Future<void> pickfromCamAndUploadImage() async {
+    final imageUrl = await imagePickerService.pickImageFromGallery();
+    print(imageUrl);
+    if (imageUrl != null) {
+      setState(() {
+        this.imageUrl = imageUrl;
+        print(imageUrl);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,7 +144,6 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                                             ),
                                             onPressed: () {
                                               pickAndUploadImage();
-                                      
                                             }),
                                         CupertinoActionSheetAction(
                                           child: Row(
@@ -153,7 +163,7 @@ class _ChangeUserinfoState extends State<ChangeUserinfo> {
                                             ],
                                           ),
                                           onPressed: () {
-                                            // pickImageCamera();
+                                            pickfromCamAndUploadImage();
                                           },
                                         ),
                                       ],
@@ -248,67 +258,6 @@ class _CreateChangeNameTextField extends StatelessWidget {
       placeholderStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       textAlign: TextAlign.center,
       style: TextStyle(color: AppColors.white.color, fontSize: 18),
-    );
-  }
-}
-
-class ImagePickerActionSheet extends StatelessWidget {
-  final VoidCallback getPhotoFromLibrary;
-  final VoidCallback getPhotoFromCamera;
-  const ImagePickerActionSheet(
-      {super.key,
-      required this.getPhotoFromCamera,
-      required this.getPhotoFromLibrary});
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoActionSheet(
-      actions: <Widget>[
-        CupertinoActionSheetAction(
-            isDefaultAction: true,
-            child: Row(
-              children: [
-                Icon(Icons.image, color: AppColors.black.color),
-                Text(
-                  AppLocalizations.of(context)!.galleryButton,
-                  style: TextStyle(
-                      color: AppColors.black.color,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            onPressed: () {
-              getPhotoFromLibrary;
-            }),
-        CupertinoActionSheetAction(
-          child: Row(
-            children: [
-              Icon(Icons.camera_alt, color: AppColors.black.color),
-              Text(
-                AppLocalizations.of(context)!.cameraButton,
-                style: TextStyle(
-                    color: AppColors.black.color,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-          onPressed: () {
-            getPhotoFromCamera;
-          },
-        ),
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        child: Text(
-          AppLocalizations.of(context)!.cancelButton,
-          style: TextStyle(
-              color: AppColors.accent.color,
-              fontSize: 16,
-              fontWeight: FontWeight.w600),
-        ),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
     );
   }
 }

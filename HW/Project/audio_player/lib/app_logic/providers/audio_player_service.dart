@@ -102,10 +102,6 @@ class MusicProvider with ChangeNotifier {
     return playlist.any((song) => song.id == songId);
   }
 
-  bool isSongPlaying(int songId) {
-    return _currentSongId == songId;
-  }
-
   bool isCurrentlyPlaying(int songId) {
     return _currentSongId == songId;
   }

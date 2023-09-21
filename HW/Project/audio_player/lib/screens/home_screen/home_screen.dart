@@ -4,7 +4,7 @@ import 'package:audio_player/screens/tab_bar/index.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
+
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage> {
               iconData: Icons.ios_share,
               color: AppColors.accent.color,
               onPressed: () {
-                Share.share('check out my website https://example.com',
-                    subject: 'Look what I made!');
+                // Share.share('check out my website https://example.com',
+                //     subject: 'Look what I made!');
               }),
           IconButtonWidget(
               iconData: Icons.settings,

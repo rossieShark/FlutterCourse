@@ -135,7 +135,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get artistFilter => 'artist';
 
   @override
-  String get changePassword => 'Изменить паспорт';
+  String get changePassword => 'Изменить пароль';
 
   @override
   String get enterPassword => 'Пароль';

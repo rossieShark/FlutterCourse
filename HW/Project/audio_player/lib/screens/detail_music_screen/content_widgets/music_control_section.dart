@@ -16,7 +16,7 @@ class CreatMusicControlSection extends StatefulWidget {
 
 class _CreatMusicControlSectionState extends State<CreatMusicControlSection> {
   void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
-    if (musicProvider.isSongPlaying(widget.songInfo.id)) {
+    if (musicProvider.isCurrentlyPlaying(widget.songInfo.id)) {
       if (musicProvider.isPlaying) {
         musicProvider.pause();
       } else {

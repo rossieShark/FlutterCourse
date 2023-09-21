@@ -30,12 +30,13 @@ class FavoriteAlbumListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FavoriteProvider>(context, listen: true);
     return ListView.separated(
         itemCount: favoriteProvider.favoriteAlbum.length,
         separatorBuilder: (context, index) => const Divider(),
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
-          final song = favoriteProvider.favoriteAlbum[index];
+          final song = provider.favoriteAlbum[index];
           return GestureDetector(
             onTap: () {
               String id = song.id;
@@ -46,10 +47,17 @@ class FavoriteAlbumListView extends StatelessWidget {
                 queryParameters: {'image': image},
               ).toString());
             },
-            child: DismissibleWidget(
-              song: song,
-              onDismissed: () {
-                favoriteProvider.removeFromFavoritesAlbum(song);
+            child: Dismissible(
+              key: Key(song.id),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                color: AppColors.accent.color,
+                child: const Icon(Icons.delete, color: Colors.white),
+              ),
+              onDismissed: (direction) {
+                provider.removeFromFavoritesAlbum(song);
               },
               child: CustomListViewContent(
                 imageSection: ResponsiveBuilder(

@@ -119,10 +119,10 @@ class _NavigationRailWidget extends StatelessWidget {
                             NavigationUtils.WebHandleTabTap(context, index);
                           },
                           destinations: [
-                            DestinationData(const Icon(CupertinoIcons.home),
-                                AppLocalizations.of(context)!.homePageTitle),
                             DestinationData(const Icon(CupertinoIcons.search),
                                 AppLocalizations.of(context)!.tabBarSearch),
+                            DestinationData(const Icon(CupertinoIcons.home),
+                                AppLocalizations.of(context)!.homePageTitle),
                           ],
                         ),
                       ),
