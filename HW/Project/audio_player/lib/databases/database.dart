@@ -23,8 +23,9 @@ class AudioAppDatabase extends _$AudioAppDatabase {
   int get schemaVersion => 3;
 
 //RecentlyPlayedSong
-  Future<List<RecentlyPlayedSong>> get allRecentlyPlayedSongs =>
-      select(recentlyPlayedSongs).get();
+  Future<List<RecentlyPlayedSong>> getallRecentlyPlayedSongs() {
+    return select(recentlyPlayedSongs).get();
+  }
 
   Future<void> addSongItem(RecentlyPlayedSong recentlyPlayedSong) {
     return into(recentlyPlayedSongs).insert(recentlyPlayedSong);
@@ -48,7 +49,9 @@ class AudioAppDatabase extends _$AudioAppDatabase {
   }
 
 //BestAlbum
-  Future<List<BestAlbum>> get allBestAlbums => select(bestAlbums).get();
+  Future<List<BestAlbum>> getallBestAlbums() {
+    return select(bestAlbums).get();
+  }
 
   Future<void> addManyAlbums(List<BestAlbum> items) async {
     await batch((batch) {
@@ -112,7 +115,9 @@ class AudioAppDatabase extends _$AudioAppDatabase {
 
   Future<void> clearAll() => delete(recentlySearchedSongs).go();
 //Genres
-  Future<List<MusicGenre>> get allGenres => select(musicGenres).get();
+  Future<List<MusicGenre>> getallGenres() {
+    return select(musicGenres).get();
+  }
 
   Future<void> addManyGenres(List<MusicGenre> items) async {
     await batch((batch) {

@@ -9,26 +9,26 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   void _onToggleSongFavorite(
-      ToggleFavoriteSongEvent event, Emitter<FavoriteState> emit) {
+      ToggleFavoriteSongEvent event, Emitter<FavoriteState> emit) async {
     final isFavorite = favoriteProvider.isFavoriteSong(event.songModel.id);
 
     if (isFavorite) {
-      favoriteProvider.removeFromFavorites(event.songModel);
+      await favoriteProvider.removeFromFavorites(event.songModel);
     } else {
-      favoriteProvider.addToFavorites(event.songModel);
+      await favoriteProvider.addToFavorites(event.songModel);
     }
     emit(FavoriteSongUpdatedState(!isFavorite));
   }
 
   void _onToggleAlbumFavorite(
-      ToggleFavoriteAlbumEvent event, Emitter<FavoriteState> emit) {
+      ToggleFavoriteAlbumEvent event, Emitter<FavoriteState> emit) async {
     final isFavorite = favoriteProvider.isFavoriteAlbum(event.songModel.id);
 
     if (isFavorite) {
-      favoriteProvider.removeFromFavoritesAlbum(event.songModel);
+      await favoriteProvider.removeFromFavoritesAlbum(event.songModel);
     } else {
-      favoriteProvider.addToFavoritesAlbum(event.songModel);
+      await favoriteProvider.addToFavoritesAlbum(event.songModel);
     }
-    emit(FavoriteSongUpdatedState(!isFavorite));
+    emit(FavoriteAlbumUpdatedState(!isFavorite));
   }
 }

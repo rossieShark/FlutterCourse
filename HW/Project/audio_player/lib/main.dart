@@ -13,7 +13,7 @@ void main() async {
   SetGetItDependencies().setupProviderDependencies();
   SetGetItDependencies().setupRepoDependencies();
   SetGetItDependencies().setupBlocDependencies();
-  SetGetItDependencies().setupPermissionDependencies();
+  SetGetItDependencies().setupServiceDependencies();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(

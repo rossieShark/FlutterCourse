@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class MusicProvider with ChangeNotifier {
   List<PlayedSong> playlist = [];
-  final AudioPlayer audioPlayer = AudioPlayer();
-
+  final AudioPlayer audioPlayer;
+  MusicProvider(this.audioPlayer);
   int _currentSongIndex = 0;
   int _currentSongId = -1;
 
@@ -16,6 +16,11 @@ class MusicProvider with ChangeNotifier {
 
   set currentSongId(int songId) {
     _currentSongId = songId;
+    notifyListeners();
+  }
+
+  set currentSongIndex(int index) {
+    _currentSongIndex = index;
     notifyListeners();
   }
 
@@ -49,7 +54,6 @@ class MusicProvider with ChangeNotifier {
 
   void stop() {
     audioPlayer.stop();
-
     notifyListeners();
   }
 

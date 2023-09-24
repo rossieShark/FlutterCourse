@@ -2,7 +2,6 @@ import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/services/services.dart';
 
-
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   final AlbumRepository repository;
 
@@ -21,7 +20,8 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
 }
 
 class AlbumRepository {
-  final BestAlbumsPaginationService _service = BestAlbumsPaginationService();
+  final BestAlbumsPaginationService _service;
+  AlbumRepository(this._service);
 
   Future<List<BestAlbum>> getAlbums() async {
     await _service.loadMoreItems();

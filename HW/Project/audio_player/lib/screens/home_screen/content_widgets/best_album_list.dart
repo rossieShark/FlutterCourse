@@ -1,7 +1,9 @@
 import 'package:audio_player/databases/database.dart';
+
 import 'package:audio_player/screens/tab_bar/index.dart';
 
 import 'package:audio_player/widgets/widget_exports.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,13 +18,16 @@ class BestAlbumList extends StatelessWidget {
     return ResponsiveWidget(
       narrow: (context) => SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: bestAlbumList!.length.toDouble() * (150 + 26),
+        height: bestAlbumList!.length.toDouble() * (220 + 26),
         child: ListView(
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(bestAlbumList!.length, (index) {
             return BestAlbumsContent(
-                bestAlbumList: bestAlbumList!, index: index);
+                id: bestAlbumList![index].id,
+                image: bestAlbumList![index].image,
+                artist: bestAlbumList![index].artist,
+                title: bestAlbumList![index].title);
           }),
         ),
       ),
@@ -39,7 +44,10 @@ class BestAlbumList extends StatelessWidget {
           children: bestAlbumList!.asMap().entries.map((entry) {
             final index = entry.key;
             return BestAlbumsContent(
-                bestAlbumList: bestAlbumList!, index: index);
+                id: bestAlbumList![index].id,
+                image: bestAlbumList![index].image,
+                artist: bestAlbumList![index].artist,
+                title: bestAlbumList![index].title);
           }).toList(),
         ),
       ),
@@ -48,18 +56,21 @@ class BestAlbumList extends StatelessWidget {
 }
 
 class BestAlbumsContent extends StatelessWidget {
-  final List<BestAlbum> bestAlbumList;
-  final int index;
+  final int id;
+  final String image;
+  final String title;
+  final String artist;
 
   const BestAlbumsContent(
-      {super.key, required this.bestAlbumList, required this.index});
+      {super.key,
+      required this.id,
+      required this.artist,
+      required this.image,
+      required this.title});
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
-    final int id = bestAlbumList[index].id;
-    final image = bestAlbumList[index].image;
-    final title = bestAlbumList[index].title;
-    final artist = bestAlbumList[index].artist;
+
     return GestureDetector(
       onTap: () {
         print('Navigating to album detail with id: $id and title: $image');
@@ -82,7 +93,7 @@ class BestAlbumsContent extends StatelessWidget {
           child: HoverableWidget(builder: (context, child, isHovered) {
             return Stack(children: [
               ResponsiveBuilder(
-                narrow: 150.0,
+                narrow: 220.0,
                 medium: 350.0,
                 large: 350.0,
                 builder: (context, child, height) {
@@ -93,7 +104,7 @@ class BestAlbumsContent extends StatelessWidget {
                   );
                 },
                 child: Image.network(
-                  bestAlbumList[index].image,
+                  image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -109,14 +120,37 @@ class BestAlbumsContent extends StatelessWidget {
               ),
               Positioned.fill(
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CreateSongTitle(
-                        artistName: bestAlbumList[index].title,
-                        songTitle: bestAlbumList[index].artist,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AutoSizeText(
+                        TextModifierService().removeTextAfter(
+                          artist,
+                        ),
+                        style: TextStyle(
+                            color: AppColors.white.color,
+                            fontSize: 30,
+                            fontFamily: AppFonts.lusitana.font,
+                            fontWeight: FontWeight.w600),
+                        maxFontSize: 15,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 3,
-                        minFontSize: 13,
-                        fontSize: 24,
-                        crossAxisAlignment: CrossAxisAlignment.center)),
+                      ),
+                      Text(
+                        TextModifierService().removeTextAfter(title),
+                        style: TextStyle(
+                            fontFamily: AppFonts.colombia.font,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ]);
           }),

@@ -1,8 +1,10 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
 import 'package:audio_player/databases/database.dart';
-import 'package:audio_player/services/app_services/permission_service.dart';
+import 'package:audio_player/services/search_result/search_result_service.dart';
+
 import 'package:audio_player/services/service.dart';
 import 'package:audio_player/services/services.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:get_it/get_it.dart';
 
 class SetGetItDependencies {
@@ -21,39 +23,46 @@ class SetGetItDependencies {
       () => MyMusicFoldersProvider(GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<MusicProvider>(
-      () => MusicProvider(),
+      () => MusicProvider(GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<LanguageProvider>(
       () => LanguageProvider(),
+    );
+    GetIt.instance.registerLazySingleton<AudioPlayer>(
+      () => AudioPlayer(),
     );
   }
 
   void setupRepoDependencies() {
     GetIt.instance.registerLazySingleton<RecentlyPlayedRepository>(
-      () => RecentlyPlayedRepository(GetIt.instance.get()),
+      () =>
+          RecentlyPlayedRepository(GetIt.instance.get(), GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<FavoriteArtistRepository>(
-      () => FavoriteArtistRepository(GetIt.instance.get()),
+      () =>
+          FavoriteArtistRepository(GetIt.instance.get(), GetIt.instance.get()),
     );
-    GetIt.instance.registerLazySingleton<BestAlbumRepository>(
-      () => BestAlbumRepository(
-          GetIt.instance.get(), AudioPlayerService.create()),
-    );
+    GetIt.instance.registerFactory<BestAlbumRepository>(
+        () => BestAlbumRepository(GetIt.instance.get(), GetIt.instance.get()));
+
     GetIt.instance.registerLazySingleton<AlbumDetailsRepository>(
-      () => AlbumDetailsRepository(GetIt.instance.get()),
+      () => AlbumDetailsRepository(GetIt.instance.get(), GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<GenresRepository>(
-      () => GenresRepository(GetIt.instance.get()),
+      () => GenresRepository(GetIt.instance.get(), GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<SongDetailRepository>(
-      () => SongDetailRepository(GetIt.instance.get()),
+      () => SongDetailRepository(GetIt.instance.get(), GetIt.instance.get()),
+    );
+    GetIt.instance.registerLazySingleton<SearchResultRepository>(
+      () => SearchResultRepository(GetIt.instance.get()),
     );
     GetIt.instance.registerLazySingleton<AlbumRepository>(
-      AlbumRepository.new,
+      () => AlbumRepository(GetIt.instance.get()),
     );
+
     GetIt.instance.registerLazySingleton<SearchRepository>(
-      SearchRepository.new,
-    );
+        () => SearchRepository(GetIt.instance.get()));
   }
 
   void setupBlocDependencies() {
@@ -82,8 +91,13 @@ class SetGetItDependencies {
         () => DetailMusicPageBloc(GetIt.instance.get()));
   }
 
-  void setupPermissionDependencies() {
-    GetIt.instance.registerSingleton<PermissionService>(
-        PermissionHandlerPermissionService());
+  void setupServiceDependencies() {
+    GetIt.instance.registerLazySingleton(() => AudioPlayerService.create());
+
+    GetIt.instance.registerFactory<BestAlbumsPaginationService>(
+        () => BestAlbumsPaginationService(GetIt.instance.get()));
+
+    GetIt.instance.registerFactory<SearchResultPaginationService>(
+        () => SearchResultPaginationService(GetIt.instance.get()));
   }
 }

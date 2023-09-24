@@ -28,10 +28,14 @@ class _DetailAlbumListViewState extends State<DetailAlbumListView> {
       children: List.generate(widget.songList.length, (index) {
         return HoverableWidget(builder: (context, child, isHovered) {
           return _CreateListViewContent(
+            preview: widget.songList[index].preview,
             image: widget.image,
             songList: widget.songList,
             index: index,
             isHovered: isHovered,
+            artist: widget.songList[index].artistNames,
+            id: widget.songList[index].id,
+            title: widget.songList[index].title,
           );
         });
       }),
@@ -40,21 +44,28 @@ class _DetailAlbumListViewState extends State<DetailAlbumListView> {
 }
 
 class _CreateListViewContent extends StatelessWidget {
-  const _CreateListViewContent({
-    required this.index,
-    required this.isHovered,
-    required this.image,
-    required this.songList,
-  });
+  const _CreateListViewContent(
+      {required this.index,
+      required this.isHovered,
+      required this.image,
+      required this.preview,
+      required this.songList,
+      required this.artist,
+      required this.title,
+      required this.id});
 
   final List<DetailAlbum> songList;
   final String image;
+  final String artist;
+  final String title;
+  final String preview;
+  final int id;
   final int index;
   final bool isHovered;
   void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
     Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
-        .setId(songList[index].id.toString());
-    if (musicProvider.isCurrentlyPlaying(songList[index].id)) {
+        .setId(id.toString());
+    if (musicProvider.isCurrentlyPlaying(id)) {
       if (musicProvider.isPlaying) {
         musicProvider.pause();
       } else {
@@ -63,10 +74,9 @@ class _CreateListViewContent extends StatelessWidget {
     } else {
       musicProvider.clearPlaylist();
 
-      musicProvider.addSong(
-          PlayedSong(id: songList[index].id, preview: songList[index].preview));
+      musicProvider.addSong(PlayedSong(id: id, preview: preview));
       musicProvider.play(musicProvider.playlist[0].preview);
-      musicProvider.currentSongId = songList[index].id;
+      musicProvider.currentSongId = id;
     }
   }
 
@@ -118,8 +128,7 @@ class _CreateListViewContent extends StatelessWidget {
                               )
                             : CreatePlayButton(
                                 icon: musicProvider.isPlaying &&
-                                        musicProvider.isCurrentlyPlaying(
-                                            songList[index].id)
+                                        musicProvider.isCurrentlyPlaying(id)
                                     ? Icon(Icons.pause,
                                         color: AppColors.white.color)
                                     : Icon(Icons.play_arrow,
@@ -133,13 +142,11 @@ class _CreateListViewContent extends StatelessWidget {
                               ),
                         other: IconButtonWidget(
                             iconData: (musicProvider.isPlaying &&
-                                    musicProvider
-                                        .isCurrentlyPlaying(songList[index].id))
+                                    musicProvider.isCurrentlyPlaying(id))
                                 ? Icons.pause
                                 : Icons.play_arrow,
                             color: AppColors.white.color,
                             onPressed: () {
-                              final id = songList[index].id;
                               GoRouter.of(context).push(Uri(
                                       path:
                                           '/${routeNameMap[RouteName.detailMusic]!}$id')
@@ -157,8 +164,8 @@ class _CreateListViewContent extends StatelessWidget {
                 ),
                 Expanded(
                     child: CreateSongTitle(
-                  artistName: songList[index].artistNames,
-                  songTitle: songList[index].title,
+                  artistName: artist,
+                  songTitle: title,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                 )),
               ]),

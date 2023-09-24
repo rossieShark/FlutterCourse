@@ -1,5 +1,5 @@
 export 'package:audio_player/services/albums_detail/album_details_service.dart';
-export 'package:audio_player/services/header_info.dart';
+
 export 'package:audio_player/services/json_serializable.dart';
 export 'package:audio_player/services/home_screen_service/home_service.dart';
 export 'package:audio_player/services/song_detail/song_service.dart';

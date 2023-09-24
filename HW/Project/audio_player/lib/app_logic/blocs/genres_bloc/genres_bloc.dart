@@ -10,7 +10,7 @@ class GenresBloc extends Bloc<GenresEvent, GenresState> {
 
   void fetchGenres(FetchGenresEvent event, Emitter<GenresState> emit) async {
     try {
-      final genres = await repository.getTracksFromDb();
+      final genres = await repository.getAllGenres();
       emit(GenresState(genres));
     } catch (error) {
       print('Error fetching song detail: $error');

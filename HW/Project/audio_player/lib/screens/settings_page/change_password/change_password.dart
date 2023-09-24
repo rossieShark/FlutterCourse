@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -8,9 +8,9 @@ import 'package:audio_player/services/service.dart';
 
 class RecentlyPlayedRepository {
   final AudioAppDatabase _database;
-  final AudioPlayerService recentlyPlayedService = AudioPlayerService.create();
+  final AudioPlayerService _recentlyPlayedService;
 
-  RecentlyPlayedRepository(this._database);
+  RecentlyPlayedRepository(this._database, this._recentlyPlayedService);
 
   Future<List<RecentlyPlayedSong>> cacheTracks(List<Data> tracks) async {
     final songsToInsert = tracks.map((track) {
@@ -30,17 +30,17 @@ class RecentlyPlayedRepository {
   }
 
   Future<List<RecentlyPlayedSong>> getTracksFromDb() async {
-    return await _database.allRecentlyPlayedSongs;
+    return await _database.getallRecentlyPlayedSongs();
   }
 
   Future<List<RecentlyPlayedSong>> getTracks() async {
-    final dbTracks = await _database.allRecentlyPlayedSongs;
+    final dbTracks = await getTracksFromDb();
 
     if (dbTracks.isNotEmpty) {
       return dbTracks;
     }
 
-    final apiTracks = await recentlyPlayedService.getRecentlyPlayedTracks();
+    final apiTracks = await _recentlyPlayedService.getRecentlyPlayedTracks();
     final apiTracksResponse = apiTracks.body?.tracks.data as List<Data>;
 
     return cacheTracks(apiTracksResponse);
@@ -49,8 +49,8 @@ class RecentlyPlayedRepository {
 
 class FavoriteArtistRepository {
   final AudioAppDatabase _database;
-  final AudioPlayerService recentlyPlayedService = AudioPlayerService.create();
-  FavoriteArtistRepository(this._database);
+  final AudioPlayerService _recentlyPlayedService;
+  FavoriteArtistRepository(this._database, this._recentlyPlayedService);
 
   Future<List<FavoriteArtist>> cacheTracks(List<Artists> tracks) async {
     final songsToInsert = tracks.map((artist) {
@@ -77,7 +77,7 @@ class FavoriteArtistRepository {
       return dbTracks;
     }
 
-    final apiArtists = await recentlyPlayedService.getFavoriteArtists();
+    final apiArtists = await _recentlyPlayedService.getFavoriteArtists();
 
     final apiArtistsResponse = apiArtists.body?.data as List<Artists>;
 
@@ -108,11 +108,11 @@ class BestAlbumRepository {
   }
 
   Future<List<BestAlbum>> getAlbumsFromDb() async {
-    return await _database.allBestAlbums;
+    return await _database.getallBestAlbums();
   }
 
   Future<List<BestAlbum>> getBestAlbums(int index, int limit) async {
-    final dbAlbums = await _database.allBestAlbums;
+    final dbAlbums = await getAlbumsFromDb();
 
     if (dbAlbums.length < limit) {
       return fetchAndCacheBestAlbums(index, limit);

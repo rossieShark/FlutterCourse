@@ -2,7 +2,8 @@ import 'package:audio_player/models/models.dart';
 import 'package:audio_player/services/service.dart';
 
 class SearchResultRepository {
-  final AudioPlayerService searchResultService = AudioPlayerService.create();
+  final AudioPlayerService _searchResultService;
+  SearchResultRepository(this._searchResultService);
 
   Future<List<SearchData>> getSearchResults(
     int index,
@@ -10,7 +11,7 @@ class SearchResultRepository {
     String q,
   ) async {
     final apiResult =
-        await searchResultService.getSearchResult(q, index, limit);
+        await _searchResultService.getSearchResult(q, index, limit);
 
     final apiResultResponse = apiResult.body?.data as List<SearchData>;
 

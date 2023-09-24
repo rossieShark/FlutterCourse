@@ -81,53 +81,9 @@ class _CreateListViewState extends State<CreateListView> {
           controller: _horizontalScroll,
           scrollDirection: Axis.horizontal,
           children: List.generate(widget.favoriteArtistList.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ResponsiveBuilder(
-                      narrow: 78.0,
-                      medium: 110.0,
-                      large: 120.0,
-                      builder: (context, child, height) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(height / 2),
-                          child: SizedBox(
-                            height: height,
-                            width: height,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: Image.network(
-                          widget.favoriteArtistList[index].image,
-                          fit: BoxFit.cover),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    ResponsiveBuilder(
-                        narrow: 13.0,
-                        medium: 14.0,
-                        large: 14.0,
-                        builder: (context, child, size) {
-                          return Text(
-                            TextModifierService().removeTextAfter(
-                                widget.favoriteArtistList[index].name),
-                            style: TextStyle(
-                              fontFamily: AppFonts.colombia.font,
-                              fontSize: size,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          );
-                        }),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ]),
-            );
+            return FavoriteListContent(
+                image: widget.favoriteArtistList[index].image,
+                name: widget.favoriteArtistList[index].name);
           }),
         ),
         Positioned(
@@ -143,5 +99,62 @@ class _CreateListViewState extends State<CreateListView> {
             )),
       ]);
     });
+  }
+}
+
+class FavoriteListContent extends StatelessWidget {
+  const FavoriteListContent({
+    super.key,
+    required this.image,
+    required this.name,
+  });
+
+  final String image;
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        ResponsiveBuilder(
+          narrow: 78.0,
+          medium: 115.0,
+          large: 125.0,
+          builder: (context, child, height) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(height / 2),
+              child: SizedBox(
+                height: height,
+                width: height,
+                child: child,
+              ),
+            );
+          },
+          child: Image.network(image, fit: BoxFit.cover),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        ResponsiveBuilder(
+            narrow: 13.0,
+            medium: 14.0,
+            large: 14.0,
+            builder: (context, child, size) {
+              return Text(
+                TextModifierService().removeTextAfter(name),
+                style: TextStyle(
+                  fontFamily: AppFonts.colombia.font,
+                  fontSize: size,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              );
+            }),
+        const SizedBox(
+          height: 5,
+        ),
+      ]),
+    );
   }
 }

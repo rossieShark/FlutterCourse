@@ -1,14 +1,14 @@
 import 'package:audio_player/databases/database.dart';
-import 'package:audio_player/services/service.dart';
 
 import 'package:audio_player/services/services.dart';
-import 'package:get_it/get_it.dart';
 
 class BestAlbumsPaginationService {
+  final BestAlbumRepository _bestAlbumsRepository;
+  BestAlbumsPaginationService(this._bestAlbumsRepository);
   bool _isLoading = false;
 
-  final BestAlbumRepository _bestAlbumsRepository = BestAlbumRepository(
-      GetIt.I<AudioAppDatabase>(), AudioPlayerService.create());
+  // final BestAlbumRepository _bestAlbumsRepository =
+  //     BestAlbumRepository(GetIt.I<AudioAppDatabase>(), GetIt.instance.get());
   final int _perPage = 10;
   int _index = 0;
   int _limit = 10;

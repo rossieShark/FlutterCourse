@@ -93,7 +93,12 @@ class _ImageListViewState extends State<ImageListView> {
             children: List.generate(widget.chartItems.length, (index) {
               return HoverableWidget(builder: (context, child, isHovered) {
                 return RecentlyPlayedPageContent(
-                    chartItems: widget.chartItems, index: index);
+                    id: widget.chartItems[index].id,
+                    isHovered: isHovered,
+                    image: widget.chartItems[index].headerImageUrl,
+                    artistName: widget.chartItems[index].artistNames,
+                    title: widget.chartItems[index].title,
+                    preview: widget.chartItems[index].preview);
               });
             }),
           ),
@@ -125,9 +130,9 @@ class ImageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
-        narrow: 190.0,
-        medium: 250.0,
-        large: 280.0,
+        narrow: 220.0,
+        medium: 255.0,
+        large: 285.0,
         builder: (context, child, height) {
           return SizedBox(
             width: double.infinity,
@@ -143,14 +148,15 @@ class ImageScroll extends StatelessWidget {
               axisDirection: Axis.horizontal,
               loop: true,
               itemBuilder: (context, index, realIndex) {
-                return PlatformBuilder(
-                    web: RecentlyPlayedPageContent(
-                        chartItems: chartItems, index: index),
-                    other: RecentlyPlayedPageContent(
-                        chartItems: chartItems, index: index),
-                    builder: (context, child, widget) {
-                      return widget;
-                    });
+                return HoverableWidget(builder: (context, child, isHovered) {
+                  return RecentlyPlayedPageContent(
+                      id: chartItems[index].id,
+                      image: chartItems[index].headerImageUrl,
+                      artistName: chartItems[index].artistNames,
+                      title: chartItems[index].title,
+                      isHovered: isHovered,
+                      preview: chartItems[index].preview);
+                });
               },
             ),
           );
@@ -159,15 +165,23 @@ class ImageScroll extends StatelessWidget {
 }
 
 class RecentlyPlayedPageContent extends StatelessWidget {
-  final List<RecentlyPlayedSong> chartItems;
-  final int index;
+  final int id;
+  final String image;
 
+  final String title;
+  final String artistName;
+  final String preview;
+  final bool isHovered;
   const RecentlyPlayedPageContent(
-      {super.key, required this.chartItems, required this.index});
+      {super.key,
+      required this.id,
+      required this.image,
+      required this.title,
+      required this.preview,
+      required this.isHovered,
+      required this.artistName});
 
   void playPauseMusic(BuildContext context, MusicProvider musicProvider) {
-    final int id = chartItems[index].id;
-
     Provider.of<RecentlyPlayedIdProvider>(context, listen: false)
         .setId(id.toString());
     if (musicProvider.isCurrentlyPlaying(id)) {
@@ -179,9 +193,8 @@ class RecentlyPlayedPageContent extends StatelessWidget {
     } else {
       musicProvider.clearPlaylist();
 
-      musicProvider
-          .addSong(PlayedSong(id: id, preview: chartItems[index].preview));
-      musicProvider.play(musicProvider.playlist[0].preview);
+      musicProvider.addSong(PlayedSong(id: id, preview: preview));
+      musicProvider.play(preview);
       musicProvider.currentSongId = id;
     }
     musicProvider.musicCompleted();
@@ -189,94 +202,85 @@ class RecentlyPlayedPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int id = chartItems[index].id;
     final musicProvider = Provider.of<MusicProvider>(context, listen: false);
-    return Builder(builder: (context) {
-      return HoverableWidget(builder: (context, child, isHovered) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Stack(
-              children: [
-                ResponsiveBuilder(
-                  narrow: 190.0,
-                  medium: 200.0,
-                  large: 235.0,
-                  builder: (context, child, height) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        height: height,
-                        width: height,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: Image.network(chartItems[index].headerImageUrl,
-                      fit: BoxFit.cover),
-                ),
-                Positioned(
-                  bottom: 8,
-                  right: 8,
-                  child: PlatformBuilder(
-                      web: isHovered
-                          ? CreatePlayButton(
-                              onPressed: () {
-                                playPauseMusic(context, musicProvider);
-                              },
-                              size: 45,
-                              icon: (musicProvider.isPlaying &&
-                                      musicProvider.isSongInPlaylist(id))
-                                  ? Icon(Icons.pause,
-                                      color: AppColors.black.color)
-                                  : Icon(Icons.play_arrow,
-                                      color: AppColors.black.color),
-                              containerColor: AppColors.accent.color,
-                            )
-                          : Container(),
-                      other: CreatePlayButton(
-                        onPressed: () {
-                          GoRouter.of(context).push(Uri(
-                                  path:
-                                      '/${routeNameMap[RouteName.detailMusic]!}$id')
-                              .toString());
-                          playPauseMusic(context, musicProvider);
-                        },
-                        size: 40,
-                        icon: (musicProvider.isPlaying &&
-                                musicProvider.isSongInPlaylist(id))
-                            ? Icon(Icons.pause, color: AppColors.white.color)
-                            : Icon(Icons.play_arrow,
-                                color: AppColors.white.color),
-                        containerColor: AppColors.accent.color.withOpacity(0.8),
-                      ),
-                      builder: (context, child, widget) {
-                        return widget;
-                      }),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 5, 16, 8),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Stack(
+          children: [
             ResponsiveBuilder(
-                narrow: 12.0,
-                medium: 14.0,
-                large: 14.0,
-                builder: (context, child, size) {
-                  return CreateSongTitle(
-                    artistName: chartItems[index].artistNames,
-                    songTitle: TextModifierService()
-                        .capitalizeFirstLetter(chartItems[index].title),
-                    maxLines: 2,
-                    fontSize: size,
-                    minFontSize: 13,
-                  );
-                }),
-          ]),
-        );
-      });
-    });
+              narrow: 190.0,
+              medium: 200.0,
+              large: 235.0,
+              builder: (context, child, height) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox(
+                    height: height,
+                    width: height,
+                    child: child,
+                  ),
+                );
+              },
+              child: Image.network(image, fit: BoxFit.cover),
+            ),
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: PlatformBuilder(
+                  web: isHovered
+                      ? CreatePlayButton(
+                          onPressed: () {
+                            playPauseMusic(context, musicProvider);
+                          },
+                          size: 45,
+                          icon: (musicProvider.isPlaying &&
+                                  musicProvider.isSongInPlaylist(id))
+                              ? Icon(Icons.pause, color: AppColors.black.color)
+                              : Icon(Icons.play_arrow,
+                                  color: AppColors.black.color),
+                          containerColor: AppColors.accent.color,
+                        )
+                      : Container(),
+                  other: CreatePlayButton(
+                    onPressed: () {
+                      GoRouter.of(context).push(Uri(
+                              path:
+                                  '/${routeNameMap[RouteName.detailMusic]!}$id')
+                          .toString());
+                      playPauseMusic(context, musicProvider);
+                    },
+                    size: 40,
+                    icon: (musicProvider.isPlaying &&
+                            musicProvider.isSongInPlaylist(id))
+                        ? Icon(Icons.pause, color: AppColors.white.color)
+                        : Icon(Icons.play_arrow, color: AppColors.white.color),
+                    containerColor: AppColors.accent.color.withOpacity(0.8),
+                  ),
+                  builder: (context, child, widget) {
+                    return widget;
+                  }),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        ResponsiveBuilder(
+            narrow: 12.0,
+            medium: 14.0,
+            large: 14.0,
+            builder: (context, child, size) {
+              return CreateSongTitle(
+                artistName: artistName,
+                songTitle: TextModifierService().capitalizeFirstLetter(title),
+                maxLines: 2,
+                fontSize: size,
+                minFontSize: 13,
+              );
+            }),
+      ]),
+    );
   }
 }

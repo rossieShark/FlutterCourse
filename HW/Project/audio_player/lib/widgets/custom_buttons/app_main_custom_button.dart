@@ -1,4 +1,4 @@
-import 'package:audio_player/widgets/widget_exports.dart';
+import 'package:audio_player/widgets/ui_properties.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

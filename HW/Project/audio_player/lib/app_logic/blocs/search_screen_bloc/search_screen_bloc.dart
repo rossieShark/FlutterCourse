@@ -6,29 +6,29 @@ import 'package:audio_player/services/services.dart';
 class SearchResultBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository repository;
 
-  Timer? _loadResultsTimer;
+  Timer? loadResultsTimer;
   SearchResultBloc(this.repository) : super(const SearchState.empty()) {
-    on<TextChangedSearchEvent>(_onSearchTextChanged);
-    on<LoadSearchEvent>(_onLoadSearchResults);
+    on<TextChangedSearchEvent>(onSearchTextChanged);
+    on<LoadSearchEvent>(onLoadSearchResults);
     on<LoadMoreItemsSearchEvent>(_onSearchLoadMoreItems);
   }
 
-  Future<void> _onSearchTextChanged(
+  Future<void> onSearchTextChanged(
       TextChangedSearchEvent event, Emitter<SearchState> emit) async {
-    _loadResultsTimer?.cancel();
-    _loadResultsTimer = Timer(const Duration(seconds: 1), () {
+    loadResultsTimer?.cancel();
+    loadResultsTimer = Timer(const Duration(seconds: 1), () {
       add(SearchEvent.loadSearchResults(newText: event.newText));
     });
   }
 
-  Future<void> _onLoadSearchResults(
+  Future<void> onLoadSearchResults(
       LoadSearchEvent event, Emitter<SearchState> emit) async {
     if (event.newText.isEmpty) {
       emit(const SearchState.empty());
       return;
     }
     emit(const SearchState.loading());
-    final albumDetails = await repository.getAlbums(event.newText);
+    final albumDetails = await repository.getSearchResult(event.newText);
     if (albumDetails.isEmpty) {
       emit(const SearchState.noResults());
       return;
@@ -38,16 +38,15 @@ class SearchResultBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _onSearchLoadMoreItems(
       LoadMoreItemsSearchEvent event, Emitter<SearchState> emit) async {
-    final albumDetails = await repository.getAlbums(event.text);
+    final albumDetails = await repository.getSearchResult(event.text);
     emit(SearchState.loaded(data: albumDetails));
   }
 }
 
 class SearchRepository {
-  final SearchResultPaginationService _service =
-      SearchResultPaginationService();
-
-  Future<List<SearchData>> getAlbums(String q) async {
+  final SearchResultPaginationService _service;
+  SearchRepository(this._service);
+  Future<List<SearchData>> getSearchResult(String q) async {
     await _service.loadMoreItems(q);
     return _service.items;
   }

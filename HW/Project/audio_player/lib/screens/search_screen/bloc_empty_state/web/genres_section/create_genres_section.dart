@@ -1,5 +1,4 @@
 import 'package:audio_player/app_logic/blocs/bloc_exports.dart';
-import 'package:audio_player/databases/database.dart';
 import 'package:audio_player/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audio_player/widgets/widget_exports.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,13 @@ class _GenresListState extends State<_GenresList> {
                   return GestureDetector(
                     onTap: () {},
                     child:
-                        _CreateGenresListContent(genres: genres, index: index),
+                        HoverableWidget(builder: (context, child, isHovered) {
+                      return CreateGenresListContent(
+                        name: genres[index].name,
+                        image: genres[0].image,
+                        isHovered: isHovered,
+                      );
+                    }),
                   );
                 }).toList(),
               ),
@@ -85,64 +90,63 @@ class _GenresListState extends State<_GenresList> {
   }
 }
 
-class _CreateGenresListContent extends StatelessWidget {
-  const _CreateGenresListContent({
-    required this.genres,
-    required this.index,
+class CreateGenresListContent extends StatelessWidget {
+  const CreateGenresListContent({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.isHovered,
   });
 
-  final List<MusicGenre> genres;
-  final int index;
+  final String image;
+  final String name;
+  final bool isHovered;
 
   @override
   Widget build(BuildContext context) {
-    return HoverableWidget(builder: (context, child, isHovered) {
-      return HoverableWidget(builder: (context, child, isHovered) {
-        return AnimatedScale(
-          scale: isHovered ? 1.1 : 1.0,
-          duration: const Duration(milliseconds: 200),
-          child: Stack(children: [
-            ClipRRect(
+    return AnimatedScale(
+      scale: isHovered ? 1.1 : 1.0,
+      duration: const Duration(milliseconds: 200),
+      child: Stack(children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            height: 300,
+            child: Image.network(
+              image,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: isHovered
+                  ? AppColors.accent.color.withOpacity(0.3)
+                  : AppColors.accent.color.withOpacity(0.6),
               borderRadius: BorderRadius.circular(20),
-              child: SizedBox(
-                height: 300,
-                child: Image.network(
-                  genres[0].image,
-                  fit: BoxFit.cover,
-                ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                name,
+                style: TextStyle(
+                    fontFamily: AppFonts.colombia.font,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isHovered
-                      ? AppColors.accent.color.withOpacity(0.3)
-                      : AppColors.accent.color.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    genres[index].name,
-                    style: TextStyle(
-                        fontFamily: AppFonts.colombia.font,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          ]),
-        );
-      });
-    });
+          ),
+        ),
+      ]),
+    );
   }
 }

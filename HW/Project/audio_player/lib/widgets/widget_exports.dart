@@ -16,9 +16,10 @@ export 'package:audio_player/widgets/songs_title_widget.dart';
 export 'package:audio_player/widgets/custom_buttons/like_buton_widget.dart';
 export 'package:audio_player/widgets/custom_buttons/custom_like_button.dart';
 export 'package:audio_player/widgets/custom_list_view.dart';
-export 'package:audio_player/screens/log_pages/widgets/custom_button.dart';
+
 export 'package:audio_player/screens/log_pages/widgets/sign_methods.dart';
 export 'package:audio_player/screens/log_pages/widgets/text_field.dart';
 export 'package:audio_player/widgets/app_alert.dart';
 export 'package:audio_player/widgets/user_info_widget.dart';
 export 'package:audio_player/widgets/image_widget.dart';
+export 'package:audio_player/widgets/custom_buttons/app_main_custom_button.dart';
