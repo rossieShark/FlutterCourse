@@ -1,0 +1,25 @@
+export 'package:audio_player/widgets/custom_buttons/platform_response_button.dart';
+export 'package:audio_player/widgets/fading_indicator.dart';
+export 'package:animate_gradient/animate_gradient.dart';
+export 'package:audio_player/widgets/ui_properties.dart';
+export 'package:audio_player/widgets/size_text_modifiers.dart';
+export 'package:audio_player/widgets/page_animation.dart';
+export 'package:audio_player/widgets/responsive_widgets/responsive_widget.dart';
+export 'package:audio_player/widgets/responsive_widgets/hovered_widget.dart';
+export 'package:audio_player/widgets/get_it_dependencies/get_it_dependencies.dart';
+export 'package:audio_player/widgets/provider_extention.dart';
+export 'package:audio_player/widgets/navigation_destination_extension.dart';
+export 'package:audio_player/widgets/responsive_widgets/platform_widget/platform_widget.dart';
+export 'package:audio_player/widgets/custom_buttons/play_button.dart';
+export 'package:audio_player/widgets/create_scroll_buttons.dart';
+export 'package:audio_player/widgets/songs_title_widget.dart';
+export 'package:audio_player/widgets/custom_buttons/like_buton_widget.dart';
+export 'package:audio_player/widgets/custom_buttons/custom_like_button.dart';
+export 'package:audio_player/widgets/custom_list_view.dart';
+
+export 'package:audio_player/screens/log_pages/widgets/sign_methods.dart';
+export 'package:audio_player/screens/log_pages/widgets/text_field.dart';
+export 'package:audio_player/widgets/app_alert.dart';
+export 'package:audio_player/widgets/user_info_widget.dart';
+export 'package:audio_player/widgets/image_widget.dart';
+export 'package:audio_player/widgets/custom_buttons/app_main_custom_button.dart';

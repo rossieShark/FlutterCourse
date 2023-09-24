@@ -1,0 +1,319 @@
+{
+    "recentlyPlayed": "Recently Played",
+    "@recentlyPlayed": {
+        "description": "This is title for recentlyPlayed bloc of code"
+    },
+    "favouriteArtists": "Your favourite Artists",
+    "@favouriteArtists": {
+        "description": "This is title for favouriteArtists bloc of code"
+    },
+    "bestAlbums": "Best Albums",
+    "@bestAlbums": {
+        "description": "This is title for bestAlbums bloc of code"
+    },
+    "tabBarMyMusic": "My music",
+    "@tabBarMyMusic": {
+        "description": "This is title for tabBar MyMusic section"
+    },
+    "tabBarSearch": "Search",
+    "@tabBarSearch": {
+        "description": "This is title for tabBar Search section"
+    },
+    "albumsFolder": "Albums",
+    "@albumsFolder": {
+        "description": "This is title for albumsFolder in myMusic"
+    },
+    "tracksFolder": "Tracks",
+    "@tracksFolder": {
+        "description": "This is title for tracksFolder in myMusic"
+    },
+    "noMusicState": "No Songs yet",
+    "@noMusicState": {
+        "description": "This is title for noMusicState in myMusic"
+    },
+    "followers": "{count} Followers",
+    "@followers": {
+        "description": "This is title for followers section",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "format": "compact",
+                "optionalParameters": {
+                    "decimalDigits": 2
+                }
+            }
+        }
+    },
+
+    "subscriptions": "{count} Subscriptions",
+    "@subscriptions": {
+        "description": "This is title for subscriptions",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "format": "compact",
+                "optionalParameters": {
+                    "decimalDigits": 2
+                }
+            } 
+        }
+    },
+    "userName": "User",
+    "@userName": {
+        "description": "This is title for userName in myMusic"
+    },
+    "playlist": "Playlist",
+    "@playlist": {
+        "description": "This is title for playlist in myMusic"
+    },
+    "artist": "Artist",
+    "@artist": {
+        "description": "This is title for artist in myMusic"
+    },
+    "addNewPlaylistDesc": "Write the name of Playlist",
+    "@addNewPlaylistDesc": {
+        "description": "This describes what happens in myMusic when you add a new playlist."
+    },
+    "newPlaylistHintName": "Name of playlist",
+    "@newPlaylistHintName": {
+        "description": "Hint text in textField when you add a new playlist"
+    },
+    "createButton": "Create",
+    "@createButton": {
+        "description": "createButton when you add a new playlist"
+    },
+    "searchHistoryText": "Search History",
+    "@searchHistoryText": {
+        "description": "Search history text in searchPage"
+    },
+    "searchHistoryResultText": "Search history is empty",
+    "@searchHistoryResultText": {
+        "description": "Search history result text in searchPage"
+    },
+    "searchTextFieldHintText": "Song, Artist name, Album",
+    "@searchTextFieldHintText": {
+        "description": "Search text Field hint  text in searchPage"
+    },
+    "settingPageTitle": "Settings",
+    "@settingPageTitle": {
+        "description": "Setting Page title"
+    },
+    "settingPageCommon": "Common",
+    "@settingPageCommon": {
+        "description": "Setting Page common bloc"
+    },
+    "settingPageCommonLanguage": "Language",
+    "@settingPageCommonLanguage": {
+        "description": "Setting Page common - language"
+    },
+    "settingPageCommonSubscriptionPlan": "Subscription plan",
+    "@settingPageCommonSubscriptionPlan": {
+        "description": "Setting Page common - Subscription plan"
+    },
+    "settingPageCommonDevices": "Devices",
+    "@settingPageCommonDevices": {
+        "description": "Setting Page common - Devices"
+    },
+    "settingPageCommonTheme": "Enable custom theme",
+    "@settingPageCommonTheme": {
+        "description": "Setting Page common - Theme"
+    },
+    "settingPageAccount": "Account",
+    "@settingPageAccount": {
+        "description": "Setting Page account"
+    },
+    "changePhotoButton": "Change photo",
+    "@changePhotoButton": {
+        "description": "changePhotoButton in settings page"
+    },
+    "changeNameTextFieldHintText": "Your name",
+    "@changeNameTextFieldHintText": {
+        "description": "change name text field hint text"
+    },
+    "changeNameDesc": "This could be your first name or a nickname",
+    "@changeNameDesc": {
+        "description": "Change name description text"
+    },
+    "saveButton": "Save",
+    "@saveButton": {
+        "description": "SaveButton text"
+    },
+    "settingPageAccountPassword": "Password",
+    "@settingPageAccountPassword": {
+        "description": "Setting Page account - Password"
+    },
+    "settingPageAccountPayment": "Payment methods",
+    "@settingPageAccountPayment": {
+        "description": "Setting Page account - payment"
+    },
+    "settingPageAccountDelete": "Delete account",
+    "@settingPageAccountDelete": {
+        "description": "Setting Page account - Delete"
+    },
+    "settingPageLogOut": "Log Out",
+    "@settingPageLogOut": {
+        "description": "Setting Page logOut button"
+    },
+    "browseAll": "Browse All",
+    "@browseAll": {
+        "description": "This is title for genresSection in searchPage(web)"
+    },
+    "allFilter": "All",
+    "@allFilter": {
+        "description": "This is title for allFilter in searchPage(web)"
+    },
+    "trackFilter": "track",
+    "@trackFilter": {
+        "description": "This is title for trackFilter in searchPage(web)"
+    },
+    "artistFilter": "artist",
+    "@artistFilter": {
+        "description": "This is title for artistFilter in searchPage(web)"
+    },
+    "changePassword": "Enter new password",
+    "@changePassword": {
+        "description": "This is changePassword TextField hint text in settingsPage"
+    },
+    "enterPassword": "Enter password",
+    "@enterPassword": {
+        "description": "Enter password hint text"
+    },
+    "enterEmail": "Enter email",
+    "@enterEmail": {
+        "description": "Enter email hint text"
+    },
+    "confirmPassword": "Confirm new password",
+    "@confirmPassword": {
+        "description": "This is confirmPassword TextField hint text in settingsPage"
+    },
+    
+    "changebutton": "Change",
+    "@changebutton": {
+        "description": "This is change button text in settingsPage"
+    },
+    "incorrectPasswordAlert": "Incorrect password or email",
+    "@incorrectPasswordAlert": {
+        "description": "incorrectPasswordAlert text"
+    },
+    "signInButton": " Sign In",
+    "@signInButton": {
+        "description": "Sign In button"
+    },
+    "signInMethods": "Be connect with",
+    "@signInMethods": {
+        "description": "Sign In methods"
+    },
+    "noAccount": "Do not have an account?",
+    "@noAccount": {
+        "description": "Don't have an account text"
+    },
+    "signUpButton": " Sign Up",
+    "@signUpButton": {
+        "description": "Sign Up button"
+    },
+    "invalidEmailPassword": "Invalid email or password",
+    "@invalidEmailPassword": {
+        "description": "Invalid email or password alert"
+    },
+    "signUpMethods": "Sign Up with",
+    "@signUpMethods": {
+        "description": "Sign Up methods"
+    },
+    "alreadyHaveAnAccount": "Already have an account? ",
+    "@alreadyHaveAnAccount": {
+        "description": "Already have an account? text"
+    },
+    "confirmButton": "Confirm",
+    "@confirmButton": {
+        "description": "Confirm button"
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+        "description": "Cancel button"
+    },
+    "okButton": "OK",
+    "@okButton": {
+        "description": "OK button"
+    },
+    "passwordMissmatch": "Password mismatch",
+    "@passwordMissmatch": {
+        "description": "Password mismatch Alert"
+    },
+    "exitConfirmMessage": "Are you sure you want to exit?",
+    "@exitConfirmMessage": {
+        "description": "Exit confirm message"
+    },
+    "yesButton": "Yes",
+    "@yesButton": {
+        "description": "Yes button"
+    },
+    "noButton": "No",
+    "@noButton": {
+        "description": "No button"
+    },
+    "googleSignError": "Error when trying to log via Google.",
+    "@googleSignError": {
+        "description": "Google sign errror message"
+    },
+    "resetPassword": "Reset password",
+    "@resetPassword": {
+        "description": "reset password alert message"
+    },
+    "sendButton": "Send",
+    "@sendButton": {
+        "description": "Send button"
+    },
+    "noDataText": "No Data",
+    "@noDataText": {
+        "description": "No Data text"
+    },
+    "error": "Error",
+    "@error": {
+        "description": "Error"
+    },
+    "noName": "No name",
+    "@noName": {
+        "description": "No name"
+    },
+    "homePageTitle": "Home",
+    "@homePageTitle": {
+        "description": "Home"
+    },
+    "galleryButton": " Gallery",
+    "@galleryButton": {
+        "description": "Gallery Image picker"
+    },
+    "cameraButton": " Camera",
+    "@cameraButton": {
+        "description": "Camera Image picker"
+    },
+    "clearAll": "Clear all",
+    "@clearAll": {
+        "description": "Clear all button"
+    },
+    "searchResult": "Search Result",
+    "@searchResult": {
+        "description": "Search result text"
+    },
+    "noResultsText": "No results",
+    "@noResultsText": {
+        "description": "No results text"
+    },
+    "forgotPassword": "Forgot password",
+    "@forgotPassword": {
+        "description": "Forgot password"
+    },
+    "deleteAccount": "Delete account",
+    "@deleteAccount": {
+        "description": "Delete account"
+    },
+    "deleteAccountAlert": "Are you sure you want to delete the account?",
+    "@deleteAccountAlert": {
+        "description": "Delete account alert message"
+    },
+    "folderNameMessage": "Please enter a unique name",
+    "@folderNameMessage": {
+        "description": "Please enter a unique name Alert message"
+    }
+
+}

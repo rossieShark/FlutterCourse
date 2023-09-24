@@ -1,0 +1,9 @@
+{
+  "de": [
+    "noDataText"
+  ],
+
+  "ru": [
+    "noDataText"
+  ]
+}
